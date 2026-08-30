@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fish Tracker — Be Fish Wiki</title>
+  <meta name="description" content="Track your Be Fish catches, watch tier-craft progress toward the next tier, and get time-to-next-catch predictions based on your own catch history." />
+  <meta property="og:url" content="https://befish.cc/fish-tracker.html" />
+  <link rel="canonical" href="https://befish.cc/fish-tracker.html" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo"><span class="nav-logo-fish">🐟</span> Be Fish <span>Wiki</span></div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <div class="nav-links" id="nav-links">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="fishdex.html">Fish Dex</a>
+        <a class="nav-link active" href="fish-tracker.html">Tracker</a>
+        <a class="nav-link" href="how-to-play.html">How to Play</a>
+        <a class="nav-link" href="game-mechanics.html">Mechanics</a>
+        <a class="nav-link" href="tips.html">Tips &amp; Tricks</a>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">🌙 Dark</button>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="profile-bar" id="profile-bar">
+      <div class="profile-bar-top">
+        <div class="profile-tabs" id="profile-tabs"></div>
+        <div class="profile-actions">
+          <button type="button" class="profile-action-btn" id="profile-rename-btn" title="Rename active profile">✎ Rename</button>
+          <button type="button" class="profile-action-btn" id="profile-delete-btn" title="Delete active profile">🗑 Delete</button>
+          <button type="button" class="profile-action-btn profile-action-btn--primary" id="profile-new-btn">+ New Profile</button>
+        </div>
+      </div>
+      <div class="tracker-data-row">
+        <button type="button" class="compare-action-btn" id="tracker-export-profile-btn">⬇ Export Profile</button>
+        <button type="button" class="compare-action-btn" id="tracker-export-all-btn">⬇ Export All Profiles</button>
+        <label class="compare-action-btn tracker-import-label">
+          ⬆ Import
+          <input type="file" id="tracker-import-input" accept="application/json" hidden />
+        </label>
+        <button type="button" class="compare-action-btn" id="tracker-link-file-btn" hidden>🔗 Link Local File</button>
+        <span class="tracker-data-note">Data is stored in this browser. Export before clearing browser data or switching devices — or link a local file (Chrome/Edge) to sync automatically.</span>
+      </div>
+    </div>
+
+    <div class="page-heading page-heading--dex">
+      <div>
+        <h1>Fish Tracker</h1>
+        <p>Log your catches, watch tier-craft progress, and predict your next catch</p>
+      </div>
+
+      <div class="tracker-add-wrap" id="tracker-add-wrap">
+        <button type="button" class="compare-btn" id="add-tracker-btn">+ Track a Fish</button>
+
+        <div class="tracker-add-panel" id="tracker-add-panel">
+          <div class="tracker-add-section">
+            <input type="text" id="tracker-fish-search" class="compare-search" placeholder="🔍 Search fish…" />
+            <div class="tracker-fish-results" id="tracker-fish-results"></div>
+          </div>
+
+          <div class="tracker-add-section">
+            <div class="control-group-label">Tier</div>
+            <div class="control-row" id="tracker-tier-btns">
+              <button type="button" class="tier-btn t-normal"  data-tier="Normal">Normal</button>
+              <button type="button" class="tier-btn t-golden"  data-tier="Golden">Golden</button>
+              <button type="button" class="tier-btn t-rainbow" data-tier="Rainbow">Rainbow</button>
+              <button type="button" class="tier-btn t-glowing" data-tier="Glowing">Glowing</button>
+              <button type="button" class="tier-btn t-shadow"  data-tier="Shadow">Shadow</button>
+            </div>
+          </div>
+
+          <div class="tracker-add-section tracker-add-inputs">
+            <label>Current count
+              <input type="number" id="tracker-count-input" min="0" max="49" value="0" />
+            </label>
+          </div>
+
+          <div class="tracker-dupe-warning" id="tracker-dupe-warning"></div>
+
+          <div class="tracker-add-actions">
+            <button type="button" class="compare-action-btn" id="tracker-cancel-btn">Cancel</button>
+            <button type="button" class="compare-action-btn compare-action-btn--primary" id="tracker-submit-btn" disabled>Add Tracker</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tracker-toolbar">
+      <div class="dex-count" id="tracker-count"></div>
+      <div class="tracker-sort-wrap" id="tracker-sort-wrap">
+        <div class="control-row" id="tracker-sort-btns">
+          <button type="button" class="sort-btn active" data-sort-key="default">Default ▼</button>
+          <button type="button" class="sort-btn" data-sort-key="rarity">Rarity ▼</button>
+          <button type="button" class="sort-btn" data-sort-key="xp">XP ▼</button>
+          <button type="button" class="sort-btn" data-sort-key="nextfish">Next Fish ▼</button>
+          <button type="button" class="sort-btn" data-sort-key="manual" id="custom-sort-btn">Custom</button>
+        </div>
+        <div class="tracker-custom-panel" id="tracker-custom-panel">
+          <label class="tracker-custom-lock-row">
+            <input type="checkbox" id="tracker-custom-lock"> Custom sort lock
+          </label>
+          <button type="button" id="reset-custom-order-btn" class="text-link-btn">Reset custom order</button>
+        </div>
+      </div>
+    </div>
+    <div class="tracker-grid" id="tracker-grid"></div>
+  </div>
+
+  <div class="toast-stack" id="toast-stack"></div>
+
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-message" id="modal-message"></div>
+      <input type="text" class="modal-input" id="modal-input" />
+      <div class="modal-actions">
+        <button type="button" class="compare-action-btn" id="modal-cancel-btn">Cancel</button>
+        <button type="button" class="compare-action-btn compare-action-btn--primary" id="modal-confirm-btn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-credit">
+        Made &amp; maintained by <strong>24rolla</strong>
+      </div>
+      <div class="footer-links">
+        <a class="footer-link footer-link--youtube" href="https://www.youtube.com/channel/UCMQCHNgbMx_TY26QcFNcMag" target="_blank" rel="noopener">
+          <span class="footer-link-icon">▶</span> YouTube
+        </a>
+        <a class="footer-link footer-link--discord" href="https://discord.gg/CfsQmRjGbe" target="_blank" rel="noopener">
+          <span class="footer-link-icon">💬</span> Discord
+        </a>
+      </div>
+      <div class="footer-disclaimer">
+        Fan-made wiki. Not affiliated with Roblox or the Be Fish developers.
+      </div>
+    </div>
+  </footer>
+
+  <script src="fish-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+  <script>
+  // RC, TC, RARITY_ORDER, TIERS, FISH come from fish-data.js (shared with fishdex.html)
+
+  const STORAGE_KEY_V1 = 'befish-tracker-v1';
+  const STORAGE_KEY = 'befish-tracker-v2';
+  const CRAFT_TARGET = 50; // fixed by the game's "50 of a tier crafts into 1 of the next" rule
+
+  // ── Linked Local File — IndexedDB handle storage ──
+  // localStorage can't hold a FileSystemFileHandle (not JSON-serializable), but
+  // IndexedDB can via structured clone. Minimal single-store helper, no library.
+  const FS_DB_NAME = 'befish-tracker-fs';
+  const FS_STORE = 'handles';
+  const FS_KEY = 'linkedFile';
+
+  function openFsDb() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(FS_DB_NAME, 1);
+      req.onupgradeneeded = () => req.result.createObjectStore(FS_STORE);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function idbGetHandle() {
+    const db = await openFsDb();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(FS_STORE, 'readonly');
+      const req = tx.objectStore(FS_STORE).get(FS_KEY);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function idbSetHandle(handle) {
+    const db = await openFsDb();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(FS_STORE, 'readwrite');
+      tx.objectStore(FS_STORE).put(handle, FS_KEY);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async function idbClearHandle() {
+    const db = await openFsDb();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(FS_STORE, 'readwrite');
+      tx.objectStore(FS_STORE).delete(FS_KEY);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  function genProfileId() {
+    return 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function makeProfile(name, trackedFish) {
+    return {
+      profileId: genProfileId(),
+      profileName: name,
+      createdAt: new Date().toISOString(),
+      sortMode: 'default-desc',
+      manualOrder: [],
+      trackedFish: trackedFish || []
+    };
+  }
+
+  function normalizeProfiles(parsed) {
+    parsed.profiles.forEach(p => {
+      if (!p.sortMode || p.sortMode === 'default') p.sortMode = 'default-desc';
+      if (!Array.isArray(p.manualOrder)) p.manualOrder = [];
+    });
+    return parsed;
+  }
+
+  function loadData() {
+    try {
+      const v2 = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (v2 && Array.isArray(v2.profiles) && v2.profiles.length) return v2;
+    } catch {}
+
+    // Migrate from v1 (single flat trackedFish list) if present.
+    try {
+      const v1 = JSON.parse(localStorage.getItem(STORAGE_KEY_V1));
+      if (v1 && Array.isArray(v1.trackedFish)) {
+        const profile = makeProfile('Main Account', v1.trackedFish);
+        const migrated = { activeProfileId: profile.profileId, profiles: [profile] };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+        return migrated; // v1 key is left in place untouched, on purpose
+      }
+    } catch {}
+
+    // First-ever visit: no v2, no v1 to migrate.
+    const profile = makeProfile('Main Account');
+    return { activeProfileId: profile.profileId, profiles: [profile] };
+  }
+
+  function saveData() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    scheduleLinkedFileWrite(); // debounced, silent — see "Linked Local File" below
+  }
+
+  let data = normalizeProfiles(loadData());
+
+  // ── Linked Local File — live sync state ──
+  const FS_ACCESS_SUPPORTED = 'showSaveFilePicker' in window;
+  let linkedFileHandle = null;        // FileSystemFileHandle | null
+  let linkedFileStatus = 'unlinked';  // 'unlinked' | 'linked' | 'reconnect' | 'error'
+
+  // Raw writer — no debounce/guard logic here (that's scheduleLinkedFileWrite below).
+  // Kept separate so the forced flush (tab close/background) can call it directly.
+  let fileWriteInFlight = false;
+  let fileWriteQueued = false;
+
+  async function writeLinkedFileNow() {
+    if (!linkedFileHandle) return;
+    if (fileWriteInFlight) { fileWriteQueued = true; return; } // never overlap two writes
+    fileWriteInFlight = true;
+    try {
+      const writable = await linkedFileHandle.createWritable();
+      await writable.write(JSON.stringify(data, null, 2));
+      await writable.close();
+      linkedFileStatus = 'linked';
+    } catch (err) {
+      // Permission revoked, file moved/deleted, etc. — don't interrupt normal tracker use.
+      linkedFileStatus = 'error';
+      console.warn('Linked file write failed:', err);
+    }
+    fileWriteInFlight = false;
+    renderLinkedFileStatus();
+    if (fileWriteQueued) {
+      fileWriteQueued = false;
+      writeLinkedFileNow(); // one more pass to pick up whatever changed while we were writing
+    }
+  }
+
+  // Debounced wrapper (~400ms, trailing edge) — this is what saveData() actually calls.
+  // Collapses bursts (e.g. drag-to-reorder) into one write and guarantees only one
+  // write is ever in flight, so two overlapping createWritable() calls can't interleave
+  // and corrupt the file.
+  let fileWriteDebounceTimer = null;
+
+  function scheduleLinkedFileWrite() {
+    if (!linkedFileHandle) return;
+    clearTimeout(fileWriteDebounceTimer);
+    fileWriteDebounceTimer = setTimeout(writeLinkedFileNow, 400);
+  }
+
+  function activeProfile() {
+    return data.profiles.find(p => p.profileId === data.activeProfileId);
+  }
+
+  function genTrackId() {
+    return 't_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function fishById(fishId) {
+    return FISH.find(f => f.id === fishId);
+  }
+
+  function findTracker(fishId, tier) {
+    return activeProfile().trackedFish.find(t => t.fishId === fishId && t.tier === tier);
+  }
+
+  function getTracker(trackId) {
+    return activeProfile().trackedFish.find(t => t.trackId === trackId);
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function nextTierOf(tier) {
+    const i = TIERS.indexOf(tier);
+    return i >= 0 && i < TIERS.length - 1 ? TIERS[i + 1] : null;
+  }
+
+  // ── Duration formatting ──
+  function fmtDuration(ms) {
+    const neg = ms < 0;
+    const abs = Math.abs(ms);
+    const s = Math.floor(abs / 1000);
+    const days = Math.floor(s / 86400);
+    const hours = Math.floor((s % 86400) / 3600);
+    const mins = Math.floor((s % 3600) / 60);
+    const secs = s % 60;
+    let out;
+    if (days > 0) out = `${days}d ${hours}h`;
+    else if (hours > 0) out = `${hours}h ${mins}m`;
+    else if (mins > 0) out = `${mins}m ${secs}s`;
+    else out = `${secs}s`;
+    return (neg ? 'overdue by ~' : '~') + out;
+  }
+
+  const ETA_ABS_THRESHOLD_MS = 24 * 60 * 60 * 1000;
+
+  function fmtETA(etaMs) {
+    if (etaMs >= ETA_ABS_THRESHOLD_MS) {
+      const target = new Date(Date.now() + etaMs);
+      return target.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+    }
+    return fmtDuration(etaMs); // unchanged for overdue and <24h-out cases
+  }
+
+  function avgIntervalMs(catches) {
+    if (catches.length < 3) return null;
+    const times = catches.map(c => new Date(c.timestamp).getTime()).sort((a, b) => a - b);
+    let total = 0;
+    for (let i = 1; i < times.length; i++) total += times[i] - times[i - 1];
+    return total / (times.length - 1);
+  }
+
+  function etaNextTierMs(tracker) {
+    const avg = avgIntervalMs(tracker.catches);
+    if (avg === null) return null;
+    const lastCatch = tracker.catches[tracker.catches.length - 1];
+    const lastTs = new Date(lastCatch.timestamp).getTime();
+    const remaining = Math.max(0, CRAFT_TARGET - tracker.count);
+    const now = Date.now();
+    return (avg * remaining) - (now - lastTs);
+  }
+
+  // ── Catch history (rolling window, capped at 50 entries) ──
+  function pushCatch(catches, entry) {
+    catches.push(entry);
+    if (catches.length > 50) catches.splice(0, catches.length - 50);
+  }
+
+  // ── Auto tier-up cascade ──
+  function cascadeFrom(tracker, toasts) {
+    while (tracker.count >= CRAFT_TARGET) {
+      tracker.count -= CRAFT_TARGET;
+      const nextTier = nextTierOf(tracker.tier);
+      if (!nextTier) break;
+
+      let nextTracker = findTracker(tracker.fishId, nextTier);
+      if (!nextTracker) {
+        const now = new Date().toISOString();
+        nextTracker = {
+          trackId: genTrackId(), fishId: tracker.fishId, fishName: tracker.fishName,
+          tier: nextTier, startCount: 0, count: 0,
+          catches: [{ count: 0, timestamp: now }],
+          dateObtained: now
+        };
+        activeProfile().trackedFish.push(nextTracker);
+        toasts.push(`🎉 Crafted 1 ${nextTier} ${tracker.fishName}! Now tracking ${nextTier} tier.`);
+        // no cascadeFrom() call needed here — count is 0, can't already be ≥ CRAFT_TARGET
+      } else {
+        nextTracker.count++;
+        pushCatch(nextTracker.catches, { count: nextTracker.count, timestamp: new Date().toISOString() });
+        toasts.push(`🎉 Crafted 1 ${nextTier} ${tracker.fishName}!`);
+        cascadeFrom(nextTracker, toasts);
+      }
+    }
+  }
+
+  // ── Tracker mutations ──
+  function createTracker(fishId, tier, startCount) {
+    const fish = fishById(fishId);
+    const tracker = {
+      trackId: genTrackId(), fishId, fishName: fish.name, tier,
+      startCount, count: startCount, catches: []
+    };
+    activeProfile().trackedFish.push(tracker);
+    saveData();
+    renderAll();
+  }
+
+  function addCatch(trackId) {
+    const tracker = getTracker(trackId);
+    if (!tracker) return;
+    tracker.count++;
+    pushCatch(tracker.catches, { count: tracker.count, timestamp: new Date().toISOString() });
+    const toasts = [];
+    cascadeFrom(tracker, toasts);
+    saveData();
+    renderAll();
+    toasts.forEach((msg, i) => setTimeout(() => showToast(msg), i * 260));
+  }
+
+  function undoCatch(trackId) {
+    const tracker = getTracker(trackId);
+    if (!tracker || tracker.catches.length === 0) return;
+    tracker.catches.pop();
+    tracker.count = Math.max(0, tracker.count - 1);
+    saveData();
+    renderAll();
+  }
+
+  async function deleteTracker(trackId) {
+    const tracker = getTracker(trackId);
+    if (!tracker) return;
+    const ok = await showConfirm(`Delete tracker for ${tracker.fishName} (${tracker.tier})? This can't be undone.`, { title: 'Delete Tracker', confirmText: 'Delete', danger: true });
+    if (!ok) return;
+    const profile = activeProfile();
+    profile.trackedFish = profile.trackedFish.filter(t => t.trackId !== trackId);
+    saveData();
+    renderAll();
+  }
+
+  // ── Profiles ──
+  function renderProfileBar() {
+    const tabsEl = document.getElementById('profile-tabs');
+    tabsEl.innerHTML = data.profiles.map(p => {
+      const active = p.profileId === data.activeProfileId ? ' active' : '';
+      return `<button type="button" class="profile-tab${active}" data-profile-id="${p.profileId}">${escapeHtml(p.profileName)}</button>`;
+    }).join('');
+    document.getElementById('profile-delete-btn').disabled = data.profiles.length <= 1;
+  }
+
+  function switchProfile(profileId) {
+    if (profileId === data.activeProfileId) return;
+    data.activeProfileId = profileId;
+    saveData();
+    renderProfileBar();
+    renderAll();
+  }
+
+  async function newProfile() {
+    const name = await showPrompt('Enter a name for the new profile:', { title: 'New Profile', confirmText: 'Create' });
+    if (!name || !name.trim()) return;
+    const profile = makeProfile(name.trim());
+    data.profiles.push(profile);
+    data.activeProfileId = profile.profileId;
+    saveData();
+    renderProfileBar();
+    renderAll();
+  }
+
+  function renameProfile(profileId, name) {
+    const profile = data.profiles.find(p => p.profileId === profileId);
+    const trimmed = (name || '').trim();
+    if (!profile || !trimmed) { renderProfileBar(); return; }
+    profile.profileName = trimmed;
+    saveData();
+    renderProfileBar();
+  }
+
+  function startRenameActiveProfile() {
+    const tabsEl = document.getElementById('profile-tabs');
+    const activeBtn = tabsEl.querySelector('.profile-tab.active');
+    if (!activeBtn) return;
+    const profileId = activeBtn.dataset.profileId;
+    const current = activeProfile().profileName;
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'profile-tab-rename-input';
+    input.value = current;
+    activeBtn.replaceWith(input);
+    input.focus();
+    input.select();
+
+    let committed = false;
+    const commit = () => {
+      if (committed) return;
+      committed = true;
+      renameProfile(profileId, input.value);
+    };
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') input.blur();
+      else if (e.key === 'Escape') { input.value = current; input.blur(); }
+    });
+    input.addEventListener('blur', commit);
+  }
+
+  async function deleteProfile(profileId) {
+    if (data.profiles.length <= 1) {
+      await showAlert("Can't delete the last remaining profile.", 'Unable to Delete');
+      return;
+    }
+    const profile = data.profiles.find(p => p.profileId === profileId);
+    if (!profile) return;
+    const ok = await showConfirm(`Delete profile "${profile.profileName}"? This deletes all ${profile.trackedFish.length} tracker(s) under it and can't be undone.`, { title: 'Delete Profile', confirmText: 'Delete', danger: true });
+    if (!ok) return;
+    data.profiles = data.profiles.filter(p => p.profileId !== profileId);
+    if (data.activeProfileId === profileId) data.activeProfileId = data.profiles[0].profileId;
+    saveData();
+    renderProfileBar();
+    renderAll();
+  }
+
+  // ── Modals (replace native prompt/confirm/alert — those no-op inside VS Code's embedded preview) ──
+  const modalOverlay  = document.getElementById('modal-overlay');
+  const modalTitle    = document.getElementById('modal-title');
+  const modalMessage  = document.getElementById('modal-message');
+  const modalInput    = document.getElementById('modal-input');
+  const modalCancelBtn = document.getElementById('modal-cancel-btn');
+  const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+
+  let modalMode = null;
+  let modalResolve = null;
+
+  function closeModal(result) {
+    modalOverlay.classList.remove('open');
+    document.removeEventListener('keydown', onModalKeydown);
+    const resolve = modalResolve;
+    modalResolve = null;
+    if (resolve) resolve(result);
+  }
+
+  function cancelModal() { closeModal(modalMode === 'prompt' ? null : false); }
+  function confirmModal() { closeModal(modalMode === 'prompt' ? modalInput.value : true); }
+
+  function onModalKeydown(e) {
+    if (e.key === 'Escape') { e.preventDefault(); cancelModal(); }
+    else if (e.key === 'Enter') { e.preventDefault(); confirmModal(); }
+  }
+
+  modalCancelBtn.addEventListener('click', cancelModal);
+  modalConfirmBtn.addEventListener('click', confirmModal);
+  modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) cancelModal(); });
+
+  function openModal({ title, message, mode, defaultValue = '', confirmText = 'OK', danger = false }) {
+    return new Promise(resolve => {
+      modalMode = mode;
+      modalResolve = resolve;
+      modalTitle.textContent = title;
+      modalMessage.textContent = message;
+      modalInput.style.display = mode === 'prompt' ? 'block' : 'none';
+      modalInput.value = defaultValue;
+      modalCancelBtn.style.display = mode === 'alert' ? 'none' : 'inline-block';
+      modalConfirmBtn.textContent = confirmText;
+      modalConfirmBtn.classList.toggle('compare-action-btn--danger', danger);
+      modalOverlay.classList.add('open');
+      document.addEventListener('keydown', onModalKeydown);
+      requestAnimationFrame(() => {
+        if (mode === 'prompt') { modalInput.focus(); modalInput.select(); }
+        else modalConfirmBtn.focus();
+      });
+    });
+  }
+
+  function showAlert(message, title = 'Notice') {
+    return openModal({ title, message, mode: 'alert', confirmText: 'OK' });
+  }
+
+  function showConfirm(message, { title = 'Are you sure?', confirmText = 'Confirm', danger = false } = {}) {
+    return openModal({ title, message, mode: 'confirm', confirmText, danger });
+  }
+
+  function showPrompt(message, { title = 'Input needed', defaultValue = '', confirmText = 'OK' } = {}) {
+    return openModal({ title, message, mode: 'prompt', defaultValue, confirmText });
+  }
+
+  // ── Toasts ──
+  function showToast(message) {
+    const stack = document.getElementById('toast-stack');
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.textContent = message;
+    stack.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 300);
+    }, 4200);
+  }
+
+  // ── Timestamp panel (per-card, in-memory only — not persisted) ──
+  const timestampPanelState = {}; // trackId -> { open: bool, limit: 5|10|20|'all' }
+  function getTsState(trackId) {
+    if (!timestampPanelState[trackId]) timestampPanelState[trackId] = { open: false, limit: 5 };
+    return timestampPanelState[trackId];
+  }
+
+  function fmtTimestamp(iso) {
+    return new Date(iso).toLocaleString('en-US', {
+      month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit'
+    });
+  }
+
+  function fmtDeltaDaysHours(ms) {
+    const totalHours = Math.round(ms / (60 * 60 * 1000));
+    const days = Math.floor(totalHours / 24);
+    const hours = totalHours % 24;
+    return days > 0 ? `${days}d ${hours}h` : `${hours}h`;
+  }
+
+  function timestampRowsHTML(tracker, limit) {
+    const sorted = [...tracker.catches].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    const limited = limit === 'all' ? sorted : sorted.slice(0, limit);
+
+    const rows = limited.map((c, i) => {
+      const older = sorted[i + 1]; // one position further down the full (unsliced) list
+      const delta = older ? new Date(c.timestamp) - new Date(older.timestamp) : null;
+      return `
+        <div class="ts-row-time">${fmtTimestamp(c.timestamp)}</div>
+        <div class="ts-row-delta">${delta === null ? '—' : fmtDeltaDaysHours(delta)}</div>`;
+    }).join('');
+
+    const obtainedRow = tracker.dateObtained ? `
+      <div class="ts-row-time ts-row-obtained">${fmtTimestamp(tracker.dateObtained)}</div>
+      <div class="ts-row-delta ts-row-obtained">Date obtained</div>` : '';
+
+    return rows + obtainedRow;
+  }
+
+  // ── Card rendering ──
+  function trackerCardHTML(tracker) {
+    const fish = fishById(tracker.fishId);
+    const rc = RC[fish.rarity];
+    const tc = TC[tracker.tier];
+    const tierIndex = TIERS.indexOf(tracker.tier);
+    const imgSrc = `img/${fish.id}-${tierIndex + 1}.png`;
+    const pct = Math.min(100, Math.round((tracker.count / CRAFT_TARGET) * 100));
+    const remaining = Math.max(0, CRAFT_TARGET - tracker.count);
+    const avg = avgIntervalMs(tracker.catches);
+
+    let predictionHTML;
+    if (avg === null) {
+      predictionHTML = `<div class="tracker-predict-empty">Log a few more catches to unlock time predictions.</div>`;
+    } else {
+      const lastCatch = tracker.catches[tracker.catches.length - 1];
+      const now = Date.now();
+      const lastTs = new Date(lastCatch.timestamp).getTime();
+      const etaNextCatch = (lastTs + avg) - now;
+      const etaNextTier = etaNextTierMs(tracker);
+      predictionHTML = `
+        <div class="tracker-predict">
+          <div class="tracker-predict-row"><span>Avg. interval</span><b>${fmtDuration(avg)}</b></div>
+          <div class="tracker-predict-row"><span>Next catch ETA</span><b>${fmtETA(etaNextCatch)}</b></div>
+          <div class="tracker-predict-row"><span>Next tier ETA</span><b>${fmtETA(etaNextTier)}</b></div>
+        </div>`;
+    }
+
+    const ts = getTsState(tracker.trackId);
+    predictionHTML += `
+      <button type="button" class="tracker-timestamps-toggle" data-action="toggle-timestamps" data-trackid="${tracker.trackId}">
+        ${ts.open ? 'Hide Timestamps' : 'Show Timestamps'}
+      </button>
+      <div class="tracker-timestamps-panel${ts.open ? ' open' : ''}">
+        <div class="ts-limit-row">
+          ${[5, 10, 20, 'all'].map(n => `
+            <button type="button" class="ts-limit-btn${ts.limit === n ? ' active' : ''}"
+                    data-action="set-ts-limit" data-limit="${n}" data-trackid="${tracker.trackId}">
+              ${n === 'all' ? 'All' : n}
+            </button>`).join('')}
+        </div>
+        <div class="ts-grid">
+          ${timestampRowsHTML(tracker, ts.limit)}
+        </div>
+      </div>`;
+
+    return `<div class="tracker-card" data-trackid="${tracker.trackId}">
+      <div class="tracker-card-head">
+        <div class="fish-img-wrap" style="background:${fish.bg}">
+          <img src="${imgSrc}" alt="${fish.name}" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="fish-img-placeholder" style="display:none">🐟</div>
+        </div>
+        <div class="tracker-card-title">
+          <div class="fish-card-name">${fish.name}</div>
+          <span class="rarity-badge" style="background:${rc.bg};color:${rc.txt}">${fish.rarity}</span>
+        </div>
+        <div class="tracker-head-side">
+          <div class="tracker-tier-badge" style="background:${tc};color:#ffffff">${tracker.tier}</div>
+          <div class="tracker-count-big" style="color:${tc}">${tracker.count}</div>
+          <div class="tracker-count-of">of ${CRAFT_TARGET}</div>
+        </div>
+      </div>
+
+      <div class="tracker-card-head-mobile">
+        <div class="fish-card-name">${fish.name}</div>
+        <div class="tracker-mobile-row">
+          <div class="fish-img-wrap" style="background:${fish.bg}">
+            <img src="${imgSrc}" alt="${fish.name}" loading="lazy"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="fish-img-placeholder" style="display:none">🐟</div>
+          </div>
+          <div class="tracker-mobile-badges">
+            <div class="tracker-tier-badge" style="background:${tc};color:#ffffff">${tracker.tier}</div>
+            <span class="rarity-badge" style="background:${rc.bg};color:${rc.txt}">${fish.rarity}</span>
+          </div>
+        </div>
+        <div class="tracker-mobile-count" style="color:${tc}">${tracker.count} <span class="tracker-count-of-inline">of ${CRAFT_TARGET}</span></div>
+      </div>
+
+      <div class="tracker-progress-row">
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${tc}"></div></div>
+      </div>
+
+      ${predictionHTML}
+
+      <div class="tracker-actions">
+        <button type="button" class="btn-primary tracker-catch-btn" data-action="catch" data-trackid="${tracker.trackId}">+1 Catch</button>
+        <button type="button" class="tracker-undo-btn" data-action="undo" data-trackid="${tracker.trackId}" ${tracker.catches.length === 0 ? 'disabled' : ''}>Undo last catch</button>
+      </div>
+
+      <div class="tracker-card-foot">
+        <button type="button" class="tracker-delete-btn" data-action="delete" data-trackid="${tracker.trackId}">Delete</button>
+      </div>
+    </div>`;
+  }
+
+  // ── Sorting & manual reordering ──
+  function alphabeticalOrder(trackers) {
+    return [...trackers].sort((a, b) => {
+      const ni = a.fishName.localeCompare(b.fishName);
+      return ni !== 0 ? ni : TIERS.indexOf(a.tier) - TIERS.indexOf(b.tier);
+    });
+  }
+
+  function orderedTrackers(trackers, profile) {
+    const mode = profile.sortMode || 'default-desc';
+
+    if (mode === 'nextfish-asc' || mode === 'nextfish-desc') {
+      const desc = mode === 'nextfish-desc';
+      const withEta = [];
+      const withoutEta = [];
+      trackers.forEach(t => {
+        const eta = etaNextTierMs(t);
+        if (eta === null) withoutEta.push(t);
+        else withEta.push({ t, eta });
+      });
+      withEta.sort((a, b) => desc ? b.eta - a.eta : a.eta - b.eta);
+
+      // No-ETA fish fall back to the current Default sort (oddsNum, desc)
+      const fallbackSorted = [...withoutEta].sort((a, b) => {
+        const av = fishById(a.fishId).tiers[a.tier].oddsNum;
+        const bv = fishById(b.fishId).tiers[b.tier].oddsNum;
+        if (av == null && bv == null) return 0;
+        if (av == null) return 1;
+        if (bv == null) return -1;
+        return bv - av; // matches default-desc direction
+      });
+
+      return [...withEta.map(x => x.t), ...fallbackSorted];
+    }
+
+    const metricSorts = {
+      'default-desc': { metric: t => fishById(t.fishId).tiers[t.tier].oddsNum, desc: true },
+      'default-asc':  { metric: t => fishById(t.fishId).tiers[t.tier].oddsNum, desc: false },
+      'rarity-desc':  { metric: t => RARITY_ORDER.indexOf(fishById(t.fishId).rarity), desc: true },
+      'rarity-asc':   { metric: t => RARITY_ORDER.indexOf(fishById(t.fishId).rarity), desc: false },
+      'xp-desc':      { metric: t => fishById(t.fishId).tiers[t.tier].xp, desc: true },
+      'xp-asc':       { metric: t => fishById(t.fishId).tiers[t.tier].xp, desc: false },
+    };
+
+    if (metricSorts[mode]) {
+      const { metric, desc } = metricSorts[mode];
+      return [...trackers].sort((a, b) => {
+        const av = metric(a), bv = metric(b);
+        if (av == null && bv == null) return 0;
+        if (av == null) return 1;
+        if (bv == null) return -1;
+        return desc ? bv - av : av - bv;
+      });
+    }
+
+    // 'manual': saved drag order, falls back to alphabetical if empty/unset,
+    // newly-tracked fish not yet in manualOrder land at the bottom
+    const alphabetical = alphabeticalOrder(trackers);
+    if (mode === 'manual') {
+      if (!profile.manualOrder || profile.manualOrder.length === 0) return alphabetical;
+      const byId = new Map(trackers.map(t => [t.trackId, t]));
+      const ordered = profile.manualOrder.filter(id => byId.has(id)).map(id => byId.get(id));
+      const orderedIds = new Set(ordered.map(t => t.trackId));
+      const rest = alphabetical.filter(t => !orderedIds.has(t.trackId));
+      return [...ordered, ...rest];
+    }
+
+    return alphabetical; // safety fallback, shouldn't normally hit this
+  }
+
+  function syncSortButtons(profile) {
+    const mode = profile.sortMode || 'default-desc';
+    document.querySelectorAll('#tracker-sort-btns .sort-btn').forEach(b => {
+      const key = b.dataset.sortKey;
+      if (key === 'manual') {
+        b.classList.toggle('active', mode === 'manual');
+        return;
+      }
+      const isAsc = mode === `${key}-asc`;
+      const isDesc = mode === `${key}-desc`;
+      b.classList.toggle('active', isAsc || isDesc);
+      const label = key === 'default' ? 'Default'
+        : key === 'rarity' ? 'Rarity'
+        : key === 'xp' ? 'XP'
+        : 'Next Fish';
+      b.textContent = `${label} ${isAsc ? '▲' : '▼'}`;
+    });
+  }
+
+  let sortableInstance = null;
+
+  function teardownSortable() {
+    if (sortableInstance) { sortableInstance.destroy(); sortableInstance = null; }
+  }
+
+  function setupSortable(grid, profile) {
+    teardownSortable();
+    grid.classList.toggle('sort-locked', sortLocked);
+    if (sortLocked) return; // lock disables drag/drop reordering entirely
+    if (typeof Sortable === 'undefined') return; // CDN blocked/offline — drag-reorder just won't be available
+    sortableInstance = Sortable.create(grid, {
+      animation: 150,
+      ghostClass: 'tracker-card-ghost',
+      onEnd: () => {
+        profile.manualOrder = Array.from(grid.children).map(el => el.dataset.trackid);
+        profile.sortMode = 'manual';
+        saveData();
+        renderAll();
+      }
+    });
+  }
+
+  // ── Custom sort lock (mobile: dragging cards fights with scrolling; also protects saved manual order) ──
+  const SORT_LOCK_KEY = 'befish-tracker-sort-locked';
+  const storedLock = localStorage.getItem(SORT_LOCK_KEY);
+  let sortLocked = storedLock === null ? true : storedLock === '1';
+
+  function applySortLockUI() {
+    document.getElementById('tracker-custom-lock').checked = sortLocked;
+  }
+
+  function openCustomPanel() {
+    document.getElementById('tracker-custom-panel').classList.add('open');
+  }
+
+  function closeCustomPanel() {
+    document.getElementById('tracker-custom-panel').classList.remove('open');
+    if (!sortLocked) {
+      sortLocked = true;
+      localStorage.setItem(SORT_LOCK_KEY, '1');
+      applySortLockUI();
+    }
+  }
+
+  document.getElementById('tracker-custom-lock').addEventListener('change', e => {
+    sortLocked = e.target.checked;
+    localStorage.setItem(SORT_LOCK_KEY, sortLocked ? '1' : '0');
+    applySortLockUI();
+    renderAll(); // re-evaluates drag availability via setupSortable()
+  });
+
+  document.getElementById('reset-custom-order-btn').addEventListener('click', async () => {
+    const ok = await showConfirm("Clear your custom drag order? This can't be undone.", { title: 'Reset Custom Order', confirmText: 'Reset', danger: true });
+    if (!ok) return;
+    const profile = activeProfile();
+    profile.manualOrder = [];
+    if (profile.sortMode === 'manual') profile.sortMode = 'default-desc';
+    saveData();
+    renderAll();
+  });
+
+  function renderAll() {
+    const grid = document.getElementById('tracker-grid');
+    const countEl = document.getElementById('tracker-count');
+    const profile = activeProfile();
+    const trackers = profile.trackedFish;
+
+    syncSortButtons(profile);
+    document.getElementById('tracker-custom-panel').classList.toggle('open', profile.sortMode === 'manual');
+    const resetBtn = document.getElementById('reset-custom-order-btn');
+    resetBtn.disabled = sortLocked || !profile.manualOrder || profile.manualOrder.length === 0;
+
+    countEl.textContent = trackers.length
+      ? `Tracking ${trackers.length} fish/tier combo${trackers.length !== 1 ? 's' : ''}`
+      : '';
+
+    if (trackers.length === 0) {
+      grid.innerHTML = '<div class="no-results">No fish tracked yet. Click "+ Track a Fish" to get started.</div>';
+      teardownSortable();
+      return;
+    }
+
+    const sorted = orderedTrackers(trackers, profile);
+    grid.innerHTML = sorted.map(trackerCardHTML).join('');
+    setupSortable(grid, profile);
+  }
+
+  // ── Grid event delegation ──
+  document.getElementById('tracker-grid').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const { action, trackid } = btn.dataset;
+    if (action === 'catch') addCatch(trackid);
+    else if (action === 'undo') undoCatch(trackid);
+    else if (action === 'delete') deleteTracker(trackid);
+    else if (action === 'toggle-timestamps') {
+      const st = getTsState(trackid);
+      st.open = !st.open;
+      renderAll();
+    } else if (action === 'set-ts-limit') {
+      const st = getTsState(trackid);
+      st.limit = btn.dataset.limit === 'all' ? 'all' : Number(btn.dataset.limit);
+      renderAll();
+    }
+  });
+
+  // ── Sort button row ──
+  document.getElementById('tracker-sort-btns').addEventListener('click', e => {
+    const btn = e.target.closest('.sort-btn');
+    if (!btn || btn.disabled) return;
+    const key = btn.dataset.sortKey;
+    const profile = activeProfile();
+
+    if (key === 'manual') {
+      profile.sortMode = 'manual';
+      openCustomPanel();
+    } else {
+      const current = profile.sortMode;
+      const dir = current === `${key}-desc` ? 'asc' : 'desc';
+      profile.sortMode = `${key}-${dir}`;
+      closeCustomPanel(); // deselecting Custom re-locks + hides panel, per #7
+    }
+    saveData();
+    renderAll();
+  });
+
+  // ── Add-tracker panel ──
+  const addWrap    = document.getElementById('tracker-add-wrap');
+  const addBtn     = document.getElementById('add-tracker-btn');
+  const panel      = document.getElementById('tracker-add-panel');
+  const searchInput = document.getElementById('tracker-fish-search');
+  const resultsEl  = document.getElementById('tracker-fish-results');
+  const tierBtnsWrap = document.getElementById('tracker-tier-btns');
+  const countInput = document.getElementById('tracker-count-input');
+  const dupeWarning = document.getElementById('tracker-dupe-warning');
+  const submitBtn  = document.getElementById('tracker-submit-btn');
+  const cancelBtn  = document.getElementById('tracker-cancel-btn');
+
+  let selectedFishId = null;
+  let selectedTier = null;
+
+  function renderFishResults(query) {
+    const q = query.trim().toLowerCase();
+    const items = FISH.filter(f => !q || f.name.toLowerCase().includes(q));
+    if (items.length === 0) {
+      resultsEl.innerHTML = '<div class="no-results" style="padding:12px;font-size:0.8rem;">No fish match.</div>';
+      return;
+    }
+    resultsEl.innerHTML = items.map(f => {
+      const rc = RC[f.rarity];
+      const sel = f.id === selectedFishId ? ' selected' : '';
+      return `<button type="button" class="tracker-fish-item${sel}" data-fish-id="${f.id}">
+        <span class="compare-item-dot" style="background:${rc.bar}"></span>
+        <span class="compare-item-name">${f.name}</span>
+        <span class="tracker-fish-rarity" style="color:${rc.bar}">${f.rarity}</span>
+      </button>`;
+    }).join('');
+  }
+
+  function updateSubmitState() {
+    const dupe = selectedFishId && selectedTier ? findTracker(selectedFishId, selectedTier) : null;
+    submitBtn.disabled = !selectedFishId || !selectedTier || !!dupe;
+    if (dupe) {
+      dupeWarning.textContent = `Already tracking ${dupe.fishName} (${selectedTier}) — edit that tracker below instead of creating a new one.`;
+      dupeWarning.style.display = 'block';
+    } else {
+      dupeWarning.style.display = 'none';
+    }
+  }
+
+  function resetAddPanel() {
+    selectedFishId = null;
+    selectedTier = null;
+    searchInput.value = '';
+    countInput.value = 0;
+    tierBtnsWrap.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
+    renderFishResults('');
+    updateSubmitState();
+  }
+
+  addBtn.addEventListener('click', () => {
+    const isOpen = panel.classList.toggle('open');
+    if (isOpen) resetAddPanel();
+  });
+
+  cancelBtn.addEventListener('click', () => panel.classList.remove('open'));
+
+  document.addEventListener('click', e => {
+    if (!addWrap.contains(e.target)) panel.classList.remove('open');
+  });
+
+  searchInput.addEventListener('input', () => renderFishResults(searchInput.value));
+
+  countInput.addEventListener('input', () => {
+    if (Number(countInput.value) > CRAFT_TARGET - 1) countInput.value = CRAFT_TARGET - 1;
+  });
+
+  resultsEl.addEventListener('click', e => {
+    const item = e.target.closest('.tracker-fish-item');
+    if (!item) return;
+    e.stopPropagation(); // renderFishResults() below detaches e.target; stop the outside-click handler from seeing that as "outside"
+    selectedFishId = item.dataset.fishId;
+    renderFishResults(searchInput.value);
+    updateSubmitState();
+  });
+
+  tierBtnsWrap.addEventListener('click', e => {
+    const btn = e.target.closest('.tier-btn');
+    if (!btn) return;
+    selectedTier = btn.dataset.tier;
+    tierBtnsWrap.querySelectorAll('.tier-btn').forEach(b => b.classList.toggle('active', b === btn));
+    updateSubmitState();
+  });
+
+  submitBtn.addEventListener('click', () => {
+    if (submitBtn.disabled) return;
+    const startCount = Math.min(CRAFT_TARGET - 1, Math.max(0, Math.round(Number(countInput.value)) || 0));
+    createTracker(selectedFishId, selectedTier, startCount);
+    panel.classList.remove('open');
+  });
+
+  // ── Profile bar wiring ──
+  document.getElementById('profile-new-btn').addEventListener('click', newProfile);
+  document.getElementById('profile-rename-btn').addEventListener('click', startRenameActiveProfile);
+  document.getElementById('profile-delete-btn').addEventListener('click', () => deleteProfile(data.activeProfileId));
+  document.getElementById('profile-tabs').addEventListener('click', e => {
+    const btn = e.target.closest('.profile-tab');
+    if (!btn) return;
+    switchProfile(btn.dataset.profileId);
+  });
+
+  // ── Export / Import ──
+  function dateStamp() { return new Date().toISOString().slice(0, 10); }
+
+  function slugify(str) {
+    return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'profile';
+  }
+
+  function downloadJSON(obj, filename) {
+    const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('tracker-export-profile-btn').addEventListener('click', () => {
+    const p = activeProfile();
+    downloadJSON(
+      { profileName: p.profileName, trackedFish: p.trackedFish },
+      `befish-tracker-${slugify(p.profileName)}-${dateStamp()}.json`
+    );
+  });
+
+  document.getElementById('tracker-export-all-btn').addEventListener('click', () => {
+    downloadJSON(data, `befish-tracker-full-backup-${dateStamp()}.json`);
+  });
+
+  document.getElementById('tracker-import-input').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async () => {
+      let imported;
+      try {
+        imported = JSON.parse(reader.result);
+      } catch {
+        await showAlert('That file is not valid JSON.', 'Import Failed');
+        e.target.value = '';
+        return;
+      }
+
+      if (imported && Array.isArray(imported.profiles)) {
+        // Full multi-profile backup — replaces everything.
+        const ok = await showConfirm('This will replace ALL current profiles and trackers with the imported backup. Continue?', { title: 'Replace All Data', confirmText: 'Replace', danger: true });
+        if (!ok) {
+          e.target.value = '';
+          return;
+        }
+        data = normalizeProfiles(imported);
+        if (!data.profiles.some(p => p.profileId === data.activeProfileId)) {
+          data.activeProfileId = data.profiles[0] ? data.profiles[0].profileId : undefined;
+        }
+      } else if (imported && Array.isArray(imported.trackedFish)) {
+        // Single-profile export — added as a new profile.
+        let name = imported.profileName || 'Imported Profile';
+        const existingNames = new Set(data.profiles.map(p => p.profileName));
+        if (existingNames.has(name)) {
+          let n = 2;
+          while (existingNames.has(`${name} (${n})`)) n++;
+          name = `${name} (${n})`;
+        }
+        const profile = makeProfile(name, imported.trackedFish);
+        data.profiles.push(profile);
+        data.activeProfileId = profile.profileId;
+      } else {
+        await showAlert('That file does not look like a Fish Tracker export.', 'Import Failed');
+        e.target.value = '';
+        return;
+      }
+
+      saveData();
+      renderProfileBar();
+      renderAll();
+      e.target.value = '';
+    };
+    reader.readAsText(file);
+  });
+
+  // ── Linked Local File — UI ──
+  // Only ever rendered/wired if the browser actually supports the File System Access
+  // API (Chromium desktop: Chrome/Edge/Brave/Opera). Elsewhere the button stays
+  // permanently hidden and nothing below ever touches it.
+  function renderLinkedFileStatus() {
+    const btn = document.getElementById('tracker-link-file-btn');
+    if (!FS_ACCESS_SUPPORTED || !btn) return;
+    btn.hidden = false;
+    if (linkedFileStatus === 'linked') {
+      btn.textContent = `🔗 Synced: ${linkedFileHandle.name} ✓`;
+      btn.classList.add('compare-action-btn--active');
+    } else if (linkedFileStatus === 'reconnect') {
+      btn.textContent = '⚠ Reconnect File';
+      btn.classList.remove('compare-action-btn--active');
+    } else if (linkedFileStatus === 'error') {
+      btn.textContent = '⚠ Sync Failed — Click to Reconnect';
+      btn.classList.remove('compare-action-btn--active');
+    } else {
+      btn.textContent = '🔗 Link Local File';
+      btn.classList.remove('compare-action-btn--active');
+    }
+  }
+
+  document.getElementById('tracker-link-file-btn')?.addEventListener('click', async () => {
+    try {
+      if (linkedFileStatus === 'reconnect' || linkedFileStatus === 'error') {
+        // Re-grant permission on the handle we already have — no picker needed.
+        const perm = await linkedFileHandle.requestPermission({ mode: 'readwrite' });
+        if (perm === 'granted') {
+          await writeLinkedFileNow(); // explicit user action — bypass the debounce, push immediately
+        } else {
+          linkedFileStatus = 'reconnect';
+          renderLinkedFileStatus();
+        }
+        return;
+      }
+      if (linkedFileStatus === 'linked') {
+        // Already linked and healthy — clicking again offers to unlink.
+        const ok = await showConfirm(`Stop syncing to "${linkedFileHandle.name}"? Your data stays in this browser either way.`, { title: 'Unlink File', confirmText: 'Unlink' });
+        if (ok) {
+          linkedFileHandle = null;
+          linkedFileStatus = 'unlinked';
+          await idbClearHandle();
+          renderLinkedFileStatus();
+        }
+        return;
+      }
+      // Unlinked — open the picker.
+      const handle = await window.showSaveFilePicker({
+        suggestedName: 'befish-tracker-full-backup.json',
+        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }],
+      });
+      linkedFileHandle = handle;
+      await idbSetHandle(handle);
+      await writeLinkedFileNow(); // write current state immediately on link
+    } catch (err) {
+      if (err?.name !== 'AbortError') console.warn('Link file error:', err); // AbortError = user cancelled picker, ignore silently
+    }
+  });
+
+  function timeout(ms) {
+    return new Promise((_, reject) => setTimeout(() => reject(new Error('timed out')), ms));
+  }
+
+  // Reconnect on page load — queryPermission does NOT require a user gesture, so this
+  // can run automatically without prompting anything. Only requestPermission (in the
+  // reconnect click handler above) needs the gesture.
+  async function tryRestoreLinkedFile() {
+    if (!FS_ACCESS_SUPPORTED) return;
+    try {
+      // Race against a timeout: indexedDB.open() can occasionally hang without ever
+      // firing onsuccess/onerror (seen in some restricted/edge-case environments). If
+      // that happens, fall through to 'unlinked' below rather than leaving the button
+      // hidden and the page silently stuck forever.
+      const handle = await Promise.race([idbGetHandle(), timeout(2000)]);
+      if (handle) {
+        linkedFileHandle = handle;
+        const perm = await handle.queryPermission({ mode: 'readwrite' });
+        linkedFileStatus = perm === 'granted' ? 'linked' : 'reconnect';
+      }
+      // else: no stored handle (first visit, or previously unlinked) — stay 'unlinked'
+      // and fall through to render the plain "Link Local File" button below.
+    } catch {
+      linkedFileStatus = 'unlinked';
+      linkedFileHandle = null;
+    }
+    renderLinkedFileStatus();
+  }
+
+  // Flush on tab close/background — without this, an edit made right before closing
+  // the tab could sit in the 400ms debounce window and never get written.
+  // visibilitychange (not beforeunload) is the right hook: beforeunload can't reliably
+  // await an async file write before the page actually closes, but visibilitychange
+  // also fires on tab-switch/minimize/mobile-backgrounding, so in practice it catches
+  // the "closing the tab" case early enough almost every time without blocking navigation.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && fileWriteDebounceTimer) {
+      clearTimeout(fileWriteDebounceTimer);
+      writeLinkedFileNow();
+    }
+  });
+
+  applySortLockUI();
+  renderProfileBar();
+  renderAll();
+  tryRestoreLinkedFile();
+  setInterval(renderAll, 60000);
+  </script>
+  <script src="nav.js" defer></script>
+</body>
+</html>
