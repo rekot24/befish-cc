@@ -33,15 +33,19 @@ of every session — keep it current.
 Claude (planning session in claude.ai) produces a checklist `.md` file.
 Claude Code (VSCode) executes it. After completion:
 
-1. Claude Code reports what changed, any deviations, and bugs found in its
-   chat response — not appended to the checklist file.
+1. Claude Code prepends an entry to `docs/implementation-notes.md` (newest
+   first) covering: what changed, any deviations, bugs found, verification
+   done. This is the detailed technical record — not appended to the
+   checklist file itself.
 2. Claude Code deletes the checklist file, **then** runs the checklist's own
    `git add . && git commit && git push` step. The checklist file must never
    be committed — not even as a same-commit deletion.
-3. Joshua adds a condensed entry to `docs/changelog.md`, sourced from the
-   chat notes in step 1.
+3. Joshua adds a condensed entry to `docs/changelog.md`, sourced from
+   `docs/implementation-notes.md`.
 
-**Never commit checklist files, even briefly.** The changelog is the record.
+**Never commit checklist files, even briefly.** `docs/changelog.md` is the
+condensed human-facing record; `docs/implementation-notes.md` is the fuller
+technical one.
 
 ---
 
@@ -79,7 +83,8 @@ public/
 └── img/                    ← Fish images (copied from main branch)
 docs/
 ├── project-reference.md    ← Architecture, decisions, data model
-└── changelog.md             ← Running log of changes (newest first)
+├── changelog.md            ← Condensed running log (newest first)
+└── implementation-notes.md ← Detailed per-checklist technical notes
 ```
 
 ---
