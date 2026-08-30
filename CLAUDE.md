@@ -33,12 +33,15 @@ of every session — keep it current.
 Claude (planning session in claude.ai) produces a checklist `.md` file.
 Claude Code (VSCode) executes it. After completion:
 
-1. Claude Code appends a brief `## Implementation Notes` section to the
-   checklist covering: what changed, any deviations, bugs found.
-2. Joshua adds a condensed entry to `docs/changelog.md`.
-3. Delete the checklist file — it has served its purpose.
+1. Claude Code reports what changed, any deviations, and bugs found in its
+   chat response — not appended to the checklist file.
+2. Claude Code deletes the checklist file, **then** runs the checklist's own
+   `git add . && git commit && git push` step. The checklist file must never
+   be committed — not even as a same-commit deletion.
+3. Joshua adds a condensed entry to `docs/changelog.md`, sourced from the
+   chat notes in step 1.
 
-**Never archive checklist files.** The changelog is the record.
+**Never commit checklist files, even briefly.** The changelog is the record.
 
 ---
 
