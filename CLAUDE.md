@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # befish.cc — Claude Code Project Guide
 
 Fan wiki and toolset for the Roblox idle fishing game "Be Fish."
