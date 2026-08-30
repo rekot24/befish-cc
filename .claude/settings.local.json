@@ -22,7 +22,15 @@
       "Bash(grep -n \"e0f4fa\\\\|f0e8fd\\\\|5a1a88\\\\|section-body h3\\\\|0b1226;\\\\s*$\" \"c:\\\\Users\\\\joshu\\\\OneDrive\\\\Documents\\\\Coding\\\\Projects\\\\be_fish\\\\style.css\")",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)",
+      "Bash(npm run *)",
+      "Bash(grep -o 'Fish Dex\\\\|Tracker\\\\|How to Play\\\\|Mechanics\\\\|Tips & Tricks\\\\|YouTube\\\\|Discord\\\\|Homepage coming soon' /tmp/home.html | sort -u)",
+      "Read(//tmp/**)",
+      "Bash(grep -o 'Tips[^<]*' /tmp/home.html)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(pkill -f \"next-server\")"
     ]
   }
 }
