@@ -4,9 +4,9 @@
 /* ── CSS Variables — Dark Mode (default) ── */
 :root {
   /* Core palette */
-  --color-cyan: #00b8d9;
-  --color-purple: #7b2fbe;
-  --color-orange: #f97316;
+  --color-cyan: #00e5ff;
+  --color-purple: #cc55ff;
+  --color-orange: #f5c200;
 
   /* Backgrounds */
   --page-bg: #070c1c;
@@ -16,12 +16,17 @@
   --footer-bg: #04080f;
 
   /* Borders */
-  --border: #1e2d4a;
+  --border: #f5c200;
 
   /* Text */
   --text-hi: #f0f4ff;
   --text-mid: #8899bb;
   --text-low: #4a5a7a;
+
+  /* Nav — theme-independent */
+  --nav-text: #8899bb;
+  --nav-text-hi: #f0f4ff;
+  --nav-text-active: var(--color-orange);
 
   /* Semantic aliases */
   --accent: var(--color-cyan);
@@ -35,10 +40,10 @@
 /* ── CSS Variables — Light Mode ── */
 [data-theme="light"] {
   --page-bg: #eaf6fb;
-  --nav-bg: #0d1f3c;
+  --nav-bg: #0a7a9a;
   --card-bg: #ffffff;
   --card-bg-alt: #f0f8fd;
-  --footer-bg: #0d1f3c;
+  --footer-bg: #0a7a9a;
   --border: #c8dff0;
   --text-hi: #0d1f3c;
   --text-mid: #4a6080;
