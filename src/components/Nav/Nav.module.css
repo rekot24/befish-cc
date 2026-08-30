@@ -21,7 +21,7 @@
 .logo {
   font-family: 'Fredoka One', sans-serif;
   font-size: 1.3rem;
-  color: var(--text-hi);
+  color: var(--color-orange);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -70,11 +70,11 @@
 }
 
 .linkActive {
-  color: var(--color-cyan);
+  color: var(--color-orange);
 }
 
 .linkActive:hover {
-  color: var(--color-cyan);
+  color: var(--color-orange);
 }
 
 /* Theme toggle */
@@ -95,7 +95,7 @@
 
 .themeToggle:hover {
   color: var(--text-hi);
-  border-color: var(--color-cyan);
+  border-color: var(--color-orange);
 }
 
 /* Hamburger toggle button */
