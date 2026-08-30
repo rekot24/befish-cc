@@ -1,3 +1,16 @@
+# Checklist: Setup Project Context Files
+
+These files give Claude Code the context it needs to work consistently across
+every session. Complete this checklist before any other build work.
+
+---
+
+## 1. Replace `CLAUDE.md` (project root)
+
+**File:** `CLAUDE.md`  
+**Action:** Replace entire contents with the following:
+
+```md
 # befish.cc — Claude Code Project Guide
 
 Fan wiki and toolset for the Roblox idle fishing game "Be Fish."
@@ -74,7 +87,7 @@ public/
 └── img/                    ← Fish images (copied from main branch)
 docs/
 ├── project-reference.md    ← Architecture, decisions, data model
-└── changelog.md             ← Running log of changes (newest first)
+└── changelog.md            ← Running log of changes (newest first)
 ```
 
 ---
@@ -188,3 +201,154 @@ type Fish = {
 - [ ] Supabase integration
 - [ ] Discord OAuth
 - [ ] growth-challenge page
+```
+
+---
+
+## 2. Create `docs/` folder with two files
+
+### 2a. Create `docs/changelog.md`
+
+```md
+# befish.cc Next.js Rebuild — Changelog
+
+Running log of changes to the `nextjs` branch. Newest entries at top.
+Format: `## YYYY-MM-DD — Short title`, then decisions and outcomes.
+
+The static site changelog lives in the `main` branch.
+
+---
+
+## 2026-08-30 — Project scaffolded
+
+- Next.js 16.3.3 scaffolded with TypeScript, ESLint, CSS Modules, App Router, src/ directory
+- `nextjs` branch created from `main` and pushed to GitHub
+- Vercel connected to GitHub repo — auto-deploys on push
+- befish.cc DNS updated (Hostinger A record → 216.198.79.1, AAAA removed)
+- befish.cc now live on Vercel from `main` branch
+- Preview URL active for `nextjs` branch
+- CLAUDE.md and docs/ context files created
+```
+
+### 2b. Create `docs/project-reference.md`
+
+```md
+# befish.cc — Project Reference
+
+Standing reference for the Next.js rebuild. Not a change log — see
+`docs/changelog.md` for that. Update this when architecture decisions
+change.
+
+Last updated: 2026-08-30
+
+---
+
+## Site Overview
+
+befish.cc is a fan wiki and toolset for "Be Fish," an idle fishing/collection
+game on Roblox. Built and maintained by Joshua (24rolla).
+
+- 60 fish species × 5 tiers = 300 total collectibles
+- Stats: Growth, Speed, XP multiplier (measured on 0–100 normalized scale)
+- 6 rarities: Common, Uncommon, Rare, Epic, Legendary, Mythic
+- 5 tiers: Normal, Golden, Rainbow, Glowing, Shadow (crafted, not caught)
+
+Community: YouTube (UCMQCHNgbMx_TY26QcFNcMag), Discord (CfsQmRjGbe)
+
+---
+
+## Infrastructure
+
+| Layer | Tool | Notes |
+|-------|------|-------|
+| Framework | Next.js 16 (App Router) | `nextjs` branch |
+| Language | TypeScript | All files `.tsx`/`.ts` |
+| Styling | CSS Modules + globals.css | No Tailwind |
+| Database | Supabase (planned) | Not yet integrated |
+| Auth | Discord OAuth via Supabase (planned) | Not yet integrated |
+| Hosting | Vercel | Auto-deploys from GitHub |
+| Domain | befish.cc | DNS: A record → 216.198.79.1 |
+| Repo | rekot24/befish-cc | GitHub |
+
+---
+
+## Planned Features (Next.js rebuild)
+
+- [ ] Crowdsourced nets-per-minute submission system
+- [ ] Discord OAuth login
+- [ ] Cloud-synced fish tracker profiles (Supabase)
+- [ ] Individual fish pages (`/fishdex/[slug]`) for SEO
+- [ ] Growth Rush Challenge page
+- [ ] Community leaderboard features
+
+---
+
+## Rarity Reference
+
+| Rarity | Color | Bg Hex |
+|--------|-------|--------|
+| Common | Grey | `#b8b8b8` |
+| Uncommon | Green | `#3fff2e` |
+| Rare | Blue | `#007bff` |
+| Epic | Purple | `#aa00ff` |
+| Legendary | Gold | `#ffaa00` |
+| Mythic | Red | `#ff2626` |
+
+---
+
+## Tier Reference
+
+| Tier | Color | Crafting Cost (cumulative Normal) |
+|------|-------|----------------------------------|
+| Normal | `#888888` | — |
+| Golden | `#c4841a` | 50 |
+| Rainbow | `#c43a9a` | 2,551 |
+| Glowing | `#0f8fa0` | 127,551 |
+| Shadow | `#5535c4` | 6,377,551 |
+
+---
+
+## Content Ownership Rules
+
+To prevent duplication across pages:
+
+- **How to Play** = purchasing, onboarding, UI guide (what to click/buy)
+- **Game Mechanics** = math, formulas, odds tables (how numbers work)
+- **Tips & Tricks** = strategy, opinion, advanced play
+
+Cross-link between pages rather than duplicating content.
+
+---
+
+## Known Issues / Tech Debt (from static site audit)
+
+- `tips.html` General Tips section header inconsistency (icon vs label)
+- `how-to-play.html` Gem price cards show amounts but no Robux prices
+- Typo: "Inceases" in Fast XP pass card (how-to-play)
+- Luck odds table rows are interpolated/illustrative, not fully verified
+- Homepage missing a Tracker feature card
+- `growth-challenge.html` was built but never committed or deployed
+- Fish Tracker localStorage — migrate to Supabase cloud sync in rebuild
+```
+
+---
+
+## 3. Verify
+
+After creating both files:
+- Confirm `docs/` folder exists with `changelog.md` and `project-reference.md`
+- Confirm `CLAUDE.md` at project root contains the full content above (not just `@AGENTS.md`)
+- Run `git add . && git commit -m "add project context files" && git push`
+
+## Implementation Notes
+
+- `CLAUDE.md` replaced with the full project guide content (previously just `@AGENTS.md`).
+- `docs/changelog.md` and `docs/project-reference.md` created as specified.
+- Deviation to flag: `CLAUDE.md` no longer imports `@AGENTS.md`, which held
+  Next.js-16-specific breaking-change guidance ("read the docs in
+  `node_modules/next/dist/docs/` before writing code"). `AGENTS.md` itself is
+  untouched, but it's no longer pulled in automatically via `CLAUDE.md`. If
+  that guidance should still load every session, either re-add `@AGENTS.md`
+  as a line in the new `CLAUDE.md` or keep it in mind manually.
+- No bugs found; committed and pushed per step 3.
+```

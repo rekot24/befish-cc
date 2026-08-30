@@ -19,7 +19,10 @@
       "Bash(node shot2.js)",
       "Bash(node shot3.js)",
       "Bash(node -e ' *)",
-      "Bash(grep -n \"e0f4fa\\\\|f0e8fd\\\\|5a1a88\\\\|section-body h3\\\\|0b1226;\\\\s*$\" \"c:\\\\Users\\\\joshu\\\\OneDrive\\\\Documents\\\\Coding\\\\Projects\\\\be_fish\\\\style.css\")"
+      "Bash(grep -n \"e0f4fa\\\\|f0e8fd\\\\|5a1a88\\\\|section-body h3\\\\|0b1226;\\\\s*$\" \"c:\\\\Users\\\\joshu\\\\OneDrive\\\\Documents\\\\Coding\\\\Projects\\\\be_fish\\\\style.css\")",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
     ]
   }
 }
