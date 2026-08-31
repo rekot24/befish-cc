@@ -30,7 +30,8 @@
       "Read(//tmp/**)",
       "Bash(grep -o 'Tips[^<]*' /tmp/home.html)",
       "Bash(pkill -f \"next dev\")",
-      "Bash(pkill -f \"next-server\")"
+      "Bash(pkill -f \"next-server\")",
+      "Bash(git rm *)"
     ]
   }
 }
