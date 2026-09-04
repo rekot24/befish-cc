@@ -373,7 +373,7 @@ const FISH = [
     Normal: {odds:'1 in 1.1M',    oddsNum:1100000,        speed:43.8, growth:37.8, xp:7.05 },
     Golden: {odds:'1 in 54M',     oddsNum:54000000,       speed:60.2, growth:52.2, xp:9.2 },
     Rainbow:{odds:'1 in 2.7B',    oddsNum:2700000000,     speed:73.6, growth:64.2, xp:11.3 },
-    Glowing:{odds:'1 in 130B',    oddsNum:130000000000,   speed:null, growth:null, xp:null },
+    Glowing:{odds:'1 in 130B',    oddsNum:130000000000,   speed:84.6, growth:72.1, xp:13 },
     Shadow: {odds:'1 in 6.7T',    oddsNum:6700000000000,  speed:null, growth:null, xp:null },
   }},
   {id:'52',name:'Sawfish',rarity:'Legendary',bg:'#ffaa00',tiers:{
