@@ -52,7 +52,7 @@ const FISH = [
     Golden: {odds:'1 in 550',     oddsNum:550,            speed:28.9, growth:25.9, xp:3.2  },
     Rainbow:{odds:'1 in 28,000',  oddsNum:28000,          speed:39.8, growth:35.8, xp:5.15 },
     Glowing:{odds:'1 in 1.4M',    oddsNum:1400000,        speed:49.3, growth:43.8, xp:7.2  },
-    Shadow: {odds:'1 in 69M',     oddsNum:69000000,       speed:null, growth:null, xp:null },
+    Shadow: {odds:'1 in 69M',     oddsNum:69000000,       speed:57.0, growth:50.8, xp:9.3 },
   }},
   {id:'06',name:'Tilapia',rarity:'Common',bg:'#b8b8b8',tiers:{
     Normal: {odds:'1 in 13',      oddsNum:13,             speed:14.9, growth:14.4, xp:1.4  },
@@ -359,7 +359,7 @@ const FISH = [
     Normal: {odds:'1 in 450,000', oddsNum:450000,         speed:40.3, growth:34.8, xp:6.6  },
     Golden: {odds:'1 in 22M',     oddsNum:22000000,       speed:57.7, growth:49.3, xp:8.7  },
     Rainbow:{odds:'1 in 1.1B',    oddsNum:1100000000,     speed:71.6, growth:61.7, xp:10.8 },
-    Glowing:{odds:'1 in 56B',     oddsNum:56000000000,    speed:null, growth:null, xp:null },
+    Glowing:{odds:'1 in 56B',     oddsNum:56000000000,    speed:84.6, growth:72.1, xp:13 },
     Shadow: {odds:'1 in 2.8T',    oddsNum:2800000000000,  speed:null, growth:null, xp:null },
   }},
   {id:'50',name:'Eagle Ray',rarity:'Legendary',bg:'#ffaa00',tiers:{
