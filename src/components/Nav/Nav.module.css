@@ -73,7 +73,7 @@
 }
 
 .linkActive {
-  color: var(--color-orange);
+  color: var(--nav-text-active);
 }
 
 .linkActive:hover {

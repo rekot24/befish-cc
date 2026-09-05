@@ -4,9 +4,16 @@
 /* ── CSS Variables — Dark Mode (default) ── */
 :root {
   /* Core palette */
-  --color-cyan: #00e5ff;
-  --color-purple: #cc55ff;
-  --color-orange: #f5c200;
+  --color-cyan: #00f0de;
+  --color-purple: #aa00ff;
+  --color-orange: #ffaa00;
+  --color-rare-blue: #007bff;
+  --color-epic-purple: #aa00ff;
+  --color-legendary-orange: #ffaa00;
+  --color-mythic-red: #ff2626;
+  --color-golden: #ffbe01;
+  --color-glowing-cyan: #00f0de;
+  --color-shadow-purple: #8800bf;
 
   /* Backgrounds */
   --page-bg: #070c1c;
@@ -26,12 +33,12 @@
   /* Nav — theme-independent */
   --nav-text: #8899bb;
   --nav-text-hi: #f0f4ff;
-  --nav-text-active: var(--color-orange);
+  --nav-text-active: var(--color-mythic-red);
 
   /* Semantic aliases */
   --accent: var(--color-cyan);
-  --section-header: var(--color-purple);
-  --cta: var(--color-orange);
+  --section-header: var(--color-epic-purple);
+  --cta: var(--color-legendary-orange);
 
   /* Nav */
   --nav-height: 56px;
