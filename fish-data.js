@@ -171,7 +171,7 @@ const FISH = [
     Golden: {odds:'1 in 34,000',  oddsNum:34000,          speed:14.9, growth:54.7, xp:5.25 },
     Rainbow:{odds:'1 in 1.7M',    oddsNum:1700000,        speed:19.4, growth:72.1, xp:7.3  },
     Glowing:{odds:'1 in 84M',     oddsNum:84000000,       speed:23.4, growth:86.6, xp:9.45 },
-    Shadow: {odds:'1 in 4.2B',    oddsNum:4200000000,     speed:null, growth:null, xp:null },
+    Shadow: {odds:'1 in 4.2B',    oddsNum:4200000000,     speed:26.4, growth:101.5, xp:11.6 },
   }},
   {id:'23',name:'Jellyfish',rarity:'Rare',bg:'#007bff',tiers:{
     Normal: {odds:'1 in 810',     oddsNum:810,            speed:24.4, growth:22.4, xp:3.35 },
