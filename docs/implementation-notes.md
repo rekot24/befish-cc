@@ -56,3 +56,9 @@ work — this file holds the fuller detail behind it.
   restored as the first line, which was done in a follow-up edit and
   committed separately (`09d77f3`).
 - No bugs found.
+
+## Homepage build
+- Created NavCard component: src/components/NavCard/
+- Created HomePage component: src/components/HomePage/
+- Added --hero-word-befish, --hero-word-wiki, --stat-number to globals.css
+- page.tsx is now a thin mount — all UI lives in HomePage

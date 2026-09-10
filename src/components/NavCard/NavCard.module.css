@@ -1,0 +1,43 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 1.2rem;
+  color: var(--section-header);
+  margin: 0;
+}
+
+.desc {
+  font-size: 0.9rem;
+  color: var(--text-mid);
+  flex: 1;
+  margin: 0;
+}
+
+.cta {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-top: 0.5rem;
+}
