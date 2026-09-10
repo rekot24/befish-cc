@@ -7,23 +7,16 @@
   --color-cyan: #00f0de;
   --color-purple: #aa00ff;
   --color-orange: #ffaa00;
-  --color-rare-blue: #007bff;
-  --color-epic-purple: #aa00ff;
-  --color-legendary-orange: #ffaa00;
-  --color-mythic-red: #ff2626;
-  --color-golden: #ffbe01;
-  --color-glowing-cyan: #00f0de;
-  --color-shadow-purple: #8800bf;
 
   /* Backgrounds */
-  --page-bg: #070c1c;
+  --page-bg: #0F112E;
   --nav-bg: #04080f;
   --card-bg: #0b1226;
   --card-bg-alt: #0d1530;
   --footer-bg: #04080f;
 
   /* Borders */
-  --border: #f5c200;
+  --border: var(--color-orange);
 
   /* Text */
   --text-hi: #f0f4ff;
@@ -33,21 +26,36 @@
   /* Nav — theme-independent */
   --nav-text: #8899bb;
   --nav-text-hi: #f0f4ff;
-  --nav-text-active: var(--color-mythic-red);
+  --nav-text-active: var(--color-orange);
 
   /* Semantic aliases */
   --accent: var(--color-cyan);
-  --section-header: var(--color-epic-purple);
+  --section-header: var(--color-purple);
   --cta: var(--color-legendary-orange);
 
+  /* Rarity Colors */
+  --rarity-common: #b8b8b8;
+  --rarity-uncommon: #3fff2e;
+  --rarity-rare: #007bff;
+  --rarity-epic: #aa00ff;
+  --rarity-legendary: #ffaa00;
+  --rarity-mythic: #ff2626;
+
+  /* Tier Colors */
+  --tier-normal: #9b7d6a;
+  --tier-golden: #ffb701;
+  --tier-rainbow: #c43a9a;
+  --tier-glowing: #00efe0;
+  --tier-shadow: #8800c3;
+
   /* Nav */
-  --nav-height: 56px;
+  --nav-height: 64px;
 }
 
 /* ── CSS Variables — Light Mode ── */
 [data-theme="light"] {
   --page-bg: #eaf6fb;
-  --nav-bg: #0a7a9a;
+  --nav-bg: #1D759A;
   --card-bg: #ffffff;
   --card-bg-alt: #f0f8fd;
   --footer-bg: #0a7a9a;
