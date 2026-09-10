@@ -62,8 +62,8 @@ export default function HomePage() {
           300 collectibles. Every known stat. All in one place.
         </p>
         <div className={styles.heroCtas}>
-          <a href="/fishdex" className={styles.btnPrimary}>Browse Fish Dex</a>
-          <a href="/how-to-play" className={styles.btnSecondary}>How to Play</a>
+          <a href="/fishdex" className={styles.btn}>Browse Fish Dex</a>
+          <a href="/how-to-play" className={styles.btn}>How to Play</a>
         </div>
       </section>
 

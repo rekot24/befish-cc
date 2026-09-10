@@ -17,6 +17,8 @@
 
   /* Borders */
   --border: var(--color-orange);
+  --btn-border: var(--color-cyan);
+  --btn-border-hover: var(--color-purple);
 
   /* Text */
   --text-hi: #f0f4ff;
@@ -63,10 +65,16 @@
 [data-theme="light"] {
   --page-bg: #eaf6fb;
   --nav-bg: #0a7a9a;
+  --nat-text: #0d1f3c;
   --card-bg: #ffffff;
   --card-bg-alt: #f0f8fd;
   --footer-bg: #0a7a9a;
-  --border: #c8dff0;
+  --border: var(--color-orange);
+  --hero-word-befish: var(--color-orange);
+  --hero-word-wiki: var(--color-cyan);
+  --btn-border: var(--color-orange);
+  --btn-border-hover: var(--color-cyan);
+  --section-header: var(--color-orange);
   --text-hi: #0d1f3c;
   --text-mid: #4a6080;
   --text-low: #8aaabb;
