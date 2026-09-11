@@ -83,7 +83,7 @@
 /* Theme toggle */
 .themeToggle {
   margin-left: auto;
-  background: none !important;
+  background: var(--page-bg);
   border: 1px solid var(--border);
   color: var(--text-mid);
   font-family: 'Nunito', sans-serif;

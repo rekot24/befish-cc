@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: {
@@ -28,6 +29,7 @@ export default function RootLayout({
         <Nav />
         <main>{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
