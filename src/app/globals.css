@@ -1,86 +1,374 @@
 /* ── Google Fonts ── */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
 
-/* ── CSS Variables — Dark Mode (default) ── */
+/* ============================================================
+   GLOBALS.CSS — Be Fish Wiki (Next.js rebuild)
+   Single source of truth for all design tokens and base styles.
+
+   RULE: No hardcoded hex values, font-family strings, font-size
+   literals, or font-weight numbers in any .module.css file.
+   All values come from tokens defined here.
+
+   BEFORE writing any value in a .module.css file:
+     1. Check here first — use the token if one exists,
+        even if the name isn't identical to what you expected
+     2. A local CSS variable is only justified if the value is
+        genuinely unique to that one component with no equivalent here
+     3. Match by meaning, not just name:
+        nav link text color → --nav-text, not a local --nat-text
+
+   Design intent lives in CLAUDE.md (design theme section).
+   Hex values live here. CLAUDE.md never contains hex values.
+   ============================================================
+
+   SECTIONS
+    1. Font tokens
+    2. Typography scale
+    3. Core palette (fixed brand colors)
+    4. Backgrounds
+    5. Text
+    6. Borders
+    7. Nav (theme-independent)
+    8. Semantic aliases
+    9. Component tokens — Buttons
+   10. Component tokens — Cards
+   11. Component tokens — Section blocks
+   12. Component tokens — Badges & labels
+   13. Component tokens — Stats & fish data
+   14. Rarity colors (fixed, never theme-switched)
+   15. Tier colors (fixed, never theme-switched)
+   16. Layout & spacing tokens
+   17. Light mode overrides
+   18. Reset & base
+   19. Typography base styles
+   20. Button base styles (global reusable classes)
+   21. Layout utilities
+   22. Scrollbar
+   ============================================================ */
+
+
+/* ── 1. Font tokens ── */
 :root {
-  /* Core palette */
-  --color-cyan: #00f0de;
-  --color-purple: #aa00ff;
-  --color-orange: #ffaa00;
+  --font-display: 'Fredoka One', sans-serif;   /* headings, logo, display text */
+  --font-body:    'Nunito', sans-serif;         /* all other text */
+}
 
-  /* Backgrounds */
-  --page-bg: #0F112E;
-  --nav-bg: #04080f;
-  --card-bg: #0b1226;
+
+/* ── 2. Typography scale ── */
+:root {
+  /* Size scale */
+  --fs-xs:   0.68rem;              /* ~11px — eyebrow labels, tier/rarity badges */
+  --fs-sm:   0.76rem;              /* ~12px — captions, muted metadata, small chips */
+  --fs-base: 0.88rem;              /* ~14px — body copy, descriptions, list items */
+  --fs-md:   1rem;                 /* ~16px — card names, subheadings, modal titles */
+  --fs-lg:   1.2rem;               /* ~19px — card values, gem amounts, section subheads */
+  --fs-xl:   1.5rem;               /* ~24px — nav logo, h3 page sections */
+  --fs-2xl:  2rem;                 /* ~32px — h2 headings */
+  --fs-3xl:  clamp(2rem, 5vw, 3.5rem); /* hero h1 — fluid */
+
+  /* Weight scale */
+  --fw-regular: 400;
+  --fw-medium:  600;
+  --fw-bold:    700;
+  --fw-black:   800;
+
+  /* Line heights */
+  --lh-tight:  1.2;    /* headings */
+  --lh-normal: 1.6;    /* body default */
+  --lh-loose:  1.75;   /* descriptive copy, prose */
+}
+
+
+/* ── 3. Core palette — fixed brand colors, never theme-switched ── */
+:root {
+  --color-cyan:   #00f0de;   /* primary accent: headings, links, key values */
+  --color-purple: #aa00ff;   /* section headers exclusively */
+  --color-orange: #ffaa00;   /* CTAs and active nav only */
+}
+
+
+/* ── 4. Backgrounds ── */
+:root {
+  --page-bg:     #0F112E;
+  --nav-bg:      #04080f;
+  --card-bg:     #0b1226;
   --card-bg-alt: #0d1530;
-  --footer-bg: #04080f;
+  --footer-bg:   #04080f;
+}
 
-  /* Borders */
-  --border: var(--color-orange);
-  --btn-border: var(--color-cyan);
+
+/* ── 5. Text ── */
+:root {
+  --text-hi:       #f0f4ff;   /* primary content, headings */
+  --text-mid:      #8899bb;   /* body copy, descriptions */
+  --text-low:      #4a5a7a;   /* placeholders, subtle labels */
+  --text-disabled: #3a4a60;   /* truly inactive / greyed-out elements */
+  --stat-text:     #8899bb;   /* fish card stat labels — matches --text-mid in dark mode */
+}
+
+
+/* ── 6. Borders ── */
+:root {
+  --border:           var(--color-cyan);
+  --border-card:      rgba(0, 240, 222, 0.08);   /* cyan @ 8% — subtle card edges */
+  --border-card-hi:   rgba(0, 240, 222, 0.18);   /* cyan @ 18% — hover/focus card edges */
+  --border-section:   rgba(170, 0, 255, 0.15);   /* purple @ 15% — section dividers */
+  --btn-border:       var(--color-cyan);
   --btn-border-hover: var(--color-purple);
+}
 
-  /* Text */
-  --text-hi: #f0f4ff;
-  --text-mid: #8899bb;
-  --text-low: #4a5a7a;
 
-  /* Nav — theme-independent */
-  --nav-text: #8899bb;
-  --nav-text-hi: #f0f4ff;
+/* ── 7. Nav — theme-independent (nav is always dark in both themes) ── */
+:root {
+  --nav-text:        #8899bb;
+  --nav-text-hi:     #f0f4ff;
   --nav-text-active: var(--color-orange);
+  --nav-height:      64px;
+}
 
-  /* Hero colors */
+
+/* ── 8. Semantic aliases ── */
+:root {
+  --accent:         var(--color-cyan);     /* primary accent — links, highlights, active data */
+  --section-header: var(--color-cyan);   /* all section headings — never alternate */
+  --cta:            var(--color-orange);   /* call-to-action elements only */
+
+  /* Hero word colors */
   --hero-word-befish: var(--color-cyan);
-  --hero-word-wiki: var(--color-purple);
+  --hero-word-wiki:   var(--color-purple);
+}
 
-  /* Stats bar colors */
-  --stat-number: var(--color-cyan);
 
-  /* Semantic aliases */
-  --accent: var(--color-cyan);
-  --section-header: var(--color-purple);
-  --cta: var(--color-legendary-orange);
+/* ── 9. Component tokens — Buttons ── */
+:root {
+  /* Primary button — filled, cyan background */
+  --btn-primary-bg:           var(--color-cyan);
+  --btn-primary-bg-hover:     var(--color-purple);
+  --btn-primary-text:         #0F112E;   /* dark text on bright cyan — use page-bg value */
+  --btn-primary-text-hover:   #ffffff;
+  --btn-primary-border:       transparent;
 
-  /* Rarity Colors */
-  --rarity-common: #b8b8b8;
-  --rarity-uncommon: #3fff2e;
-  --rarity-rare: #007bff;
-  --rarity-epic: #aa00ff;
-  --rarity-legendary: #ffaa00;
-  --rarity-mythic: #ff2626;
+  /* Secondary button — outlined, transparent fill */
+  --btn-secondary-bg:           transparent;
+  --btn-secondary-bg-hover:     var(--color-cyan);
+  --btn-secondary-text:         var(--color-cyan);
+  --btn-secondary-text-hover:   #0F112E;
+  --btn-secondary-border:       var(--color-cyan);
+  --btn-secondary-border-hover: var(--color-cyan);
 
-  /* Tier Colors */
-  --tier-normal: #9b7d6a;
-  --tier-golden: #ffb701;
+  /* Shared shape & typography */
+  --btn-font-size:   var(--fs-base);
+  --btn-font-weight: var(--fw-bold);
+  --btn-padding:     0.65rem 1.5rem;
+  --btn-radius:      8px;
+  --btn-transition:  background 0.15s ease, color 0.15s ease,
+                     border-color 0.15s ease, transform 0.1s ease;
+}
+
+
+/* ── 10. Component tokens — Cards ── */
+:root {
+  --card-radius:  14px;
+  --card-padding: 1.5rem;
+  --card-shadow:  0 2px 16px rgba(0, 0, 0, 0.35);
+
+  /* Info cards (stat callouts, gem amounts, pass/boost cards) */
+  --info-card-bg:          var(--card-bg-alt);
+  --info-card-border:      var(--border-card);
+  --info-card-val-color:   var(--color-cyan);   /* the big number/value */
+  --info-card-label-color: var(--text-low);
+
+  /* Fish cards */
+  --fish-card-bg:     var(--card-bg);
+  --fish-card-body-bg: rgba(255, 255, 255, 0.95);   /* white stats body — intentionally fixed */
+  --fish-card-radius: 12px;
+
+  /* Feature cards (home page) */
+  --feature-card-bg:     var(--card-bg);
+  --feature-card-border: var(--border-card);
+  --feature-card-radius: var(--card-radius);
+}
+
+
+/* ── 11. Component tokens — Section blocks ── */
+/* Used on How to Play, Tips, and similar content-section pages */
+:root {
+  --section-block-bg:     var(--card-bg);
+  --section-block-border: var(--border-card);
+  --section-block-radius: 18px;
+
+  /* Section header bar — primary (cyan) */
+  --section-header-bg:     var(--card-bg);       /* matches block background */
+  --section-header-border: var(--color-cyan);
+  --section-header-color:  var(--color-cyan);
+
+  /* Section header bar — alternate (purple) */
+  --section-header-bg-alt:     var(--card-bg);   /* matches block background */
+  --section-header-border-alt: var(--color-purple);
+  --section-header-color-alt:  var(--color-purple);
+
+  --section-body-padding: 1.5rem;
+  --section-desc-color:   var(--text-mid);
+}
+
+
+/* ── 12. Component tokens — Badges & labels ── */
+:root {
+  /* Eyebrow / overline labels (e.g. "COMMON", "HOW TO PLAY") */
+  --eyebrow-font-size:      var(--fs-xs);
+  --eyebrow-font-weight:    var(--fw-black);
+  --eyebrow-color:          var(--text-low);
+  --eyebrow-letter-spacing: 0.07em;
+
+  /* Rarity badge pill */
+  --rarity-badge-font-size:   var(--fs-xs);
+  --rarity-badge-font-weight: var(--fw-bold);
+  --rarity-badge-padding:     2px 7px;
+  --rarity-badge-radius:      4px;
+
+  /* Tier badge pill (floats above fish card top-left corner) */
+  --tier-badge-font-size:   var(--fs-xs);     /* was 0.6rem — consolidated to scale */
+  --tier-badge-font-weight: var(--fw-black);
+  --tier-badge-padding:     2px 10px;
+  --tier-badge-radius:      20px;
+  --tier-badge-color:       #ffffff;           /* always white — fixed regardless of theme */
+}
+
+
+/* ── 13. Component tokens — Stats & fish data ── */
+:root {
+  --stat-label-size:   var(--fs-xs);
+  --stat-label-weight: var(--fw-medium);
+  --stat-label-color:  var(--stat-text);
+  --stat-label-width:  44px;
+
+  --stat-bar-height: 6px;
+  --stat-bar-radius: 3px;
+  --stat-bar-bg:     rgba(255, 255, 255, 0.08);   /* empty track — white @ 8%, intentionally fixed */
+
+  --stat-number-color: var(--color-cyan);          /* large stat values */
+
+  --xp-color:      var(--text-mid);
+  --unknown-color: var(--text-disabled);           /* unmeasured / unreported fish data */
+}
+
+
+/* ── 14. Rarity colors — fixed, never theme-switched ── */
+/* Three tokens per rarity: accent/bar · badge background · badge text */
+:root {
+  --rarity-common:         #b8b8b8;
+  --rarity-common-bg:      #2a2a2a;
+  --rarity-common-text:    #cccccc;
+
+  --rarity-uncommon:       #3fff2e;
+  --rarity-uncommon-bg:    #1a3d22;
+  --rarity-uncommon-text:  #3dcc7a;
+
+  --rarity-rare:           #007bff;
+  --rarity-rare-bg:        #0d2a4a;
+  --rarity-rare-text:      #4a9eff;
+
+  --rarity-epic:           #aa00ff;
+  --rarity-epic-bg:        #2a0a4a;
+  --rarity-epic-text:      #cc66ff;
+
+  --rarity-legendary:      #ffaa00;
+  --rarity-legendary-bg:   #3a2000;
+  --rarity-legendary-text: #ffaa44;
+
+  --rarity-mythic:         #ff2626;
+  --rarity-mythic-bg:      #3a0808;
+  --rarity-mythic-text:    #ff6666;
+}
+
+
+/* ── 15. Tier colors — fixed, never theme-switched ── */
+:root {
+  --tier-normal:  #9b7d6a;
+  --tier-golden:  #ffb701;
   --tier-rainbow: #c43a9a;
   --tier-glowing: #00efe0;
-  --tier-shadow: #8800c3;
-
-  /* Nav */
-  --nav-height: 64px;
+  --tier-shadow:  #8800c3;
 }
 
-/* ── CSS Variables — Light Mode ── */
+
+/* ── 16. Layout & spacing tokens ── */
+:root {
+  --page-max-width:   1200px;
+  --page-padding-x:  1.5rem;
+  --page-padding-y:  2rem;
+
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
+  --space-2xl: 3rem;
+}
+
+
+/* ── 17. Light mode overrides ── */
 [data-theme="light"] {
-  --page-bg: #eaf6fb;
-  --nav-bg: #0a7a9a;
-  --nat-text: #0d1f3c;
-  --card-bg: #ffffff;
+  /* Backgrounds */
+  --page-bg:     #eaf6fb;
+  --nav-bg:      #0a7a9a;    /* nav stays dark in light mode */
+  --card-bg:     #ffffff;
   --card-bg-alt: #f0f8fd;
-  --footer-bg: #0a7a9a;
-  --border: var(--color-orange);
-  --hero-word-befish: var(--color-orange);
-  --hero-word-wiki: var(--color-cyan);
-  --btn-border: var(--color-orange);
-  --btn-border-hover: var(--color-cyan);
-  --section-header: var(--color-orange);
-  --text-hi: #0d1f3c;
-  --text-mid: #4a6080;
-  --text-low: #8aaabb;
+  --footer-bg:   #0a7a9a;    /* footer stays dark in light mode */
+
+  /* Text */
+  --text-hi:       #0d1f3c;
+  --text-mid:      #4a6080;
+  --text-low:      #8aaabb;
+  --text-disabled: #a0b8c8;
+  --stat-text:     #4a6080;
+
+  /* Borders */
+  --border:           var(--color-orange);
+  --border-card:      rgba(0, 144, 184, 0.12);
+  --border-card-hi:   rgba(0, 144, 184, 0.28);
+  --border-section:   rgba(0, 144, 184, 0.15);
+
+  /* Semantic aliases */
+  --hero-word-befish: var(--color-orange);   /* reversed from dark mode */
+  --hero-word-wiki:   var(--color-cyan);
+  --section-header:   var(--color-orange);
+
+  /* Buttons — primary shifts to orange in light mode for contrast */
+  --btn-primary-bg:             var(--color-orange);
+  --btn-primary-bg-hover:       var(--color-cyan);
+  --btn-primary-text:           #0d1f3c;
+  --btn-primary-text-hover:     #0d1f3c;
+  --btn-secondary-text:         var(--color-orange);
+  --btn-secondary-border:       var(--color-orange);
+  --btn-secondary-bg-hover:     var(--color-orange);
+  --btn-secondary-text-hover:   #0d1f3c;
+  --btn-border:                 var(--color-orange);
+  --btn-border-hover:           var(--color-cyan);
+
+  /* Cards */
+  --info-card-bg:        #f0f8fd;
+  --info-card-border:    rgba(0, 144, 184, 0.15);
+  --fish-card-bg:        #ffffff;
+  --feature-card-bg:     #ffffff;
+  --feature-card-border: rgba(0, 144, 184, 0.15);
+
+  /* Section blocks */
+  --section-block-bg:          #ffffff;
+  --section-block-border:      rgba(0, 144, 184, 0.12);
+  --section-header-bg:         #e0f4fa;
+  --section-header-border:     #0090b8;
+  --section-header-color:      #0090b8;
+  --section-header-bg-alt:     #f0e8fd;
+  --section-header-border-alt: #7b2fbe;
+  --section-header-color-alt:  #5a1a88;
+
+  /* Stat bar track — lighter surface in light mode */
+  --stat-bar-bg: rgba(0, 0, 0, 0.08);
 }
 
-/* ── Reset & Base ── */
+
+/* ── 18. Reset & base ── */
 *,
 *::before,
 *::after {
@@ -100,26 +388,32 @@ body {
   flex-direction: column;
   background: var(--page-bg);
   color: var(--text-hi);
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: var(--lh-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* ── Typography ── */
+
+/* ── 19. Typography base styles ── */
 h1, h2, h3, h4 {
-  font-family: 'Fredoka One', sans-serif;
-  line-height: 1.2;
+  font-family: var(--font-display);
+  line-height: var(--lh-tight);
   color: var(--text-hi);
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.4rem, 3vw, 2rem); }
-h3 { font-size: 1.2rem; }
+h1 { font-size: var(--fs-3xl); }
+h2 { font-size: var(--fs-2xl); }
+h3 { font-size: var(--fs-xl);  }
+h4 { font-size: var(--fs-lg);  }
 
-p { color: var(--text-mid); }
+p {
+  color: var(--text-mid);
+  font-size: var(--fs-base);
+  line-height: var(--lh-loose);
+}
 
 a {
   color: var(--accent);
@@ -130,11 +424,100 @@ a:hover {
   text-decoration: underline;
 }
 
-/* ── Layout Utilities ── */
+/* Eyebrow / overline label — use as a className directly in JSX */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--eyebrow-font-size);
+  font-weight: var(--eyebrow-font-weight);
+  color: var(--eyebrow-color);
+  letter-spacing: var(--eyebrow-letter-spacing);
+  text-transform: uppercase;
+}
+
+/* Muted caption / metadata — use as a className directly in JSX */
+.caption {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-low);
+}
+
+
+/* ── 20. Button base styles ── */
+/* Use .btn-primary and .btn-secondary directly as classNames in JSX.
+   Never redefine their color, padding, or radius in a .module.css file.
+   Add size modifiers alongside: className="btn-primary btn--lg"        */
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: var(--font-body);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  padding: var(--btn-padding);
+  border-radius: var(--btn-radius);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--btn-transition);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border-color: var(--btn-primary-border);
+}
+
+.btn-primary:hover {
+  background: var(--btn-primary-bg-hover);
+  color: var(--btn-primary-text-hover);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border-color: var(--btn-secondary-border);
+}
+
+.btn-secondary:hover {
+  background: var(--btn-secondary-bg-hover);
+  color: var(--btn-secondary-text-hover);
+  border-color: var(--btn-secondary-border-hover);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+/* Size modifiers — apply alongside .btn-primary or .btn-secondary */
+.btn--sm {
+  font-size: var(--fs-sm);
+  padding: 0.4rem 1rem;
+}
+
+.btn--lg {
+  font-size: var(--fs-md);
+  padding: 0.85rem 2rem;
+}
+
+/* Disabled state — applies to both */
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ── 21. Layout utilities ── */
 .page-wrap {
-  max-width: 1200px;
+  max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: var(--page-padding-y) var(--page-padding-x);
   flex: 1;
 }
 
@@ -142,8 +525,9 @@ main {
   flex: 1;
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; }
+
+/* ── 22. Scrollbar ── */
+::-webkit-scrollbar       { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--page-bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-purple); }
+::-webkit-scrollbar-thumb { background: var(--color-purple); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-cyan); }
