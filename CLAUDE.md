@@ -93,28 +93,65 @@ docs/
 
 - **CSS Modules** for all component styles — no inline styles, no global
   class names except what's defined in `globals.css`
-- **`globals.css`** owns: CSS variables, body/html resets, typography,
-  utility classes used across multiple components
+- **`globals.css`** owns: CSS variables, resets, base typography, and the
+  two global button classes (`.btn-primary`, `.btn-secondary`)
 - **Never use Tailwind** — not installed, not the approach for this project
-- **Dark mode is primary.** Light mode is secondary.
+- **Dark mode is primary.** Light mode is a secondary override via
+  `[data-theme="light"]` on the root element
 
-### Color System (CSS Variables)
+### Design theme
 
-Define in `globals.css` `:root` and `[data-theme="light"]`:
+Dark, aquatic, arcade-adjacent. The site is a fan wiki for a Roblox fishing
+game — the visual language should feel like the ocean at night: deep dark
+backgrounds, glowing cyan accents, electric purple section markers, and
+orange used only for calls-to-action and active states. Nothing should feel
+corporate or generic.
 
-```css
-/* Core palette — dark mode defaults */
---color-cyan: #00b8d9;       /* Primary accent: main headers, links */
---color-purple: #7b2fbe;     /* Section headers (all, no alternating) */
---color-orange: #f97316;     /* CTAs / highlights (one consistent role) */
---color-navy: #070c1c;       /* Page background */
---color-card: #0b1226;       /* Card backgrounds */
---color-border: #1e2d4a;     /* Borders */
---text-hi: #f0f4ff;          /* Primary text */
---text-mid: #8899bb;         /* Secondary text */
-```
+- **Cyan** — primary accent: main headings, links, key values, active data
+- **Purple** — section headers exclusively; do not alternate or reassign
+- **Orange** — CTAs and active nav only; one consistent role site-wide
+- **Rarity and tier colors** are fixed and never theme-switched — they are
+  the game's identity, not the site's UI chrome
 
-Rarity and tier colors come from `fishData.ts` — not CSS variables.
+### Variable lookup rule
+
+Before writing any value in a `.module.css` file:
+1. Check `globals.css` first — if a token exists for it, use it
+2. Match by *meaning*, not just name (e.g. nav link text → `--nav-text`,
+   not a locally invented `--nat-text`)
+3. A local CSS variable is only justified if the value is genuinely unique
+   to that one component with no global equivalent
+4. No hardcoded hex values, font strings, font-size literals, or
+   font-weight numbers anywhere in `.module.css` files — all values
+   come from tokens in `globals.css`
+
+### Token map (globals.css sections)
+
+| # | Section | Key tokens |
+|---|---------|------------|
+| 1 | Font families | `--font-display`, `--font-body` |
+| 2 | Type scale | `--fs-xs` → `--fs-3xl`, `--fw-regular` → `--fw-black` |
+| 3 | Core palette | `--color-cyan`, `--color-purple`, `--color-orange` |
+| 4 | Backgrounds | `--page-bg`, `--nav-bg`, `--card-bg`, `--card-bg-alt`, `--footer-bg` |
+| 5 | Text | `--text-hi`, `--text-mid`, `--text-low`, `--text-disabled`, `--stat-text` |
+| 6 | Borders | `--border`, `--border-card`, `--border-card-hi`, `--border-section` |
+| 7 | Nav | `--nav-text`, `--nav-text-hi`, `--nav-text-active`, `--nav-height` |
+| 8 | Semantic aliases | `--accent`, `--section-header`, `--cta`, `--hero-word-*` |
+| 9 | Buttons | `--btn-primary-*`, `--btn-secondary-*`, `--btn-font-*`, `--btn-radius` |
+| 10 | Cards | `--card-radius`, `--info-card-*`, `--fish-card-*`, `--feature-card-*` |
+| 11 | Section blocks | `--section-block-*`, `--section-header-*`, `--section-desc-color` |
+| 12 | Badges & labels | `--eyebrow-*`, `--rarity-badge-*`, `--tier-badge-*` |
+| 13 | Stats & fish data | `--stat-label-*`, `--stat-bar-*`, `--stat-number-color` |
+| 14 | Rarity colors | `--rarity-[name]`, `--rarity-[name]-bg`, `--rarity-[name]-text` |
+| 15 | Tier colors | `--tier-[name]` |
+
+### Buttons
+
+Two global classes defined in `globals.css` — use them directly in JSX,
+never redefine their color, padding, or radius in a module file:
+- `.btn-primary` — filled, high-contrast CTA
+- `.btn-secondary` — outlined, same shape
+- Size modifiers: `.btn--sm`, `.btn--lg`
 
 ---
 
