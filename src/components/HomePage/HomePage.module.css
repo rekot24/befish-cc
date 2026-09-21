@@ -4,9 +4,11 @@
   padding: 4rem 1rem 3rem;
 }
 
+/* Local eyebrow overrides the global .eyebrow class for hero context —
+   slightly larger and uses text-mid instead of text-low */
 .eyebrow {
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-mid);
@@ -14,10 +16,11 @@
 }
 
 .heroTitle {
-  font-family: 'Fredoka One', sans-serif;
+  font-family: var(--font-display);
+  /* Intentionally larger than --fs-3xl: hero needs more visual weight than standard h1 */
   font-size: clamp(2.5rem, 7vw, 4.5rem);
-  line-height: 1.1;
-  margin-bottom: 1rem;
+  line-height: var(--lh-tight);
+  margin-bottom: var(--space-md);
 }
 
 .wordBefish {
@@ -29,43 +32,32 @@
 }
 
 .tagline {
+  /* Fluid between --fs-md and slightly above --fs-lg — intentional range for readability */
   font-size: clamp(1rem, 2.5vw, 1.25rem);
   color: var(--text-mid);
   max-width: 480px;
-  margin: 0 auto 2rem;
+  margin: 0 auto var(--space-xl);
 }
 
 .heroCtas {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-md);
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.btn {
-  padding: 0.75rem 1.75rem;
-  border: 2px solid var(--btn-border);
-  color: var(--text-hi);
-  font-weight: 700;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: border-color 0.15s ease;
-}
-
-.btn:hover {
-  border-color: var(--btn-border-hover);
-  text-decoration: none;
-}
+/* NOTE: .btn is removed — use global .btn-primary / .btn-secondary classes
+   directly in HomePage.tsx instead. See globals.css section 20. */
 
 /* ── Stats bar ── */
 .statsBar {
   display: flex;
   justify-content: center;
   gap: 3rem;
-  padding: 2rem 1rem;
+  padding: var(--space-xl) var(--space-md);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  margin-bottom: 3rem;
+  margin-bottom: var(--space-2xl);
   flex-wrap: wrap;
 }
 
@@ -73,19 +65,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: var(--space-xs);
 }
 
 .statNumber {
-  font-family: 'Fredoka One', sans-serif;
+  font-family: var(--font-display);
+  /* Intentionally larger than --fs-2xl for visual impact in the stats bar */
   font-size: 2.5rem;
   line-height: 1;
-  color: var(--stat-number);
+  color: var(--stat-number-color);   /* was --stat-number — corrected to match token name */
 }
 
 .statLabel {
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-mid);
@@ -94,18 +87,18 @@
 /* ── About ── */
 .about {
   max-width: 700px;
-  margin: 0 auto 3rem;
+  margin: 0 auto var(--space-2xl);
   text-align: center;
 }
 
 .sectionHeader {
   color: var(--section-header);
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-md);
 }
 
 .aboutText {
   color: var(--text-mid);
-  line-height: 1.7;
+  line-height: var(--lh-loose);
 }
 
 /* ── Nav cards grid ── */
@@ -113,5 +106,5 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.25rem;
-  margin-bottom: 3rem;
+  margin-bottom: var(--space-2xl);
 }

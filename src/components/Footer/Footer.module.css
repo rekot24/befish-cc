@@ -1,12 +1,12 @@
 .footer {
   background: var(--footer-bg);
   border-top: 1px solid var(--border);
-  padding: 1.5rem;
+  padding: var(--space-lg);
   margin-top: auto;
 }
 
 .inner {
-  max-width: 1200px;
+  max-width: var(--page-max-width);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@
 }
 
 .credit {
-  font-size: 0.875rem;
+  font-size: var(--fs-base);
   color: var(--text-mid);
 }
 
@@ -33,8 +33,8 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
   padding: 0.3rem 0.85rem;
   border-radius: 20px;
   text-decoration: none;
@@ -46,17 +46,18 @@
   text-decoration: none;
 }
 
+/* Brand colors — fixed regardless of theme; these are YouTube and Discord identity colors */
 .youtube {
   background: #ff0000;
-  color: #fff;
+  color: #ffffff;
 }
 
 .discord {
   background: #5865f2;
-  color: #fff;
+  color: #ffffff;
 }
 
 .disclaimer {
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   color: var(--text-low);
 }
