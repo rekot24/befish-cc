@@ -7,22 +7,18 @@ interface SectionBlockProps {
   icon: string;
   /** Section heading text */
   title: string;
-  /** 'cyan' = primary header style, 'purple' = alternate header style.
-   *  Alternate between them across sections on the same page. */
-  variant?: 'cyan' | 'purple';
   /** Optional short description shown below the header */
   desc?: string;
   /** Section body content — info grids, tables, tip boxes, etc. */
   children?: React.ReactNode;
 }
 
-/** A single collapsible content section: icon + title header bar over a body. Used to
+/** A single content section: icon + title header bar over a body. Used to
  *  build every content page (How to Play, Mechanics, Tips) out of consistent blocks. */
 export default function SectionBlock({
   id,
   icon,
   title,
-  variant = 'cyan',
   desc,
   children,
 }: SectionBlockProps) {
@@ -32,7 +28,7 @@ export default function SectionBlock({
       className={styles.block}
       aria-labelledby={`${id}-heading`}
     >
-      <div className={`${styles.header} ${variant === 'purple' ? styles.headerPurple : ''}`}>
+      <div className={styles.header}>
         <span className={styles.icon} aria-hidden="true">{icon}</span>
         <h2 id={`${id}-heading`} className={styles.title}>{title}</h2>
       </div>

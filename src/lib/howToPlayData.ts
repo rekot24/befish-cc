@@ -11,7 +11,6 @@ export type BoostCardData = {
   name: string;
   desc: string;
   duration: string;
-  durationColor: 'green' | 'red' | 'blue';
 };
 
 export type PassCardData = {
@@ -75,12 +74,12 @@ export const SCREEN_ELEMENTS: ScreenElementData[] = [
 ];
 
 export const BOOSTS: BoostCardData[] = [
-  { icon: '🍀', name: 'Luck Boost',    duration: '10 min', durationColor: 'green', desc: '+100% Luck. Increases your luck by 100.' },
-  { icon: '🟠', name: 'Growth Boost',  duration: '5 min',  durationColor: 'red',   desc: '+100% Growth. Your fish gains size twice as fast from eating food and other players.' },
-  { icon: '⚗️', name: 'XP Boost',      duration: '10 min', durationColor: 'blue',  desc: '+100% XP. Increases your in-game XP multiplier.' },
-  { icon: '💨', name: 'Speed Boost',   duration: '5 min',  durationColor: 'blue',  desc: '+50% Movement Speed. Increases your movement speed.' },
-  { icon: '☘️', name: 'Super Luck',    duration: '30 min', durationColor: 'green', desc: '+1000% Luck. Increases your luck by 1000.' },
-  { icon: '⚗️', name: 'Super XP',      duration: '30 min', durationColor: 'blue',  desc: '+250% XP for 30 minutes. A sustained surge — best during active sessions with a high-XP fish equipped.' },
+  { icon: '🍀', name: 'Luck Boost',    duration: '10 min', desc: '+100% Luck. Increases your luck by 100.' },
+  { icon: '🟠', name: 'Growth Boost',  duration: '5 min',  desc: '+100% Growth. Your fish gains size twice as fast from eating food and other players.' },
+  { icon: '⚗️', name: 'XP Boost',      duration: '10 min', desc: '+100% XP. Increases your in-game XP multiplier.' },
+  { icon: '💨', name: 'Speed Boost',   duration: '5 min',  desc: '+50% Movement Speed. Increases your movement speed.' },
+  { icon: '☘️', name: 'Super Luck',    duration: '30 min', desc: '+1000% Luck. Increases your luck by 1000.' },
+  { icon: '⚗️', name: 'Super XP',      duration: '30 min', desc: '+250% XP for 30 minutes. A sustained surge — best during active sessions with a high-XP fish equipped.' },
 ];
 
 export const PASSES: PassCardData[] = [

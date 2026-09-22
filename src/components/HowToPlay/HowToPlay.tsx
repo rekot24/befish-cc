@@ -31,7 +31,7 @@ export default function HowToPlay() {
       />
 
       {/* ── The Basics ── */}
-      <SectionBlock id="basics" icon="🐠" title="The Basics" variant="cyan"
+      <SectionBlock id="basics" icon="🐠" title="The Basics"
         desc="Be Fish is an idle fish collection game on Roblox. You control a fish in the fish tank. Eat food pellets and other fish to grow larger and collect fish in your net. The fish you have equipped determines your Growth, Speed, and XP multiplier stats. Higher-tier and rarer fish have dramatically better stats."
       >
         <p className={styles.bodyText}>
@@ -57,7 +57,7 @@ export default function HowToPlay() {
       </SectionBlock>
 
       {/* ── Fish Stats ── */}
-      <SectionBlock id="fish-stats" icon="📊" title="Fish Stats" variant="purple"
+      <SectionBlock id="fish-stats" icon="📊" title="Fish Stats"
         desc="Every fish has two core stats displayed as a bar. The Fish Dex on this wiki converts those bars to a 1–100 numerical scale for easy comparison. Stats shown as ??? haven't been measured yet."
       >
         <InfoGrid>
@@ -73,7 +73,7 @@ export default function HowToPlay() {
       </SectionBlock>
 
       {/* ── Game Screen Guide ── */}
-      <SectionBlock id="screen-guide" icon="🖥️" title="In-Tank Game Screen Guide" variant="cyan"
+      <SectionBlock id="screen-guide" icon="🖥️" title="In-Tank Game Screen Guide"
         desc="Every element you see during gameplay, explained:"
       >
         <DataTable
@@ -88,21 +88,20 @@ export default function HowToPlay() {
       </SectionBlock>
 
       {/* ── Boosts ── */}
-      <SectionBlock id="boosts" icon="🫧" title="Boosts" variant="purple"
+      <SectionBlock id="boosts" icon="🫧" title="Boosts"
         desc="Boosts are temporary power-ups purchased with Robux. They last for a set duration, then expire. You can use more than one, but it only increases the time, not the bonus. Access them from the Boosts button at the bottom-right of the game screen. All boosts stack with passes and Fishdex bonuses."
       >
-        <div className={styles.boostGrid}>
+        <InfoGrid>
           {BOOSTS.map(boost => (
-            <div key={boost.name} className={styles.boostCard}>
-              <span className={`${styles.durTag} ${styles[`dur${capitalize(boost.durationColor)}`]}`}>
-                {boost.duration}
-              </span>
-              <span className={styles.boostIcon}>{boost.icon}</span>
-              <span className={styles.boostName}>{boost.name}</span>
-              <p className={styles.boostDesc}>{boost.desc}</p>
-            </div>
+            <InfoCard
+              key={boost.name}
+              label={boost.duration}
+              icon={boost.icon}
+              value={boost.name}
+              note={boost.desc}
+            />
           ))}
-        </div>
+        </InfoGrid>
         <TipBox>
           💡 Luck boosts are the worst value — unlikely to make any significant impact for the
           cost. Don&apos;t buy boosts unless you&apos;ve already bought all the passes.
@@ -110,18 +109,19 @@ export default function HowToPlay() {
       </SectionBlock>
 
       {/* ── Passes ── */}
-      <SectionBlock id="passes" icon="🎫" title="Passes" variant="cyan"
+      <SectionBlock id="passes" icon="🎫" title="Passes"
         desc="Passes are permanent upgrades purchased with Robux. One-time purchase that never expires and is always active — unlike boosts, which are temporary."
       >
-        <div className={styles.passGrid}>
+        <InfoGrid>
           {PASSES.map(pass => (
-            <div key={pass.name} className={styles.passCard}>
-              <span className={styles.passIcon}>{pass.icon}</span>
-              <span className={styles.passName}>{pass.name}</span>
-              <p className={styles.passDesc}>{pass.desc}</p>
-            </div>
+            <InfoCard
+              key={pass.name}
+              icon={pass.icon}
+              value={pass.name}
+              note={pass.desc}
+            />
           ))}
-        </div>
+        </InfoGrid>
         <TipBox>
           💡 If you&apos;re only buying one pass, <strong>Double Loot</strong> gives the best
           return — it permanently doubles every net you get. If you plan to play for any
@@ -130,17 +130,18 @@ export default function HowToPlay() {
       </SectionBlock>
 
       {/* ── Gems ── */}
-      <SectionBlock id="gems" icon="💎" title="Gems" variant="purple"
+      <SectionBlock id="gems" icon="💎" title="Gems"
         desc="Gems are the premium currency in Be Fish, purchased with Robux. Their primary use is to instantly skip Treasure Chest unlock timers, giving you immediate access to the fish inside and permanently increasing Luck. Pricing varies per account, time period, and geographic region."
       >
-        <div className={styles.gemGrid}>
+        <InfoGrid>
           {GEM_AMOUNTS.map(gem => (
-            <div key={gem.amount} className={styles.gemCard}>
-              <span className={styles.gemAmount}>{gem.amount}</span>
-              <span className={styles.gemLabel}>Gems</span>
-            </div>
+            <InfoCard
+              key={gem.amount}
+              value={gem.amount}
+              label="Gems"
+            />
           ))}
-        </div>
+        </InfoGrid>
         <TipBox>
           📦 Gems are the only way to achieve high levels of luck without waiting years. It takes
           roughly 14,500 chests opened to achieve 50,000 luck — about 54.5 million gems, or almost

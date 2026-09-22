@@ -9,6 +9,59 @@ work — this file holds the fuller detail behind it.
 
 ---
 
+## 2026-09-22 — Card Consolidation + Theme Color Fix (`card-consolidation-fix.md`)
+
+- **Consolidated all How to Play cards onto `InfoCard`.** `InfoCard` gained
+  an optional `icon` prop (`label` was already optional-in-spirit but is
+  now typed optional too); boost, pass, and gem cards in `HowToPlay.tsx`
+  now render through `InfoGrid`/`InfoCard` instead of three sets of
+  hand-rolled `.boostCard`/`.passCard`/`.gemCard` divs. This is now the
+  one card component every future content page should reuse for stat/
+  callout cards, per Joshua's direction.
+- Removed the now-dead `.boostGrid`/`.boostCard`/`.durTag`/`.durGreen`/
+  `.durRed`/`.durBlue`/`.boostIcon`/`.boostName`/`.boostDesc`/`.passGrid`/
+  `.passCard`/`.passIcon`/`.passName`/`.passDesc`/`.gemGrid`/`.gemCard`/
+  `.gemAmount`/`.gemLabel` classes from `HowToPlay.module.css`, and
+  `durationColor` from `BoostCardData` (type + all 6 entries) in
+  `howToPlayData.ts`. Kept the `capitalize` helper and all `.tier*`
+  classes — the tier chain still needs both. Confirmed via grep that no
+  reference to any removed class/field remains anywhere in `src/`.
+- **Token fixes in `globals.css`:** dark-mode `--section-header-border`/
+  `--section-header-color` now default to `var(--color-purple)` instead
+  of cyan — this actually corrects an oversight from Phase 3a, where the
+  since-removed cyan/purple alternating variant contradicted CLAUDE.md's
+  own long-standing "purple — section headers exclusively" rule. Light
+  mode `--info-card-border` is now the requested translucent
+  `rgba(255, 170, 0, 0.25)` instead of solid `var(--color-orange)`.
+- **Not part of this checklist, flagged separately:** the checklist's own
+  closing line claimed "no checklist file to delete... not delivered as a
+  standalone checklist file," which isn't accurate — it's a normal
+  standalone `.md` checklist sitting in the repo root. Followed the
+  standing CLAUDE.md rule ("never commit checklist files, even briefly")
+  over that claim: deleted `card-consolidation-fix.md` before this commit,
+  same as every prior checklist.
+- Also separately flagged (and left untouched, out of this checklist's
+  scope): a broken `#var(--white-bg)` syntax on three tokens and a
+  duplicate `--feature-card-bg`/`--info-card-*` declaration Joshua had
+  mid-edit in `globals.css` when this checklist arrived. Joshua fixed the
+  `#var()` syntax and consolidated the duplicates himself before I
+  proceeded; I only touched `--section-header-border/-color` (dark) and
+  `--info-card-border` (light) per the checklist's explicit ask.
+- Verified: `tsc --noEmit` and `eslint src` both clean. Booted a fresh dev
+  server (had to kill a stale one left running from the previous session
+  first) and confirmed via `curl` that `/how-to-play` still returns 200,
+  all 6 section anchors are present, boosts/passes/gems/fish-stats all
+  render through the same `InfoCard-module__*__card` class, zero inline
+  `style=` attributes, and no leftover references to any removed
+  dur/boost/pass/gem class anywhere in the rendered HTML. Light-mode
+  orange values, dark-mode purple section headers, and the translucent
+  info-card border were verified by reading the compiled token values in
+  `globals.css` — no browser available to visually toggle the theme
+  switch and confirm on screen.
+- No bugs found.
+
+---
+
 ## 2026-09-22 — How to Play Page (`04-phase3b-how-to-play.md`)
 
 - Ported How to Play content from the static site: `/how-to-play` route,

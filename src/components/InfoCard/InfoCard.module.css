@@ -16,6 +16,11 @@
   letter-spacing: 0.07em;
 }
 
+.icon {
+  font-size: var(--fs-xl);
+  line-height: 1;
+}
+
 .value {
   font-family: var(--font-display);
   font-size: var(--fs-lg);

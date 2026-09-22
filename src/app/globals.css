@@ -89,11 +89,13 @@
 
 /* ── 4. Backgrounds ── */
 :root {
-  --page-bg:     #0F112E;
-  --nav-bg:      #04080f;
-  --card-bg:     #0A0C1F;
-  --card-bg-alt: #0d1530;
-  --footer-bg:   #04080f;
+  --page-bg:         #0F112E;
+  --nav-bg:          #04080f;
+  --card-bg:         #0A0C1F;
+  --card-bg-alt:     #0d1530;
+  --footer-bg:       #04080f;
+  --white-bg:        #ffffff;
+  --light-orange-bg: #FFF8EB;
 }
 
 
@@ -206,16 +208,12 @@
   --section-block-border: var(--border-card);
   --section-block-radius: 18px;
 
-  /* Section header bar — primary (cyan) */
+  /* Section header bar — purple, exclusively (see CLAUDE.md Design theme) */
   --section-header-bg:     var(--card-bg);       /* matches block background */
-  --section-header-border: var(--color-cyan);
-  --section-header-color:  var(--color-cyan);
+  --section-header-border: var(--color-purple);
+  --section-header-color:  var(--color-purple);
 
-  /* Section header bar — alternate (purple) */
-  --section-header-bg-alt:     var(--card-bg);   /* matches block background */
-  --section-header-border-alt: var(--color-purple);
-  --section-header-color-alt:  var(--color-purple);
-
+  /* Section body */
   --section-body-padding: 1.5rem;
   --section-desc-color:   var(--text-mid);
 
@@ -243,7 +241,7 @@
   --tier-badge-font-weight: var(--fw-black);
   --tier-badge-padding:     2px 10px;
   --tier-badge-radius:      20px;
-  --tier-badge-color:       #ffffff;           /* always white — fixed regardless of theme */
+  --tier-badge-color:       var(--white-bg);           /* always white — fixed regardless of theme */
 }
 
 
@@ -333,7 +331,7 @@
   /* Backgrounds */      
   --page-bg:     #eaf6fb;
   --nav-bg:      #0a7a9a;  /*  nav stays dark in light mode */
-  --card-bg:     #ffffff;
+  --card-bg:     var(--white-bg);
   --card-bg-alt: #f0f8fd;
   --footer-bg:   #0a7a9a;    /* footer stays dark in light mode */
 
@@ -343,7 +341,7 @@
   --text-low:      #8aaabb;
   --text-disabled: #a0b8c8;
   --stat-text:     #4a6080;
-  --footer-text:   #ffffff;   /* footer text stays white in light mode */
+  --footer-text:   var(--white-bg);
 
   /* Borders */
   --border:           var(--color-orange);
@@ -369,11 +367,10 @@
   --btn-primary-border-hover: var(--color-cyan);
 
   /* Cards */
-  --info-card-bg:        #f0f8fd;
-  --info-card-border:    rgba(0, 144, 184, 0.15);
-  --fish-card-bg:        #ffffff;
-  --feature-card-bg:     #ffffff;
-  --feature-card-border: rgba(0, 144, 184, 0.15);
+  --info-card-bg:              var(--white-bg);
+  --info-card-border:          rgba(255, 170, 0, 0.25);
+  --info-card-val-color:       var(--color-orange);
+  --fish-card-bg:        var(--white-bg);
 
   /* Feature cards (home page) */
   --feature-card-bg:     var(--card-bg);
@@ -381,14 +378,11 @@
   --feature-card-hover:  var(--color-cyan);
 
   /* Section blocks */
-  --section-block-bg:          #ffffff;
-  --section-block-border:      rgba(0, 144, 184, 0.12);
-  --section-header-bg:         #e0f4fa;
-  --section-header-border:     #0090b8;
-  --section-header-color:      #0090b8;
-  --section-header-bg-alt:     #f0e8fd;
-  --section-header-border-alt: #7b2fbe;
-  --section-header-color-alt:  #5a1a88;
+  --section-block-bg:          var(--light-orange-bg);
+  --section-block-border:      var(--color-orange);
+  --section-header-bg:         var(--white-bg);   /* matches block background */
+  --section-header-border:     var(--color-orange);
+  --section-header-color:      var(--color-orange);
 
   /* Stat bar track — lighter surface in light mode */
   --stat-bar-bg: rgba(0, 0, 0, 0.08);
