@@ -1,0 +1,10 @@
+.box {
+  background: var(--tip-box-bg);
+  border: 1px solid var(--border-interactive);
+  border-radius: 8px;
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--fs-base);
+  color: var(--text-mid);
+  line-height: var(--lh-loose);
+  margin-top: var(--space-lg);
+}

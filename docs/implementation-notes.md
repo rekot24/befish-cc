@@ -9,6 +9,42 @@ work — this file holds the fuller detail behind it.
 
 ---
 
+## 2026-09-21 — SectionBlock + Shared Content Components (`03-phase3a-section-components.md`)
+
+- Built six presentational components, one folder each per Component
+  Conventions: `SectionBlock` (icon/title header bar + body, cyan/purple
+  variant, anchor `id` for search + sticky nav), `TipBox` (inline callout),
+  `InfoCard` + `InfoGrid` (stat tiles + responsive grid wrapper),
+  `DataTable` (headers/rows reference table), `PageHeading` (centered
+  title/subtitle for page tops).
+- None are wired into a page route yet — that starts in Phase 3b. Their
+  correctness was verified in isolation only (typecheck + lint).
+- Added a one-line JSDoc comment above each component function per the
+  "every function gets a docstring" standing instruction — none of the
+  rest of `web-app-framework.md` (Supabase async patterns, loading/error/
+  empty states, persistent logging) applies here since these are pure
+  presentational components with no data fetching.
+- **Deviations (agreed with Joshua before implementing):** the checklist's
+  `TipBox.module.css` hardcoded `background: rgba(0, 240, 222, 0.04)` — a
+  new cyan alpha stop with no matching token. Added `--tip-box-bg` to
+  `globals.css` §11 (Section blocks) instead of the literal value; no
+  light-mode override needed, matching the precedent already set by
+  `--border-interactive`/`--accent-wash` (Phase 2), which are also fixed
+  across themes since `--color-cyan` itself never theme-switches.
+  `DataTable.module.css`'s zebra-stripe `rgba(255, 255, 255, 0.02)` was
+  left hardcoded with an "intentionally fixed" comment, matching the
+  existing neutral-overlay convention (`Nav.module.css`,
+  `--fish-card-body-bg`) rather than inventing a token for one use.
+- Also updated CLAUDE.md's "Current phase" pointer (Phase 2 → Phase 3b),
+  which had gone stale after the Phase 2 commit — per this session's own
+  fix to the standing instructions, that pointer should stay current.
+- Verified: `tsc --noEmit` and `eslint src` both clean. No dev-server/
+  visual check performed — the checklist's own Step 4 only requires
+  isolated typecheck/lint since nothing is rendered on a page yet.
+- No bugs found.
+
+---
+
 ## 2026-09-21 — Nav Search Bar (`02-phase2-search-bar.md`)
 
 - Added `--search-max-results: 7` to `globals.css` §16, created

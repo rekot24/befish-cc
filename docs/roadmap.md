@@ -60,14 +60,14 @@ Retrofitting search after pages are built is significantly harder.*
 Game Mechanics has a sticky section nav due to content volume.*
 
 ### 3a — Shared section page layout
-- [ ] Design section page layout in mockup (claude.ai planning session)
+- [x] Design section page layout in mockup (claude.ai planning session)
   - Dark card blocks for each section
   - Cyan / purple alternating section header bars (tokens already defined)
   - Consistent spacing using `--space-*` and `--section-body-padding`
-- [ ] Build reusable `SectionBlock` component (`src/components/SectionBlock/`)
+- [x] Build reusable `SectionBlock` component (`src/components/SectionBlock/`)
   - Props: `title`, `variant` (cyan | purple), `children`
   - Handles header bar color via variant prop
-- [ ] Add section anchor IDs to all section blocks (required for search + sticky nav)
+- [x] Add section anchor IDs to all section blocks (required for search + sticky nav)
 
 ### 3b — How to Play (`/how-to-play`)
 - [ ] Port content from `how-to-play.html` (static site) to Next.js page
@@ -205,4 +205,4 @@ Game Mechanics has a sticky section nav due to content volume.*
 ---
 
 ## Current focus
-Phase 3a — Shared section page layout and SectionBlock component.
+Phase 3b — How to Play page (/how-to-play).

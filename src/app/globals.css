@@ -218,6 +218,9 @@
 
   --section-body-padding: 1.5rem;
   --section-desc-color:   var(--text-mid);
+
+  /* Tip callout box */
+  --tip-box-bg: rgba(0, 240, 222, 0.04);   /* cyan @ 4% — subtle tip callout tint */
 }
 
 

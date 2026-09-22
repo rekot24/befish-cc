@@ -1,0 +1,51 @@
+.block {
+  background: var(--section-block-bg);
+  border: 1px solid var(--section-block-border);
+  border-radius: var(--section-block-radius);
+  overflow: hidden;
+  margin-bottom: var(--space-xl);
+}
+
+/* ── Header bar ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--section-header-bg);
+  border-bottom: 2px solid var(--section-header-border);
+}
+
+.headerPurple {
+  background: var(--section-header-bg-alt);
+  border-bottom-color: var(--section-header-border-alt);
+}
+
+.icon {
+  font-size: var(--fs-xl);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  color: var(--section-header-color);
+  margin: 0;
+}
+
+.headerPurple .title {
+  color: var(--section-header-color-alt);
+}
+
+/* ── Body ── */
+.body {
+  padding: var(--section-body-padding);
+}
+
+.desc {
+  color: var(--section-desc-color);
+  font-size: var(--fs-base);
+  line-height: var(--lh-loose);
+  margin-bottom: var(--space-lg);
+}
