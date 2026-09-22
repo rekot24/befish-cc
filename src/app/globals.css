@@ -89,13 +89,16 @@
 
 /* ── 4. Backgrounds ── */
 :root {
-  --page-bg:         #0F112E;
-  --nav-bg:          #04080f;
-  --card-bg:         #0A0C1F;
-  --card-bg-alt:     #0d1530;
-  --footer-bg:       #04080f;
-  --white-bg:        #ffffff;
-  --light-orange-bg: #FFF8EB;
+  --page-bg:          #0F112E;
+  --nav-bg:           #04080f;
+  --card-bg:          #0A0C1F;
+  --card-bg-alt:      #0d1530;
+  --footer-bg:        var(--nav-bg);
+  --white-bg:         #ffffff;
+  --light-orange-bg:  #FFF8EB;
+  --dark-purple-bg:   rgba(0, 240, 222, 0.04);
+  --deep-purple-bg:   #1B0029;
+  --table-row-alt:    rgba(255, 255, 255, 0.02);
 }
 
 
@@ -186,7 +189,7 @@
   --info-card-bg:          var(--card-bg);
   --info-card-border:      var(--color-cyan);
   --info-card-val-color:   var(--color-cyan);   /* the big number/value */
-  --info-card-label-color: var(--text-low);
+  --info-card-label-color: var(--text-mid);
 
   /* Fish cards */
   --fish-card-bg:     var(--card-bg);
@@ -204,13 +207,13 @@
 /* ── 11. Component tokens — Section blocks ── */
 /* Used on How to Play, Tips, and similar content-section pages */
 :root {
-  --section-block-bg:     var(--card-bg);
+  --section-block-bg:     var(--dark-purple-bg);
   --section-block-border: var(--border-card);
   --section-block-radius: 18px;
 
   /* Section header bar — purple, exclusively (see CLAUDE.md Design theme) */
   --section-header-bg:     var(--card-bg);       /* matches block background */
-  --section-header-border: var(--color-purple);
+  --section-header-border: var(--color-cyan);
   --section-header-color:  var(--color-purple);
 
   /* Section body */
@@ -218,7 +221,7 @@
   --section-desc-color:   var(--text-mid);
 
   /* Tip callout box */
-  --tip-box-bg: rgba(0, 240, 222, 0.04);   /* cyan @ 4% — subtle tip callout tint */
+  --tip-box-bg: var(--card-bg);  
 }
 
 
@@ -323,17 +326,19 @@
 /* ── 17. Light mode overrides ── */
 [data-theme="light"] {
   /* Nav Logo */
-  --logo-befish: var(--color-orange);
-  --logo-wiki:   var(--color-cyan);
-  --nav-text-active: var(--color-orange);
-  --nav-text-ative-hover: var(--nav-text-hover);
+  --logo-befish:          var(--color-orange);
+  --logo-wiki:            var(--color-cyan);
+  --nav-text-hover:       #0d1f3c;
+  --nav-text-active:      var(--color-orange);
+  --nav-text-ative-hover: #0d1f3c;
 
   /* Backgrounds */      
   --page-bg:     #eaf6fb;
-  --nav-bg:      #0a7a9a;  /*  nav stays dark in light mode */
+  --nav-bg:      var(--white-bg);  /* #0a7a9a;  /*  nav stays dark in light mode */
   --card-bg:     var(--white-bg);
   --card-bg-alt: #f0f8fd;
-  --footer-bg:   #0a7a9a;    /* footer stays dark in light mode */
+  --footer-bg:   var(--white-bg);   
+  --table-row-alt: rgba(0, 0, 0, 0.04);
 
   /* Text */
   --text-hi:       #0d1f3c;
@@ -341,13 +346,13 @@
   --text-low:      #8aaabb;
   --text-disabled: #a0b8c8;
   --stat-text:     #4a6080;
-  --footer-text:   var(--white-bg);
+  --footer-text:   var(--text-mid);
 
   /* Borders */
   --border:           var(--color-orange);
-  --border-card:      rgba(0, 144, 184, 0.12);
-  --border-card-hi:   rgba(0, 144, 184, 0.28);
-  --border-section:   rgba(0, 144, 184, 0.15);
+  --border-card:      rgba(255, 170, 0, 0.12);
+  --border-card-hi:   rgba(255, 170, 0, 0.28);
+  --border-section:   rgba(255, 170, 0, 0.15);
 
   /* Semantic aliases */
   --hero-word-befish: var(--color-orange);   /* reversed from dark mode */
@@ -368,7 +373,7 @@
 
   /* Cards */
   --info-card-bg:              var(--white-bg);
-  --info-card-border:          rgba(255, 170, 0, 0.25);
+  --info-card-border:          var(--color-orange);
   --info-card-val-color:       var(--color-orange);
   --fish-card-bg:        var(--white-bg);
 
