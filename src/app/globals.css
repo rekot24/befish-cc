@@ -91,7 +91,7 @@
 :root {
   --page-bg:     #0F112E;
   --nav-bg:      #04080f;
-  --card-bg:     #0b1226;
+  --card-bg:     #0A0C1F;
   --card-bg-alt: #0d1530;
   --footer-bg:   #04080f;
 }
@@ -143,8 +143,8 @@
 /* ── 9. Component tokens — Buttons ── */
 :root {
   /* Primary button — filled, cyan background */
-  --btn-primary-bg:           transparent;
-  --btn-primary-bg-hover:     transparent;
+  --btn-primary-bg:           var(--card-bg);
+  --btn-primary-bg-hover:     var(--card-bg);
   --btn-primary-text:         var(--text-hi);   /* dark text on bright cyan — use page-bg value */
   --btn-primary-text-hover:   var(--text-hi);
   --btn-primary-border:       var(--color-cyan);
@@ -175,7 +175,7 @@
   --card-shadow:  0 2px 16px rgba(0, 0, 0, 0.35);
 
   /* Info cards (stat callouts, gem amounts, pass/boost cards) */
-  --info-card-bg:          var(--card-bg-alt);
+  --info-card-bg:          var(--card-bg);
   --info-card-border:      var(--color-cyan);
   --info-card-val-color:   var(--color-cyan);   /* the big number/value */
   --info-card-label-color: var(--text-low);
@@ -318,9 +318,9 @@
   --nav-text-active: var(--color-orange);
   --nav-text-ative-hover: var(--nav-text-hover);
 
-  /* Backgrounds */
+  /* Backgrounds */      
   --page-bg:     #eaf6fb;
-  --nav-bg:      #0a7a9a;    /* nav stays dark in light mode */
+  --nav-bg:      #0a7a9a;  /*  nav stays dark in light mode */
   --card-bg:     #ffffff;
   --card-bg-alt: #f0f8fd;
   --footer-bg:   #0a7a9a;    /* footer stays dark in light mode */
@@ -331,6 +331,7 @@
   --text-low:      #8aaabb;
   --text-disabled: #a0b8c8;
   --stat-text:     #4a6080;
+  --footer-text:   #ffffff;   /* footer text stays white in light mode */
 
   /* Borders */
   --border:           var(--color-orange);
@@ -344,8 +345,8 @@
   --section-header:   var(--color-orange);
 
   /* Buttons — primary shifts to orange in light mode for contrast */
-  --btn-primary-bg:             transparent;
-  --btn-primary-bg-hover:       transparent;
+  --btn-primary-bg:             var(--card-bg);
+  --btn-primary-bg-hover:       var(--card-bg);
   --btn-primary-text:           #0d1f3c;
   --btn-primary-text-hover:     #0d1f3c;
   --btn-secondary-text:         var(--color-orange);
