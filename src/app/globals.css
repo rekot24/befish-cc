@@ -188,7 +188,7 @@
   /* Info cards (stat callouts, gem amounts, pass/boost cards) */
   --info-card-bg:          var(--card-bg);
   --info-card-border:      var(--color-cyan);
-  --info-card-val-color:   var(--color-cyan);   /* the big number/value */
+  --info-card-val-color:   var(--color-purple);   /* the big number/value */
   --info-card-label-color: var(--text-mid);
 
   /* Fish cards */
