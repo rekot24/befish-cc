@@ -9,6 +9,63 @@ work — this file holds the fuller detail behind it.
 
 ---
 
+## 2026-09-22 — Tips & Tricks Page (`05-phase3c-tips.md`)
+
+- Ported Tips & Tricks content from the static site: `/tips` route,
+  `src/lib/tipsData.ts`, and the `Tips` component built from the same
+  shared components as How to Play (`SectionBlock`, `PageHeading`,
+  `TipBox`, `InfoCard`, `InfoGrid`) plus a page-specific `Tips.module.css`
+  for the tip list and pass-priority list. 6 sections: Getting Started,
+  Luck Milestones, General Tips, Spotting Auto Farmers, Pass Priority,
+  Leaderboards.
+- Added 6 entries to `src/lib/searchIndex.ts`.
+- **Pass Priority** uses a custom numbered-list layout (rank + name +
+  desc) rather than the `InfoCard` component, but reuses `InfoCard`'s
+  exact tokens (`--info-card-bg`/`-border`/`-val-color`) so it stays
+  theme-consistent — the checklist called this out explicitly since the
+  shape (ranked list row) genuinely doesn't fit `InfoCard`'s stacked
+  label/value/note layout.
+- **Known issue resolved for real:** `docs/roadmap.md`'s "General Tips
+  section header inconsistency (icon vs label)" is now structurally
+  impossible to recur — every section goes through `SectionBlock`, which
+  always renders icon + title together. Marked complete in the roadmap
+  and moved to the "resolved" list in `docs/project-reference.md`.
+- **Clarification exchange with Joshua before/during implementation:**
+  the checklist's own text asserted `--accent` should be "cyan in dark,
+  orange in light," which would have required adding a light-mode
+  override. Flagged it; Joshua corrected course — `--accent` (links,
+  arrows, interactive highlights) is intentionally the same cyan in both
+  themes, and the actual per-theme system is: dark mode cyan=interactive,
+  purple=primary UI (headers/values/nav-active), orange=reserved; light
+  mode cyan=interactive (unchanged), orange=primary UI, purple=reserved.
+  No `--accent` change made — the checklist's inline color-standard note
+  was simply imprecise, not a bug. Updated CLAUDE.md's Design Theme
+  section to state the corrected per-theme system so it doesn't mislead
+  the next checklist.
+- **New gap found and documented, not fixed (out of this checklist's
+  scope):** applying the corrected color system to `--cta` surfaced a
+  real mismatch — `--cta` is hardcoded to orange in both themes, and the
+  light-mode block explicitly flips buttons to orange too, both
+  contradicting "CTAs are cyan in both themes." `--cta` isn't referenced
+  anywhere in `src/` yet so nothing renders incorrectly today, but the
+  button tokens are live and do contradict the stated system. Logged as
+  a design-token gap in `docs/project-reference.md` rather than resolved
+  unilaterally, since it's a cross-cutting button/CTA decision outside
+  the Tips page's scope.
+- Verified: `tsc --noEmit` and `eslint src` both clean. Joshua had an
+  active dev server already running with a live browser connection to it
+  (visible via `netstat`), so rather than kill and restart it, I queried
+  that existing server directly with `curl` — Next's dev server
+  hot-reloads on file change, and the response confirmed all 6 section
+  anchors present, all 4 external links (2 new Tips links + Footer's
+  existing YouTube/Discord) carry `target="_blank" rel="noopener
+  noreferrer"`, Leaderboards renders through the same `InfoCard` class
+  used elsewhere, and zero inline `style=` attributes anywhere on the
+  page.
+- No bugs found.
+
+---
+
 ## 2026-09-22 — Card Consolidation + Theme Color Fix (`card-consolidation-fix.md`)
 
 - **Consolidated all How to Play cards onto `InfoCard`.** `InfoCard` gained

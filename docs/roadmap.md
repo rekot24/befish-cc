@@ -78,10 +78,12 @@ Game Mechanics has a sticky section nav due to content volume.*
 - [x] Add page sections to `lib/searchIndex.ts`
 
 ### 3c — Tips & Tricks (`/tips`)
-- [ ] Port content from `tips.html` (static site) to Next.js page
-- [ ] Fix known issues from static site audit:
-  - General Tips section header inconsistency (icon vs label)
-- [ ] Add page sections to `lib/searchIndex.ts`
+- [x] Port content from `tips.html` (static site) to Next.js page
+- [x] Fix known issues from static site audit:
+  - [x] General Tips section header inconsistency (icon vs label) — resolved
+    structurally: every section now goes through `SectionBlock`, which
+    always renders icon + title together, so the inconsistency can't recur.
+- [x] Add page sections to `lib/searchIndex.ts`
 
 ### 3d — Game Mechanics (`/mechanics`)
 - [ ] Plan section grouping for sticky nav (claude.ai planning session)
@@ -206,4 +208,4 @@ Game Mechanics has a sticky section nav due to content volume.*
 ---
 
 ## Current focus
-Phase 3c — Tips & Tricks page (/tips).
+Phase 3d — Game Mechanics page (/mechanics) with SectionNav component.

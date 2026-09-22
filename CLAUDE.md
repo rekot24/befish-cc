@@ -136,9 +136,20 @@ backgrounds, glowing cyan accents, electric purple section markers, and
 orange used only for calls-to-action and active states. Nothing should feel
 corporate or generic.
 
-- **Cyan** — primary accent: main headings, links, key values, active data
-- **Purple** — section headers exclusively; do not alternate or reassign
-- **Orange** — CTAs and active nav only; one consistent role site-wide
+Color roles are per-theme, not fixed site-wide — the same color can be the
+primary UI color in one theme and a reserved/minimal accent in the other:
+
+**Dark mode (primary):**
+- **Cyan** — everything interactive: links, arrows, CTAs, accents, highlights
+- **Purple** — primary UI color: section headers, card values, nav active state
+- **Orange** — reserved, minimal use
+
+**Light mode:**
+- **Cyan** — everything interactive: links, arrows, CTAs, accents, highlights
+  (same role as dark mode — `--accent` never theme-switches)
+- **Orange** — primary UI color: section headers, card values, nav active state
+- **Purple** — reserved, minimal use
+
 - **Rarity and tier colors** are fixed and never theme-switched — they are
   the game's identity, not the site's UI chrome
 
@@ -254,4 +265,4 @@ type Fish = {
 ## What's Not Built Yet
 
 See `docs/roadmap.md` for the full sequenced build plan and current status.
-Current phase: Phase 3c — Tips & Tricks page (/tips).
+Current phase: Phase 3d — Game Mechanics page (/mechanics) with SectionNav component.

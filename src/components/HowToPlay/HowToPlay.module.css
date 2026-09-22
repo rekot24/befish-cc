@@ -37,7 +37,7 @@
 
 .tierArrow {
   font-size: var(--fs-sm);
-  color: var(--text-low);
+  color: var(--text-mid);
   white-space: nowrap;
 }
 

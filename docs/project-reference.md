@@ -87,10 +87,30 @@ Cross-link between pages rather than duplicating content.
 
 ## Known Issues / Tech Debt (from static site audit)
 
-- `tips.html` General Tips section header inconsistency (icon vs label)
-- `how-to-play.html` Gem price cards show amounts but no Robux prices
-- Typo: "Inceases" in Fast XP pass card (how-to-play)
+- `how-to-play.html` Gem price cards show amounts but no Robux prices —
+  still open; `GemCardData` has no price field yet (Phase 3b)
 - Luck odds table rows are interpolated/illustrative, not fully verified
 - Homepage missing a Tracker feature card
 - `growth-challenge.html` was built but never committed or deployed
 - Fish Tracker localStorage — migrate to Supabase cloud sync in rebuild
+
+Resolved during the Next.js rebuild (kept here only as a pointer to when/
+how, not as an open item):
+- `tips.html` General Tips section header inconsistency (icon vs label) —
+  resolved structurally by `SectionBlock` (Phase 3c)
+- Typo "Inceases" in Fast XP pass card — fixed during content port (Phase 3b)
+
+## Design token / implementation gaps (found during Next.js rebuild, not from the static site)
+
+- **`--cta` doesn't match the clarified color-role system.** Per Joshua
+  (2026-09-22): CTAs should be cyan in both themes ("everything
+  interactive: links, arrows, CTAs, accents, highlights"), but
+  `--cta` in `globals.css` §8 is hardcoded to `var(--color-orange)` with
+  no light-mode override, and the light-mode block explicitly comments
+  "Buttons — primary shifts to orange in light mode for contrast"
+  (`--btn-primary-border`/`--btn-secondary-border` → orange). `--cta`
+  itself isn't referenced anywhere in `src/` yet, so this is a
+  documentation/token mismatch, not a live rendering bug — but the
+  button tokens ARE live and currently contradict the stated system.
+  Needs a decision: realign `--cta`/button tokens to cyan-in-both-themes,
+  or treat buttons as an intentional exception to the general rule.

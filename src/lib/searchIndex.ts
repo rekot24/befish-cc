@@ -21,5 +21,11 @@ export const searchIndex: SearchEntry[] = [
   { title: 'Passes', body: 'Passes permanent upgrades Robux one-time purchase. Lucky +100 luck. Fast XP +50 XP. Double Loot 2 nets per fill. Food Magnet collection radius. Double Growth 2x size. Best pass Double Loot doubles collection rate.', url: '/how-to-play#passes', page: 'How to Play', section: 'Passes' },
   { title: 'Gems', body: 'Gems premium currency Robux. Open treasure chests skip timer. Increase luck permanently. 1000 10000 50000 500000 gem packages. 14500 chests for 50000 luck. Mythic fish at 50000 luck.', url: '/how-to-play#gems', page: 'How to Play', section: 'Gems' },
   // Phase 3 — Game Mechanics entries go here
-  // Phase 3 — Tips & Tricks entries go here
+  // Phase 3 — Tips & Tricks
+  { title: 'Getting Started Tips', body: 'New player tips goldfish end run switch fish passes gems luck auto farm chests open treasure.', url: '/tips#getting-started', page: 'Tips & Tricks', section: 'Getting Started' },
+  { title: 'Luck Milestones', body: 'Luck most impactful stat legendary mythic fish locked behind luck thresholds rare drops breakpoints.', url: '/tips#luck', page: 'Tips & Tricks', section: 'Luck Milestones' },
+  { title: 'General Tips', body: 'Auto farm 24/7 speed more important than XP rainbow betta fastest fish private tank passes revive revenge aggressive players switch tanks.', url: '/tips#general', page: 'Tips & Tricks', section: 'General Tips' },
+  { title: 'Spotting Auto Farmers', body: 'Auto farm behavior zigzag pattern manual players AFK check sway dancing direction changes identify auto farmers.', url: '/tips#auto-farmers', page: 'Tips & Tricks', section: 'Spotting Auto Farmers' },
+  { title: 'Pass Priority — recommended order', body: 'Pass priority order food magnet double loot fast XP double growth lucky robux investment value ranking.', url: '/tips#pass-priority', page: 'Tips & Tricks', section: 'Pass Priority' },
+  { title: 'Leaderboards', body: 'Three leaderboards most kills fish collected rarest fish fishdex farming 24/7 competitive.', url: '/tips#leaderboards', page: 'Tips & Tricks', section: 'Leaderboards' },
 ];
