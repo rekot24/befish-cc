@@ -70,11 +70,12 @@ Game Mechanics has a sticky section nav due to content volume.*
 - [x] Add section anchor IDs to all section blocks (required for search + sticky nav)
 
 ### 3b — How to Play (`/how-to-play`)
-- [ ] Port content from `how-to-play.html` (static site) to Next.js page
-- [ ] Fix known issues from static site audit:
-  - Gem price cards missing Robux prices
-  - Typo: "Inceases" in Fast XP pass card
-- [ ] Add page sections to `lib/searchIndex.ts`
+- [x] Port content from `how-to-play.html` (static site) to Next.js page
+- [~] Fix known issues from static site audit:
+  - [ ] Gem price cards missing Robux prices — **not addressed by this checklist**;
+    `GemCardData` still has no price field. Still open.
+  - [x] Typo: "Inceases" in Fast XP pass card
+- [x] Add page sections to `lib/searchIndex.ts`
 
 ### 3c — Tips & Tricks (`/tips`)
 - [ ] Port content from `tips.html` (static site) to Next.js page
@@ -205,4 +206,4 @@ Game Mechanics has a sticky section nav due to content volume.*
 ---
 
 ## Current focus
-Phase 3b — How to Play page (/how-to-play).
+Phase 3c — Tips & Tricks page (/tips).

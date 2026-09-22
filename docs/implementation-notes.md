@@ -9,6 +9,56 @@ work — this file holds the fuller detail behind it.
 
 ---
 
+## 2026-09-22 — How to Play Page (`04-phase3b-how-to-play.md`)
+
+- Ported How to Play content from the static site: `/how-to-play` route,
+  `src/lib/howToPlayData.ts` (all copy/data), and the `HowToPlay` component
+  built entirely from Phase 3a's shared components (`SectionBlock`,
+  `PageHeading`, `TipBox`, `InfoCard`, `InfoGrid`, `DataTable`) — 6
+  sections: The Basics, Fish Stats, In-Tank Game Screen Guide, Boosts,
+  Passes, Gems.
+- Added 6 entries to `src/lib/searchIndex.ts` (one per section).
+- Content fixes applied per Step 7: "Inceases" → "Increases" (Fast XP
+  pass), duplicate "you your" → "your" (Double Loot pass), "woth getting"
+  → "worth getting" (Passes tip box). Verified all three in the rendered
+  HTML.
+- **Deviations (agreed with Joshua before implementing):**
+  - The checklist's tier-chain pill used `style={{ background: tier.color
+    }}` — an inline style, which the CSS/Styling Rules forbid. Reworked
+    `TIER_CHAIN` to carry a `key` (`'normal'|'golden'|...`) instead of a
+    hex `color`, added `.tierNormal`/`.tierGolden`/etc. classes in
+    `HowToPlay.module.css` backed by the existing `--tier-*` tokens, and
+    picked the class by key in JSX (same pattern the checklist already
+    used for boost duration tags). `--tier-badge-color` (existing token)
+    replaced the pill text's hardcoded `#ffffff`.
+  - The boost duration tags (`.durGreen`/`.durRed`/`.durBlue`) hardcoded
+    pale light-mode-style hex pairs that read as carried over from the
+    old static site's un-tokenized CSS, inconsistent with the dark
+    glowing-accent design language locked in on the home page. Swapped
+    them for the semantically-matching rarity tokens instead — same
+    green/red/blue meaning, no new tokens needed:
+    `--rarity-uncommon-bg/-text` (green), `--rarity-mythic-bg/-text`
+    (red), `--rarity-rare-bg/-text` (blue).
+- **Known-issue gap found, not silently checked off:** `docs/roadmap.md`'s
+  3b entry lists "Gem price cards missing Robux prices" as a known issue
+  to fix, but the checklist's Step 7 only covers the three typos —
+  `GemCardData` still has no price field and no Robux price is shown.
+  Marked that specific line still open in the roadmap rather than
+  checking it off; the typo fixes and the rest of 3b are complete.
+- Verified: `tsc --noEmit` and `eslint src` both clean. Booted the dev
+  server and confirmed via `curl` that `/how-to-play` returns 200 and the
+  rendered HTML has: all 6 section anchor ids, all 5 tier-pill classes
+  resolved (no inline `style=` attributes anywhere on the page), all 3
+  boost duration-tag classes resolved, and the three typo corrections
+  present verbatim. DataTable's horizontal-scroll and the search
+  overlay's fuzzy-match behavior for "boosts"/"passes" were verified by
+  code/data review only (existing `overflow-x: auto` rule; new entries'
+  `title` fields exact-match those queries) — no browser available to
+  drive an actual narrow-viewport resize or type into the search input.
+- No bugs found.
+
+---
+
 ## 2026-09-21 — SectionBlock + Shared Content Components (`03-phase3a-section-components.md`)
 
 - Built six presentational components, one folder each per Component

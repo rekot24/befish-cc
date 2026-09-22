@@ -254,4 +254,4 @@ type Fish = {
 ## What's Not Built Yet
 
 See `docs/roadmap.md` for the full sequenced build plan and current status.
-Current phase: Phase 3b — How to Play page (/how-to-play).
+Current phase: Phase 3c — Tips & Tricks page (/tips).
