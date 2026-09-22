@@ -265,4 +265,4 @@ type Fish = {
 ## What's Not Built Yet
 
 See `docs/roadmap.md` for the full sequenced build plan and current status.
-Current phase: Phase 3d — Game Mechanics page (/mechanics) with SectionNav component.
+Current phase: Phase 4 — Fish Dex page and FishCard component.

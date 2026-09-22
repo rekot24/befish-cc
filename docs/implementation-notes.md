@@ -9,6 +9,47 @@ work — this file holds the fuller detail behind it.
 
 ---
 
+## 2026-09-22 — Game Mechanics Page (`06-phase3d-mechanics.md`)
+
+- Ported Game Mechanics content from the static site: `/mechanics` route,
+  `src/lib/mechanicsData.ts`, and the `Mechanics` component — 14 sections
+  built entirely from existing shared components (`SectionBlock`,
+  `PageHeading`, `TipBox`, `InfoCard`, `InfoGrid`, `DataTable`), plus a
+  page-specific `Mechanics.module.css` for the Luck formula display and
+  table notes. Includes the full Luck & Drop Chances odds table (15 rows
+  × 6 rarities) and the Merging & Tiers cumulative crafting table.
+- Added 14 entries to `src/lib/searchIndex.ts`.
+- **`SectionNav` dropped, as directed.** The checklist explicitly drops
+  the sticky sub-nav / section-grouping plan in favor of the site-wide
+  search built in Phase 2 — Mechanics uses the same flat `page-wrap` +
+  `SectionBlock` layout as How to Play and Tips. Marked both the
+  "plan section grouping" and "build SectionNav" roadmap items `[~]`
+  with the drop reason noted, rather than leaving them looking
+  abandoned or silently deleting them from the roadmap.
+- **Known issue NOT marked resolved, despite the checklist's Step 7
+  saying to check it off:** "Luck odds table rows are interpolated/
+  illustrative, not fully verified" is still true after this port — the
+  `LUCK_DROP_ROWS` data was carried over as given, with no independent
+  verification possible from this environment and no disclaimer added
+  beyond the existing rounding-precision note. Left this line unchecked
+  in `docs/roadmap.md` rather than following the checklist literally,
+  consistent with how the Phase 3b Gem-price gap was handled.
+- Confirmed a nice side effect of this page landing: the forward-
+  reference links from How to Play (`#merging`, `#fishdex-bonus`) and
+  Tips (`#luck-drops`) — previously dead until this phase — now resolve
+  to real anchors on `/mechanics`. Checked via `curl` against all three
+  pages.
+- Verified: `tsc --noEmit` and `eslint src` both clean. Joshua's dev
+  server was still running from the previous session with the same live
+  browser connection, so queried it directly again rather than
+  restarting it — confirmed all 14 section anchors present, `InfoCard`
+  and `DataTable` render through their shared classes, zero inline
+  `style=` attributes, and the external YouTube link carries
+  `target="_blank" rel="noopener noreferrer"`.
+- No bugs found.
+
+---
+
 ## 2026-09-22 — Tips & Tricks Page (`05-phase3c-tips.md`)
 
 - Ported Tips & Tricks content from the static site: `/tips` route,

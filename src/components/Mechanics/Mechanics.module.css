@@ -1,0 +1,21 @@
+/* ── Luck formula display ── */
+.formula {
+  background: var(--info-card-bg);
+  border: 1px solid var(--info-card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--fs-base);
+  color: var(--text-mid);
+  line-height: var(--lh-loose);
+  margin-bottom: var(--space-lg);
+  font-family: var(--font-body);
+}
+
+/* ── Table note (below data tables) ── */
+.tableNote {
+  font-size: var(--fs-sm);
+  color: var(--text-low);
+  line-height: var(--lh-loose);
+  margin-top: calc(var(--space-sm) * -1);
+  margin-bottom: var(--space-lg);
+}

@@ -86,19 +86,16 @@ Game Mechanics has a sticky section nav due to content volume.*
 - [x] Add page sections to `lib/searchIndex.ts`
 
 ### 3d — Game Mechanics (`/mechanics`)
-- [ ] Plan section grouping for sticky nav (claude.ai planning session)
-  - Sections are too numerous for a flat horizontal bar — group into 5–6 categories
-  - Categories become the sticky nav labels; sections live underneath each
-- [ ] Build `SectionNav` component (`src/components/SectionNav/`)
-  - Sticky bar below main nav
-  - Page title breadcrumb on left, section links on right
-  - Active link: cyan underline indicator + subtle tinted background
-  - Mobile: horizontal scroll with fade indicator on right edge
-  - Tracks scroll position to update active link automatically
-- [ ] Port content from `game-mechanics.html` (static site) to Next.js page
+- [~] Plan section grouping (dropped — site-wide search covers section
+  navigation; the sticky-nav grouping plan is no longer needed)
+- [~] Build `SectionNav` component — dropped; site-wide search covers
+  section navigation, same flat layout as How to Play and Tips instead
+- [x] Port content from `game-mechanics.html` (static site) to Next.js page
 - [ ] Fix known issues from static site audit:
-  - Luck odds table rows are interpolated/illustrative — flag or verify
-- [ ] Add page sections to `lib/searchIndex.ts`
+  - Luck odds table rows are interpolated/illustrative — still not
+    independently verified. Ported as-given with no disclaimer added;
+    flagging remains open rather than marking this resolved.
+- [x] Add page sections to `lib/searchIndex.ts`
 
 ---
 
@@ -208,4 +205,4 @@ Game Mechanics has a sticky section nav due to content volume.*
 ---
 
 ## Current focus
-Phase 3d — Game Mechanics page (/mechanics) with SectionNav component.
+Phase 4 — Fish Dex page and FishCard component.
