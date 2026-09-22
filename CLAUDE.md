@@ -11,14 +11,26 @@ of every session — keep it current.
 These apply every session without being included in the prompt:
 
 - Read this file fully before touching any code.
-- Read app-framework.md from https://github.com/Rekot24/dev-standards before any architectural work.
+- Read web-app-framework.md from https://github.com/Rekot24/dev-standards before any architectural work.
+  (Not app-framework.md — that's the Python/desktop variant. This project
+  is React, so web-app-framework.md is the one that applies.)
 - Before building anything, explain what you are going to do and why. Wait for confirmation before proceeding.
 - Flag anything that conflicts with dev-standards before proceeding — do not comply silently.
-- No magic numbers or magic strings — all named values go in config/constants.py with a comment explaining what they mean and where they came from. Tag every constant    [TUNABLE] or [INTERNAL]. UI layout constants (pixel sizes, row heights, widget counts) are the exception — those live as named module-level constants at the top of the UI file that uses them.
+- No magic numbers or magic strings. CSS values are tokens in `globals.css`
+  (see Variable Lookup Rule below — this is already the enforced
+  convention). Non-CSS values (limits, thresholds, keys) go in a typed
+  constants file under `src/lib/` (e.g. `src/lib/searchConfig.ts`) with a
+  comment explaining what the value means and where it came from.
 - Every function gets a docstring before implementation is written.
 - All error handling follows the two-mode pattern: fail loudly in development, fail gracefully in production.
-- The UI never writes to workers directly. UI → settings store → worker reads → worker acts.
-- At the end of every session, update this file: add a dated session log entry, update current state, add decisions, add anything tried and rejected. Commit the updated CLAUDE.md as the final commit of the session.
+- When a session changes a standing decision, a convention, or the
+  project's current phase, update the relevant section of this file
+  (Stack, Key Decisions, or the "What's Not Built Yet" pointer) so it
+  stays current — this file is a standing reference, not a running log.
+  Detailed per-change history belongs in `docs/implementation-notes.md`;
+  the condensed human-facing log is `docs/changelog.md` (see Workflow
+  below). Commit CLAUDE.md changes as part of the checklist commit they
+  belong to, not as a separate end-of-session commit.
 
 ---
 
