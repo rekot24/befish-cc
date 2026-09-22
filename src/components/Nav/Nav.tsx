@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import Search from '../Search/Search';
 import styles from './Nav.module.css';
 
 const NAV_LINKS = [
@@ -68,6 +69,8 @@ export default function Nav() {
             </Link>
           ))}
         </div>
+
+        <Search />
 
         <button
           className={styles.themeToggle}

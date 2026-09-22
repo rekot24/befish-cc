@@ -84,7 +84,7 @@
 
 /* Theme toggle */
 .themeToggle {
-  margin-left: auto;
+  margin-left: var(--space-sm);   /* was: margin-left: auto — Search now owns the right-side push */
   background: var(--page-bg);
   border: 1px solid var(--btn-primary-border);
   color: var(--text-mid);

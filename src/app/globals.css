@@ -113,6 +113,10 @@
   --border-card:      rgba(0, 240, 222, 0.08);   /* cyan @ 8% — subtle card edges */
   --border-card-hi:   rgba(0, 240, 222, 0.18);   /* cyan @ 18% — hover/focus card edges */
   --border-section:   rgba(170, 0, 255, 0.15);   /* purple @ 15% — section dividers */
+
+  /* Interactive controls (inputs, pills) — stronger cyan stops than card edges */
+  --border-interactive:       rgba(0, 240, 222, 0.3);   /* cyan @ 30% — focused input/control border */
+  --border-interactive-hover: rgba(0, 240, 222, 0.4);   /* cyan @ 40% — hover accent border on interactive controls */
 }
 
 
@@ -137,6 +141,8 @@
   /* Hero word colors */
   --hero-word-befish: var(--color-purple);
   --hero-word-wiki:   var(--color-cyan);
+
+  --accent-wash: rgba(0, 240, 222, 0.07);   /* cyan @ 7% — subtle tint for hover/focus surface fills */
 }
 
 
@@ -307,6 +313,9 @@
   --space-lg:  1.5rem;
   --space-xl:  2rem;
   --space-2xl: 3rem;
+
+  /* Search */
+  --search-max-results: 7;
 }
 
 

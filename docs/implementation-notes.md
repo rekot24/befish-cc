@@ -9,6 +9,53 @@ work — this file holds the fuller detail behind it.
 
 ---
 
+## 2026-09-21 — Nav Search Bar (`02-phase2-search-bar.md`)
+
+- Added `--search-max-results: 7` to `globals.css` §16, created
+  `src/lib/searchConfig.ts` (matching JS constant) and
+  `src/lib/searchIndex.ts` (typed `SearchEntry[]`, empty — populated
+  page-by-page in Phase 3).
+- Installed `fuse.js` (`^7.5.0`).
+- Built `src/components/Search/{Search.tsx,Search.module.css}`: collapsed
+  pill → expands on click or `/` keypress → Fuse.js fuzzy search across
+  `title`/`body`/`section` → results grouped by page in a dropdown
+  overlay. Closes on `Esc` or outside click; mobile collapses to icon-only
+  with a full-width overlay.
+- Wired `<Search />` into `Nav.tsx` between the nav links and the theme
+  toggle; changed `.themeToggle` in `Nav.module.css` from
+  `margin-left: auto` to `margin-left: var(--space-sm)` since `Search`'s
+  own wrapper now owns the right-side push.
+- **Deviation (approved by Joshua before implementing):** the checklist's
+  `Search.module.css` hardcoded several `rgba(0, 240, 222, X)` values that
+  hand-typed alpha stops of `--color-cyan` with no backing token — the
+  exact pattern `style-audit.md` flagged sitewide as needing a shared
+  alpha-scale system. Rather than leave them as magic numbers, added three
+  new tokens instead of implementing verbatim:
+  - `globals.css` §6 (Borders): `--border-interactive` (cyan @ 30%,
+    focused control border) and `--border-interactive-hover` (cyan @ 40%,
+    hover accent border)
+  - `globals.css` §8 (Semantic aliases): `--accent-wash` (cyan @ 7%,
+    hover/focus tint) — consolidates the checklist's two near-identical
+    0.06/0.07 stops into one token
+  - The resultIcon background (cyan @ 8%) reused the existing
+    `--border-card` token exactly rather than a new one.
+  - Left the `rgba(255, 255, 255, X)` neutral-overlay values as hardcoded,
+    matching the existing "intentionally fixed" convention already used
+    in `Nav.module.css` (`.link:hover`) and `globals.css`
+    (`--fish-card-body-bg`) for one-off neutral tints with no color token
+    to derive from — added the same inline comment to each.
+- Verified: `tsc --noEmit` and `eslint src` both clean. `npm run dev`
+  boots without Turbopack errors; confirmed via `curl` that the homepage
+  renders 200 and the response HTML contains the search pill
+  (`aria-label="Open search"`, "Search wiki" text). Remaining Step 7
+  checks (`/` opens input, `Esc`/outside-click closes it, mobile
+  icon-only collapse, empty-index hint/no-results states) were verified
+  by code review only — no browser available in this session to drive
+  actual key/click/resize interactions.
+- No bugs found.
+
+---
+
 ## 2026-08-30 — Nav Color Fix (`02-nav-color-fix.md`)
 
 - Step 1 (`--nav-bg`/`--footer-bg` in `[data-theme="light"]`) was already

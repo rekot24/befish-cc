@@ -1,0 +1,222 @@
+.wrapper {
+  position: relative;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ── Collapsed pill ── */
+.pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: rgba(255, 255, 255, 0.05);   /* neutral overlay tint — intentionally fixed */
+  border: 1px solid rgba(255, 255, 255, 0.1);   /* neutral overlay edge — intentionally fixed */
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  border-color: var(--border-interactive-hover);
+}
+
+.pillText {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  color: var(--text-low);
+}
+
+.shortcut {
+  font-size: var(--fs-xs);
+  color: var(--text-disabled);
+  background: rgba(255, 255, 255, 0.05);   /* neutral overlay tint — intentionally fixed */
+  border: 1px solid rgba(255, 255, 255, 0.08);   /* neutral overlay edge — intentionally fixed */
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: var(--font-body);
+}
+
+.icon {
+  width: 13px;
+  height: 13px;
+  color: var(--text-mid);
+  flex-shrink: 0;
+}
+
+/* ── Expanded input ── */
+.expanded {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--accent-wash);
+  border: 1px solid var(--border-interactive);
+  border-radius: 20px;
+  padding: 5px 12px;
+  min-width: 220px;
+}
+
+.iconActive {
+  width: 13px;
+  height: 13px;
+  color: var(--color-cyan);
+  flex-shrink: 0;
+}
+
+.input {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  flex: 1;
+  min-width: 0;
+}
+
+.input::placeholder {
+  color: var(--text-low);
+}
+
+.escHint {
+  font-size: var(--fs-xs);
+  color: var(--text-disabled);
+  background: rgba(255, 255, 255, 0.05);   /* neutral overlay tint — intentionally fixed */
+  border: 1px solid rgba(255, 255, 255, 0.08);   /* neutral overlay edge — intentionally fixed */
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: var(--font-body);
+  flex-shrink: 0;
+}
+
+/* ── Results overlay ── */
+.overlay {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 340px;
+  background: var(--nav-bg);
+  border: 1px solid var(--border-card);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  z-index: 200;
+  overflow: hidden;
+}
+
+.groups {
+  padding: var(--space-sm);
+}
+
+.group {
+  margin-bottom: var(--space-sm);
+}
+
+.group:last-child {
+  margin-bottom: 0;
+}
+
+.groupLabel {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-black);
+  color: var(--text-disabled);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.result {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-sm);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.1s;
+}
+
+.result:hover {
+  background: var(--accent-wash);
+  text-decoration: none;
+}
+
+.resultIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--border-card);
+  border: 1px solid var(--border-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pageIcon {
+  width: 13px;
+  height: 13px;
+  color: var(--color-cyan);
+}
+
+.resultText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.resultTitle {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-hi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.match {
+  color: var(--color-cyan);
+  font-style: normal;
+}
+
+.resultMeta {
+  font-size: var(--fs-xs);
+  color: var(--text-low);
+}
+
+.dot {
+  color: var(--text-disabled);
+}
+
+/* ── Empty states ── */
+.noResults {
+  padding: var(--space-lg);
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--text-low);
+}
+
+.hint {
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--fs-sm);
+  color: var(--text-disabled);
+  text-align: center;
+}
+
+/* ── Mobile — icon only ── */
+@media (max-width: 768px) {
+  .pillText,
+  .shortcut {
+    display: none;
+  }
+
+  .pill {
+    padding: 6px 8px;
+  }
+
+  .overlay {
+    right: -1rem;
+    min-width: calc(100vw - 2rem);
+  }
+}

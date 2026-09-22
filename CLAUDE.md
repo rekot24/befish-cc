@@ -30,6 +30,8 @@ of every session — keep it current.
 
 ## Workflow
 
+Before building anything, explain what you are going to do and why. Wait for confirmation before proceeding.
+
 Claude (planning session in claude.ai) produces a checklist `.md` file.
 Claude Code (VSCode) executes it. After completion:
 
@@ -90,6 +92,7 @@ docs/
 ---
 
 ## CSS / Styling Rules
+> Styling follows the system defined in `rekot24/dev-standards: web-frontend-design.md`
 
 - **CSS Modules** for all component styles — no inline styles, no global
   class names except what's defined in `globals.css`
@@ -224,14 +227,5 @@ type Fish = {
 
 ## What's Not Built Yet
 
-- [ ] Nav component
-- [ ] Footer component
-- [ ] globals.css (color system, typography)
-- [ ] Root layout wiring
-- [ ] All page routes
-- [ ] Fish Dex page + FishCard component
-- [ ] Fish Tracker page
-- [ ] lib/fishData.ts
-- [ ] Supabase integration
-- [ ] Discord OAuth
-- [ ] growth-challenge page
+See `docs/roadmap.md` for the full sequenced build plan and current status.
+Current phase: Phase 2 — Nav Search Bar.
