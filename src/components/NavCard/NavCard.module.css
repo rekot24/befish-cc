@@ -12,7 +12,7 @@
 
 .card:hover {
   transform: translateY(-3px);
-  border-color: var(--border-card-hi);
+  border-color: var(--feature-card-hover);
   box-shadow: var(--card-shadow);
   text-decoration: none;
 }

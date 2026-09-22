@@ -64,7 +64,7 @@ export default function HomePage() {
         <div className={styles.heroCtas}>
           {/* Global button classes from globals.css — do not add btn styles to HomePage.module.css */}
           <a href="/fishdex" className="btn-primary">Browse Fish Dex</a>
-          <a href="/how-to-play" className="btn-secondary">How to Play</a>
+          <a href="/how-to-play" className="btn-primary">How to Play</a>
         </div>
       </section>
 

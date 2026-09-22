@@ -113,40 +113,42 @@
   --border-card:      rgba(0, 240, 222, 0.08);   /* cyan @ 8% — subtle card edges */
   --border-card-hi:   rgba(0, 240, 222, 0.18);   /* cyan @ 18% — hover/focus card edges */
   --border-section:   rgba(170, 0, 255, 0.15);   /* purple @ 15% — section dividers */
-  --btn-border:       var(--color-cyan);
-  --btn-border-hover: var(--color-purple);
 }
 
 
-/* ── 7. Nav — theme-independent (nav is always dark in both themes) ── */
+/* ── 7. Nav ── */
 :root {
-  --nav-text:        #8899bb;
-  --nav-text-hi:     #f0f4ff;
-  --nav-text-active: var(--color-orange);
-  --nav-height:      64px;
+  --logo-befish:          var(--color-purple);
+  --logo-wiki:            var(--color-cyan);
+  --nav-text:             #8899bb;
+  --nav-text-hover:       #f0f4ff;
+  --nav-text-active:      var(--color-purple);
+  --nav-text-ative-hover: var(--nav-text-hover);
+  --nav-height:           64px;
 }
 
 
 /* ── 8. Semantic aliases ── */
 :root {
   --accent:         var(--color-cyan);     /* primary accent — links, highlights, active data */
-  --section-header: var(--color-cyan);   /* all section headings — never alternate */
+  --section-header: var(--color-purple);   /* all section headings — never alternate */
   --cta:            var(--color-orange);   /* call-to-action elements only */
 
   /* Hero word colors */
-  --hero-word-befish: var(--color-cyan);
-  --hero-word-wiki:   var(--color-purple);
+  --hero-word-befish: var(--color-purple);
+  --hero-word-wiki:   var(--color-cyan);
 }
 
 
 /* ── 9. Component tokens — Buttons ── */
 :root {
   /* Primary button — filled, cyan background */
-  --btn-primary-bg:           var(--color-cyan);
-  --btn-primary-bg-hover:     var(--color-purple);
-  --btn-primary-text:         #0F112E;   /* dark text on bright cyan — use page-bg value */
-  --btn-primary-text-hover:   #ffffff;
-  --btn-primary-border:       transparent;
+  --btn-primary-bg:           transparent;
+  --btn-primary-bg-hover:     transparent;
+  --btn-primary-text:         var(--text-hi);   /* dark text on bright cyan — use page-bg value */
+  --btn-primary-text-hover:   var(--text-hi);
+  --btn-primary-border:       var(--color-cyan);
+  --btn-primary-border-hover: var(--color-purple);
 
   /* Secondary button — outlined, transparent fill */
   --btn-secondary-bg:           transparent;
@@ -154,12 +156,12 @@
   --btn-secondary-text:         var(--color-cyan);
   --btn-secondary-text-hover:   #0F112E;
   --btn-secondary-border:       var(--color-cyan);
-  --btn-secondary-border-hover: var(--color-cyan);
+  --btn-secondary-border-hover: var(--color-purple);
 
   /* Shared shape & typography */
   --btn-font-size:   var(--fs-base);
   --btn-font-weight: var(--fw-bold);
-  --btn-padding:     0.65rem 1.5rem;
+  --btn-padding:     0.75rem 1.75rem;
   --btn-radius:      8px;
   --btn-transition:  background 0.15s ease, color 0.15s ease,
                      border-color 0.15s ease, transform 0.1s ease;
@@ -174,7 +176,7 @@
 
   /* Info cards (stat callouts, gem amounts, pass/boost cards) */
   --info-card-bg:          var(--card-bg-alt);
-  --info-card-border:      var(--border-card);
+  --info-card-border:      var(--color-cyan);
   --info-card-val-color:   var(--color-cyan);   /* the big number/value */
   --info-card-label-color: var(--text-low);
 
@@ -185,8 +187,9 @@
 
   /* Feature cards (home page) */
   --feature-card-bg:     var(--card-bg);
-  --feature-card-border: var(--border-card);
+  --feature-card-border: var(--color-cyan);
   --feature-card-radius: var(--card-radius);
+  --feature-card-hover:  var(--color-purple);
 }
 
 
@@ -246,7 +249,7 @@
   --stat-bar-radius: 3px;
   --stat-bar-bg:     rgba(255, 255, 255, 0.08);   /* empty track — white @ 8%, intentionally fixed */
 
-  --stat-number-color: var(--color-cyan);          /* large stat values */
+  --stat-number-color: var(--text-hi);          /* large stat values */
 
   --xp-color:      var(--text-mid);
   --unknown-color: var(--text-disabled);           /* unmeasured / unreported fish data */
@@ -309,6 +312,12 @@
 
 /* ── 17. Light mode overrides ── */
 [data-theme="light"] {
+  /* Nav Logo */
+  --logo-befish: var(--color-orange);
+  --logo-wiki:   var(--color-cyan);
+  --nav-text-active: var(--color-orange);
+  --nav-text-ative-hover: var(--nav-text-hover);
+
   /* Backgrounds */
   --page-bg:     #eaf6fb;
   --nav-bg:      #0a7a9a;    /* nav stays dark in light mode */
@@ -335,16 +344,16 @@
   --section-header:   var(--color-orange);
 
   /* Buttons — primary shifts to orange in light mode for contrast */
-  --btn-primary-bg:             var(--color-orange);
-  --btn-primary-bg-hover:       var(--color-cyan);
+  --btn-primary-bg:             transparent;
+  --btn-primary-bg-hover:       transparent;
   --btn-primary-text:           #0d1f3c;
   --btn-primary-text-hover:     #0d1f3c;
   --btn-secondary-text:         var(--color-orange);
   --btn-secondary-border:       var(--color-orange);
   --btn-secondary-bg-hover:     var(--color-orange);
   --btn-secondary-text-hover:   #0d1f3c;
-  --btn-border:                 var(--color-orange);
-  --btn-border-hover:           var(--color-cyan);
+  --btn-primary-border:       var(--color-orange);
+  --btn-primary-border-hover: var(--color-cyan);
 
   /* Cards */
   --info-card-bg:        #f0f8fd;
@@ -352,6 +361,11 @@
   --fish-card-bg:        #ffffff;
   --feature-card-bg:     #ffffff;
   --feature-card-border: rgba(0, 144, 184, 0.15);
+
+  /* Feature cards (home page) */
+  --feature-card-bg:     var(--card-bg);
+  --feature-card-border: var(--color-orange);
+  --feature-card-hover:  var(--color-cyan);
 
   /* Section blocks */
   --section-block-bg:          #ffffff;
@@ -475,7 +489,7 @@ a:hover {
 .btn-primary:hover {
   background: var(--btn-primary-bg-hover);
   color: var(--btn-primary-text-hover);
-  transform: translateY(-1px);
+  border-color: var(--btn-primary-border-hover);
   text-decoration: none;
 }
 
