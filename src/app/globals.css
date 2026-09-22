@@ -372,6 +372,9 @@
   --info-card-val-color:       var(--color-orange);
   --fish-card-bg:        var(--white-bg);
 
+  --tip-box-bg:          var(--white-bg);
+  --border-interactive:  var(--color-orange);
+
   /* Feature cards (home page) */
   --feature-card-bg:     var(--card-bg);
   --feature-card-border: var(--color-orange);
