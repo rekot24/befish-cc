@@ -6,6 +6,20 @@ Fan wiki and toolset for the Roblox idle fishing game "Be Fish."
 Built by Joshua (24rolla). This file is read by Claude Code at the start
 of every session — keep it current.
 
+## Standing instructions
+
+These apply every session without being included in the prompt:
+
+- Read this file fully before touching any code.
+- Read app-framework.md from https://github.com/Rekot24/dev-standards before any architectural work.
+- Before building anything, explain what you are going to do and why. Wait for confirmation before proceeding.
+- Flag anything that conflicts with dev-standards before proceeding — do not comply silently.
+- No magic numbers or magic strings — all named values go in config/constants.py with a comment explaining what they mean and where they came from. Tag every constant    [TUNABLE] or [INTERNAL]. UI layout constants (pixel sizes, row heights, widget counts) are the exception — those live as named module-level constants at the top of the UI file that uses them.
+- Every function gets a docstring before implementation is written.
+- All error handling follows the two-mode pattern: fail loudly in development, fail gracefully in production.
+- The UI never writes to workers directly. UI → settings store → worker reads → worker acts.
+- At the end of every session, update this file: add a dated session log entry, update current state, add decisions, add anything tried and rejected. Commit the updated CLAUDE.md as the final commit of the session.
+
 ---
 
 ## Stack
