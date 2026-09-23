@@ -394,6 +394,10 @@
 
   /* Stat bar track — lighter surface in light mode */
   --stat-bar-bg: rgba(0, 0, 0, 0.08);
+
+  /* Scrollbar */
+::-webkit-scrollbar-thumb { background: var(--color-orange); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-cyan); }
 }
 
 
