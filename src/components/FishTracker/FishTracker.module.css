@@ -19,6 +19,7 @@
 }
 
 .controlBar {
+  position: relative;   /* containing block for TrackerAddPanel's popover on mobile */
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -9,6 +9,75 @@ work — this file holds the fuller detail behind it.
 
 ---
 
+## 2026-09-23 — Fix: tracker add panel off-screen on mobile
+
+### Bug
+"+ Track a Fish" panel opened off-screen at the left edge on mobile.
+Cause: `TrackerAddPanel.module.css`'s `.panel` kept live's `right: 0`
+anchor, but our control bar puts the Add button on the LEFT (live had it
+on the right), so the panel opened leftward off-screen. The live
+`@media (max-width: 640px)` override for `.tracker-add-panel` (Phase 5's
+source, `main:style.css` line 1829) was also never ported — the module
+had no media query at all.
+
+### Fix
+- Desktop: `.panel` now anchors `left: 0` (was `right: 0`), opening
+  rightward from the left-side button.
+- `≤640px`: the panel now spans the control bar instead of the button —
+  `FishTracker.module.css`'s `.controlBar` gained `position: relative`
+  as the new containing block, `TrackerAddPanel.module.css` gained
+  `.wrap { position: static; }` and `.panel { left: 0; right: 0; width:
+  auto; max-width: none; max-height: 75dvh; overflow-y: auto; }` inside
+  a new `@media (max-width: 640px)` block. This is a deliberate
+  divergence from live (which keeps `.tracker-add-wrap` positioned and
+  just flips the panel to `left: 0; width: 100%` of the button-sized
+  wrap) — our control bar's two-sided layout doesn't match live's, so
+  spanning the bar is the correct equivalent, not a literal port.
+
+### Audit: live's tracker/profile/toast/modal `@media` rules vs ported code
+Diffed every live `@media` block (`main:style.css`, all 8: lines 438,
+1209, 1378, 1532, 1543, 1828, 2228, 2266) against the ported components.
+
+**Already fully ported, nothing missing:**
+- `.tracker-grid` 2-col mobile grid → `FishTracker.module.css` `.grid`
+- `.tracker-card` mobile padding/gap, `.tracker-card-head`/
+  `-head-mobile` swap, mobile img sizes, `.tracker-predict-row` column
+  layout, `.tracker-undo-btn` wrap behavior → all present in
+  `TrackerCard.module.css`'s existing `@media (max-width: 640px)` block
+- `.toast-stack` full-width mobile → already in `Toast.module.css`
+- `.tracker-count-big`/`.fish-img-wrap` 44px/38px mobile overrides →
+  live dead code (both live inside `.tracker-card-head`, which the same
+  block sets `display: none` on mobile) — correctly not ported, no
+  visible effect either way
+
+**Intentionally not ported (superseded by Phase 5's redesign):**
+- `.profile-bar-top` column-stack, `.tracker-sort-wrap`/
+  `.tracker-custom-panel` mobile width rules — these style live's
+  inline profile bar and toggle-button sort UI, both replaced by
+  `TrackerDrawer` (a slide-in panel using the same `Drawer` shell as
+  Fish Dex's `FilterDrawer`, already responsive as a bottom sheet)
+- `.compare-panel`/`.compare-wrap`, nav, mechanics-sidebar, hero/fish-grid
+  rules in the other 640px/768px blocks — unrelated pages, already
+  ported where applicable in earlier phases
+
+**Missing, now fixed:** `.tracker-add-panel` mobile override (above).
+
+### Verification
+- `tsc --noEmit` clean, `eslint src scripts` clean
+- Dev server: `/fish-tracker` compiles and returns 200
+- Positioning logic traced by hand for 360px/390px/640px/desktop: at
+  ≤640px, `.wrap`'s `position: static` hands `.panel`'s absolute
+  offsets to `.controlBar` (the new positioned ancestor), so
+  `left/right: 0` spans the full control bar width and `top: calc(100%
+  + 8px)` sits it just below the bar; at >640px `.wrap` stays the
+  containing block and `.panel` opens rightward from the button.
+  **Not visually confirmed in a browser** — no screenshot/browser tool
+  available in this session. Needs a real check at 360px, 390px, 640px,
+  and desktop (both themes) as part of the existing Phase 5 manual
+  browser pass in `docs/roadmap.md`.
+
+---
+
 ## 2026-09-23 — Fish Tracker (`08-phase5-fish-tracker.md`)
 
 By far the largest checklist so far — real user data at stake, so this

@@ -11,10 +11,12 @@
   flex-shrink: 0;
 }
 
+/* Anchored left, opening rightward — the Add button sits on the LEFT of
+   .controlBar here (live had it on the right, anchored right: 0). */
 .panel {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
+  left: 0;
   width: 380px;
   max-width: 92vw;
   background: var(--card-bg);
@@ -180,4 +182,23 @@
   display: flex;
   justify-content: flex-end;
   gap: var(--space-sm);
+}
+
+/* ported from live's .tracker-add-panel mobile override — the panel
+   spans the control bar instead of anchoring to the button, since
+   .controlBar (not .wrap) is the intended containing block at this
+   width; see FishTracker.module.css's .controlBar position: relative. */
+@media (max-width: 640px) {
+  .wrap {
+    position: static;
+  }
+
+  .panel {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+    max-height: 75dvh;
+    overflow-y: auto;
+  }
 }

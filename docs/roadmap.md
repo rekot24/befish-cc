@@ -174,6 +174,9 @@ Game Mechanics has a sticky section nav due to content volume.*
   open at once), and confirming the Fish Dex `FilterDrawer` looks/behaves
   unchanged after the `Drawer` extraction. Keep "Current phase" below at
   Phase 5 until this is done and confirmed.
+- [ ] "+ Track a Fish" panel positioning at 360px, 390px, 640px, and
+  desktop (both themes) — fixed 2026-09-23 (see implementation-notes),
+  reasoned through by hand but not visually confirmed in a browser.
 
 ---
 
