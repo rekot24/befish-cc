@@ -1,0 +1,183 @@
+/* TrackerAddPanel.module.css — ported from live .tracker-add-* classes.
+   The live panel is hardcoded white with no dark-mode override at all
+   (same gap Modal.module.css hit and fixed) — rather than repeat that
+   fix a second time, this reuses FilterDrawer's already-correct,
+   already-theme-aware popover pattern (var(--card-bg) etc.), since a
+   popover attached to the page fits that pattern better than a fixed-
+   white blocking-modal surface. */
+
+.wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 380px;
+  max-width: 92vw;
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+  gap: var(--space-md);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.search {
+  width: 100%;
+  background: var(--card-bg-alt);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+}
+
+.search::placeholder { color: var(--text-low); }
+.search:focus { outline: none; border-color: var(--border-card-hi); }
+
+.results {
+  max-height: 180px;
+  overflow-y: auto;
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+}
+
+.fishItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: 7px var(--space-md);
+  border: none;
+  border-bottom: 1px solid var(--border-card);
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-hi);
+  cursor: pointer;
+  text-align: left;
+}
+
+.fishItem:last-child { border-bottom: none; }
+.fishItem:hover { background: var(--accent-wash); }
+.fishItem.selected { background: var(--accent-wash); box-shadow: inset 3px 0 0 var(--accent); }
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--rarity-color);
+}
+
+.fishName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fishRarity {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  flex-shrink: 0;
+  color: var(--rarity-color);
+}
+
+.groupLabel {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-black);
+  color: var(--text-low);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tierRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.tierBtn {
+  padding: 4px 12px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  border-radius: 20px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--chip-color, var(--text-low));
+  border: 1px solid var(--chip-color, var(--border-card));
+  font-family: var(--font-body);
+  opacity: 0.6;
+  transition: opacity 0.1s, background 0.1s;
+}
+
+.tierBtnActive {
+  opacity: 1;
+  background: color-mix(in srgb, var(--chip-color, var(--accent)) 20%, transparent);
+}
+
+.countLabel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-low);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.countInput {
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  color: var(--text-hi);
+  background: var(--card-bg-alt);
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.countInput:focus { outline: none; border-color: var(--border-card-hi); }
+
+.dupeWarning {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--rarity-legendary-text);
+  background: var(--rarity-legendary-bg);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+  line-height: var(--lh-normal);
+}
+
+.noResults {
+  font-size: var(--fs-sm);
+  color: var(--text-low);
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}

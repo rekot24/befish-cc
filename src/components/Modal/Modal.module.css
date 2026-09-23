@@ -1,0 +1,71 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);   /* modal backdrop — intentionally fixed, matches Drawer's overlay */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+/* Always white regardless of theme, matching the live site (which has no
+   dark-mode override for this at all) and this project's existing
+   "fixed light surface" precedent (FishCard's stats body). */
+.box {
+  background: var(--white-bg);
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  width: 380px;
+  max-width: 100%;
+  padding: var(--space-lg);
+}
+
+/* Fixed dark text, not the theme-switching --text-hi/--text-mid tokens —
+   those go light-on-white (illegible) in dark mode since this box never
+   switches. The live site actually has this exact bug (references
+   --text-dark/--text-mid on an always-white box); fixed here instead of
+   ported, since it'd otherwise make every modal unreadable in dark mode.
+   Values match this project's own light-mode --text-hi/--text-mid, so
+   light mode looks identical either way. */
+.title {
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-black);
+  color: #0d1f3c;
+  margin-bottom: var(--space-sm);
+}
+
+.message {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  color: #4a6080;
+  line-height: var(--lh-normal);
+  margin-bottom: var(--space-md);
+}
+
+.input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  color: #0d1f3c;   /* fixed — see .title */
+  background: var(--white-bg);
+  padding: 7px var(--space-md);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  margin-bottom: var(--space-md);
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--border-card-hi);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}

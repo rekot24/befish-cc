@@ -1,0 +1,165 @@
+/* TrackerDrawer.module.css — sections styled to match FilterDrawer's
+   (.section/.sectionHead/.sectionLabel/.sortSelect are intentionally
+   identical to FilterDrawer.module.css's, per the checklist). */
+
+.section {}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+
+.sectionLabel {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-black);
+  color: var(--text-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+/* ── Profile list ── */
+.profileList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.profileRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.profileBtn {
+  flex: 1;
+  text-align: left;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 8px;
+  border: 1px solid var(--border-card);
+  background: transparent;
+  color: var(--text-mid);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+}
+
+.profileBtn:hover { background: var(--accent-wash); }
+
+.profileBtnActive {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+  color: var(--text-hi);
+}
+
+.renameInput {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 8px;
+  border: 1px solid var(--border-interactive);
+  background: var(--card-bg-alt);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  outline: none;
+}
+
+.iconBtn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-low);
+  cursor: pointer;
+  padding: 4px 6px;
+  font-size: var(--fs-base);
+}
+
+.iconBtn:hover { color: var(--accent); }
+
+.profileActions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* ── Sort ── */
+.sortSelect {
+  width: 100%;
+  background: var(--card-bg-alt);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  cursor: pointer;
+}
+
+.customPanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--card-bg-alt);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+}
+
+.lockRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-mid);
+  cursor: pointer;
+  user-select: none;
+}
+
+.lockRow input { cursor: pointer; }
+
+.textLinkBtn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.textLinkBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* ── Data & Sync ── */
+.dataActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+/* !important: overrides .btn-secondary's own border-color/color, which
+   have equal selector specificity and whose source-order relative to
+   this module isn't guaranteed — this state needs to win regardless. */
+.linkedActive {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+.dataNote {
+  font-size: var(--fs-sm);
+  color: var(--text-low);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-normal);
+}

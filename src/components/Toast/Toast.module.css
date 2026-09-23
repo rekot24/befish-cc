@@ -1,0 +1,43 @@
+.stack {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-width: 320px;
+}
+
+/* Fixed dark navy surface regardless of theme — the closest-named
+   existing tokens (--nav-bg, --footer-bg, --page-bg) all go WHITE in
+   light mode, which would make the always-white toast text illegible.
+   The live site's toast has the same fixed-dark intent (its --ocean-dark
+   token happens to resolve dark in both its themes); this is the
+   equivalent for a design system where "dark surface" isn't always dark. */
+.toast {
+  background: #0d1f3c;
+  color: var(--white-bg);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .stack {
+    left: 12px;
+    right: 12px;
+    max-width: none;
+  }
+}

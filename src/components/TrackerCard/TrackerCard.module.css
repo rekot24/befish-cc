@@ -1,0 +1,362 @@
+/* TrackerCard.module.css — ported from live .tracker-card and friends,
+   every literal value mapped to a token. Per-instance colors come from
+   CSS custom properties set on .card (--tier-color, --rarity-bar,
+   --rarity-bg, --rarity-txt, --fish-bg) — the only inline style left is
+   the progress bar's dynamic width. */
+
+.card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  transition: box-shadow 0.15s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px var(--border-card-hi);
+}
+
+/* ── Desktop head ── */
+.head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.imgWrap {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--fish-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imgWrap img {
+  max-width: 50px;
+  max-height: 50px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.imgPlaceholder {
+  font-size: var(--fs-2xl);
+  opacity: 0.22;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+}
+
+.fishName {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--text-hi);
+  line-height: var(--lh-tight);
+  margin-bottom: 4px;
+}
+
+.rarityBadge {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--rarity-bg);
+  color: var(--rarity-txt);
+}
+
+.headSide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.tierBadge {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  background: var(--tier-color);
+  color: var(--white-bg);
+}
+
+.countBig {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  color: var(--tier-color);
+}
+
+.countOf {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-low);
+}
+
+/* ── Mobile head (hidden on desktop, shown ≤768px) ── */
+.headMobile {
+  display: none;
+}
+
+.mobileRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.mobileBadges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.mobileCount {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-black);
+  color: var(--tier-color);
+  white-space: nowrap;
+}
+
+.countOfInline {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-low);
+  margin-left: 4px;
+}
+
+/* ── Progress bar ── */
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.barTrack {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--stat-bar-bg);
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--tier-color);
+  transition: width 0.3s;
+}
+
+/* ── Predictions ── */
+.predict {
+  background: var(--card-bg-alt);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.predictRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-mid);
+}
+
+.predictRow b {
+  color: var(--accent);
+  font-weight: var(--fw-bold);
+}
+
+.predictEmpty {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  font-style: italic;
+  color: var(--text-low);
+  background: var(--card-bg-alt);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+}
+
+/* ── Timestamps ── */
+.timestampsToggle {
+  display: block;
+  width: 100%;
+  text-align: center;
+  border: none;
+  background: none;
+  padding: 4px 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.timestampsPanel {
+  margin-top: 4px;
+  background: var(--card-bg-alt);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+}
+
+.tsLimitRow {
+  display: flex;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.tsLimitBtn {
+  padding: 3px 9px;
+  font-size: var(--fs-xs);
+  border-radius: 5px;
+  border: 1px solid var(--border-card-hi);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: var(--fw-medium);
+  background: transparent;
+  color: var(--text-low);
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.tsLimitBtn.active {
+  background: var(--accent);
+  color: var(--page-bg);
+  border-color: var(--accent);
+}
+
+.tsLimitBtn:hover:not(.active) {
+  background: var(--accent-wash);
+}
+
+.tsGrid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px var(--space-md);
+  font-size: var(--fs-sm);
+  color: var(--text-mid);
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.tsRowPair {
+  display: contents;
+}
+
+.tsRowDelta {
+  font-weight: var(--fw-bold);
+  color: var(--accent);
+  text-align: right;
+}
+
+.tsRowObtained {
+  font-style: italic;
+  color: var(--text-low);
+  font-weight: var(--fw-medium);
+}
+
+/* ── Actions ── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.catchBtn {
+  flex: 1;
+  padding: 0.55rem var(--space-md);
+  font-size: var(--fs-base);
+}
+
+.undoBtn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-low);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  padding: 4px 6px;
+  text-decoration: underline;
+}
+
+.undoBtn:hover:not(:disabled) { color: var(--accent); }
+.undoBtn:disabled { opacity: 0.4; cursor: not-allowed; text-decoration: none; }
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border-card);
+  padding-top: var(--space-sm);
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.deleteBtn:hover { text-decoration: underline; }
+
+/* ── Mobile layout ── */
+@media (max-width: 640px) {
+  .head { display: none; }
+
+  .headMobile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .headMobile .fishName {
+    font-size: var(--fs-md);
+    margin-bottom: 0;
+  }
+
+  .headMobile .imgWrap {
+    width: 48px;
+    height: 48px;
+  }
+
+  .headMobile .imgWrap img {
+    max-width: 42px;
+    max-height: 42px;
+  }
+
+  .card {
+    padding: var(--space-sm);
+    gap: var(--space-xs);
+  }
+
+  .predictRow {
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .undoBtn {
+    flex-shrink: 1;
+    min-width: 0;
+    white-space: normal;
+    text-align: left;
+  }
+}

@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Real user tracker exports — never commit
+/test-fixtures/private/
+/befish-tracker-*.json

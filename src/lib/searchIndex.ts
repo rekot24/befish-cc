@@ -42,4 +42,6 @@ export const searchIndex: SearchEntry[] = [
   { title: 'Spotting Auto Farmers', body: 'Auto farm behavior zigzag pattern manual players AFK check sway dancing direction changes identify auto farmers.', url: '/tips#auto-farmers', page: 'Tips & Tricks', section: 'Spotting Auto Farmers' },
   { title: 'Pass Priority — recommended order', body: 'Pass priority order food magnet double loot fast XP double growth lucky robux investment value ranking.', url: '/tips#pass-priority', page: 'Tips & Tricks', section: 'Pass Priority' },
   { title: 'Leaderboards', body: 'Three leaderboards most kills fish collected rarest fish fishdex farming 24/7 competitive.', url: '/tips#leaderboards', page: 'Tips & Tricks', section: 'Leaderboards' },
+  // Phase 5 — Fish Tracker (single-section page — one entry covers the whole thing)
+  { title: 'Fish Tracker', body: 'Track your catches per fish and tier. Progress bar toward the next tier craft. Time predictions ETA next catch next tier based on your own catch history. Multiple profiles switch rename delete. Custom drag reorder. Export import JSON backup. Link a local file to sync automatically on Chrome or Edge.', url: '/fish-tracker', page: 'Fish Tracker', section: 'Fish Tracker' },
 ];

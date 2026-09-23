@@ -1,61 +1,7 @@
-/* FilterDrawer.module.css */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);   /* modal backdrop — intentionally fixed */
-  z-index: 100;
-}
-
-.drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 300px;
-  max-width: 90vw;
-  background: var(--card-bg);
-  border-left: 1px solid var(--border-card);
-  z-index: 101;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-md) var(--space-lg);
-  border-bottom: 1px solid var(--border-card);
-  flex-shrink: 0;
-}
-
-.title {
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  color: var(--text-hi);
-}
-
-.closeBtn {
-  background: none;
-  border: none;
-  color: var(--text-low);
-  font-size: var(--fs-lg);
-  cursor: pointer;
-  padding: 4px;
-  line-height: 1;
-}
-
-.closeBtn:hover { color: var(--text-hi); }
-
-.body {
-  flex: 1;
-  overflow-y: auto;
-  padding: var(--space-md) var(--space-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
+/* FilterDrawer.module.css
+   Shell classes (.overlay/.drawer/.head/.title/.closeBtn/.body/.foot and
+   the mobile bottom-sheet media query) moved to Drawer.module.css — this
+   file now only holds FilterDrawer's own content styling. */
 
 .section {}
 
@@ -285,15 +231,7 @@
   padding: var(--space-sm) var(--space-md);
 }
 
-/* ── Footer ── */
-.foot {
-  display: flex;
-  gap: var(--space-sm);
-  padding: var(--space-md) var(--space-lg);
-  border-top: 1px solid var(--border-card);
-  flex-shrink: 0;
-}
-
+/* ── Footer buttons (rendered into Drawer's `foot` slot) ── */
 .clearBtn {
   flex: 1;
   background: transparent;
@@ -319,20 +257,4 @@
   font-weight: var(--fw-bold);
   font-family: var(--font-body);
   cursor: pointer;
-}
-
-/* Mobile — bottom sheet */
-@media (max-width: 768px) {
-  .drawer {
-    top: auto;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    max-width: 100%;
-    max-height: 85vh;
-    border-left: none;
-    border-top: 1px solid var(--border-card);
-    border-radius: 16px 16px 0 0;
-  }
 }

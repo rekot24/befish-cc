@@ -144,17 +144,36 @@ Game Mechanics has a sticky section nav due to content volume.*
 ## Phase 5 — Fish Tracker (`/fish-tracker`)
 *Client-side collection tracker. Three sync states depending on auth.*
 
-- [ ] Build Fish Tracker page — localStorage-only baseline (no auth required)
-  - Mark fish as caught per tier
-  - Progress display (X of 300 collected)
+- [x] Build Fish Tracker page — localStorage-only baseline (no auth required)
+  - Mark fish as caught per tier, watch tier-craft progress toward 50
+  - Progress display (count of 50 per tracker, not X of 300 — matches live)
   - Export / Import JSON as fallback for all browsers
+  - Two intentional changes from live, per the checklist: profile/sort/
+    data controls moved into a slide-in `TrackerDrawer` (desktop right,
+    mobile bottom sheet — same `Drawer` shell as Fish Dex's
+    `FilterDrawer`), and sort became a labeled dropdown instead of
+    click-to-flip toggle buttons
 - [ ] Supabase integration (see Phase 7) unlocks cloud sync
   - On login: pull from Supabase first, fall back to localStorage if unreachable
   - Conflict resolution: `lastModified` Unix timestamp, last-write-wins
   - User-facing prompt for edge case conflicts
-- [ ] File System Access API for local file backup (Chromium desktop only)
+  - `lastModified` is already being stamped on every mutation
+    (`stampModified` in `trackerSchema.ts`) so this phase has the field
+    to compare against already
+- [x] File System Access API for local file backup (Chromium desktop only)
   - Local file is a manual safety net, not primary storage
   - Existing Export/Import remains as fallback for non-Chromium browsers
+
+### Open issues (Phase 5)
+- [ ] Manual browser pass from the checklist's §9b not yet done — needs
+  Joshua, in a real browser: live → new → live export/import
+  round-trip with real data, every interaction (craft cascade, undo,
+  delete, profile CRUD, every sort mode, custom lock/drag/reset, linked
+  file link/write/reload/reconnect/unlink on Chrome+Edge, Firefox link-
+  button-hidden check, mobile bottom-sheet drawer, both themes, two tabs
+  open at once), and confirming the Fish Dex `FilterDrawer` looks/behaves
+  unchanged after the `Drawer` extraction. Keep "Current phase" below at
+  Phase 5 until this is done and confirmed.
 
 ---
 
@@ -199,10 +218,23 @@ Game Mechanics has a sticky section nav due to content volume.*
   - Image optimization (`next/image` for fish images)
   - Font loading strategy (already using `display=swap`)
 - [ ] Fix all known static site issues not yet addressed
+- [ ] Permanent redirects for old static URLs (`/fish-tracker.html` →
+  `/fish-tracker`, and every other `*.html` page) in `next.config.ts` —
+  required so bookmarks survive the merge (found while building Phase 5)
 - [ ] Update `CLAUDE.md` "What's Not Built Yet" checklist to reflect completion
 - [ ] Merge `nextjs` → `main`
 - [ ] Verify befish.cc live on Vercel from `main`
 - [ ] Archive or delete `nextjs` branch
+
+---
+
+## Known issues (unresolved)
+
+- [ ] `www.befish.cc` returns HTTP 503 (found 2026-09-23). The root domain
+  works; `http://` correctly 308s to `https://befish.cc`. The `www`
+  subdomain is likely not assigned to the Vercel project or has a DNS
+  mismatch. Fix: add `www.befish.cc` in Vercel → Domains with a redirect
+  to `befish.cc`.
 
 ---
 
@@ -217,4 +249,9 @@ Game Mechanics has a sticky section nav due to content volume.*
 ---
 
 ## Current focus
-Phase 5 — Fish Tracker page (/fish-tracker).
+Phase 5 — Fish Tracker page (/fish-tracker). All automated work is done
+and verified (see the Phase 5 checklist's implementation-notes entry);
+deliberately NOT advancing to Phase 6 yet — this stays the current phase
+until Joshua completes and confirms the manual browser pass under
+"Open issues" above (real-data round trip, every interaction, both
+themes, two tabs, the Fish Dex drawer regression check).

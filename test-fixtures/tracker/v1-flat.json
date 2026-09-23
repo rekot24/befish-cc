@@ -1,0 +1,31 @@
+{
+  "trackedFish": [
+    {
+      "trackId": "t_1700000000000_abc123",
+      "fishId": "01",
+      "fishName": "Goldfish",
+      "tier": "Normal",
+      "startCount": 10,
+      "count": 15,
+      "catches": [
+        { "count": 11, "timestamp": "2026-01-01T10:00:00.000Z" },
+        { "count": 12, "timestamp": "2026-01-01T12:00:00.000Z" },
+        { "count": 15, "timestamp": "2026-01-02T09:00:00.000Z" }
+      ],
+      "craftTarget": 50
+    },
+    {
+      "trackId": "t_1700000001000_def456",
+      "fishId": "09",
+      "fishName": "Starfish",
+      "tier": "Golden",
+      "startCount": 0,
+      "count": 3,
+      "catches": [
+        { "count": 1, "timestamp": "2026-01-03T08:00:00.000Z" },
+        { "count": 2, "timestamp": "2026-01-03T14:00:00.000Z" },
+        { "count": 3, "timestamp": "2026-01-04T08:00:00.000Z" }
+      ]
+    }
+  ]
+}

@@ -148,6 +148,14 @@
   --hero-word-wiki:   var(--color-cyan);
 
   --accent-wash: rgba(0, 240, 222, 0.07);   /* cyan @ 7% — subtle tint for hover/focus surface fills */
+
+  /* Destructive actions — delete/replace confirmations, danger buttons.
+     Used by the .btn--danger modifier (see §20) plus any plain destructive
+     text link (e.g. a card's Delete action) that isn't a full button.
+     Values ported from live main:style.css --coral. */
+  --danger:       #ff6644;
+  --danger-hover: #c94a34;   /* fixed across themes, matches live site */
+  --danger-text:  var(--white-bg);
 }
 
 
@@ -358,6 +366,7 @@
   --hero-word-befish: var(--color-orange);   /* reversed from dark mode */
   --hero-word-wiki:   var(--color-cyan);
   --section-header:   var(--color-orange);
+  --danger:           #e8604a;   /* live site's light-mode --coral */
 
   /* Buttons — primary shifts to orange in light mode for contrast */
   --btn-primary-bg:             var(--card-bg);
@@ -535,6 +544,33 @@ a:hover {
 .btn--lg {
   font-size: var(--fs-md);
   padding: 0.85rem 2rem;
+}
+
+/* Danger modifier — apply alongside .btn-primary (filled) or .btn-secondary
+   (outlined) for destructive actions (delete/replace confirmations). Not a
+   third button class — same two-class rule as .btn--sm/.btn--lg. */
+.btn-primary.btn--danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--danger-text);
+}
+
+.btn-primary.btn--danger:hover {
+  background: var(--danger-hover);
+  border-color: var(--danger-hover);
+  color: var(--danger-text);
+}
+
+.btn-secondary.btn--danger {
+  background: transparent;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.btn-secondary.btn--danger:hover {
+  background: var(--danger);
+  border-color: var(--danger-hover);
+  color: var(--danger-text);
 }
 
 /* Disabled state — applies to both */

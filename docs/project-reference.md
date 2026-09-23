@@ -41,7 +41,10 @@ Community: YouTube (UCMQCHNgbMx_TY26QcFNcMag), Discord (CfsQmRjGbe)
 
 - [ ] Crowdsourced nets-per-minute submission system
 - [ ] Discord OAuth login
-- [ ] Cloud-synced fish tracker profiles (Supabase)
+- [ ] Cloud-synced fish tracker profiles (Supabase) — localStorage/
+  linked-file baseline shipped in Phase 5; this item is specifically the
+  Phase 7 Supabase sync layer on top of it (the storage adapter is
+  already shaped for this — see "Fish Tracker storage contract" below)
 - [ ] Individual fish pages (`/fishdex/[slug]`) for SEO
 - [ ] Growth Rush Challenge page
 - [ ] Community leaderboard features
@@ -92,13 +95,53 @@ Cross-link between pages rather than duplicating content.
 - Luck odds table rows are interpolated/illustrative, not fully verified
 - Homepage missing a Tracker feature card
 - `growth-challenge.html` was built but never committed or deployed
-- Fish Tracker localStorage — migrate to Supabase cloud sync in rebuild
+- Fish Tracker cloud sync — localStorage + linked-file baseline shipped
+  in the rebuild (Phase 5); Supabase sync itself is still Phase 7
+- `www.befish.cc` returns HTTP 503 (found 2026-09-23) — the root domain
+  works and `http://` correctly 308s to `https://befish.cc`; the `www`
+  subdomain is likely not assigned to the Vercel project or has a DNS
+  mismatch. Fix: add `www.befish.cc` in Vercel → Domains with a redirect
+  to `befish.cc`. Tracked for a Phase 8 fix.
 
 Resolved during the Next.js rebuild (kept here only as a pointer to when/
 how, not as an open item):
 - `tips.html` General Tips section header inconsistency (icon vs label) —
   resolved structurally by `SectionBlock` (Phase 3c)
 - Typo "Inceases" in Fast XP pass card — fixed during content port (Phase 3b)
+
+## Fish Tracker storage contract
+
+Frozen — see `CLAUDE.md` Key Decisions. This is what makes it safe for
+the Next.js tracker to inherit every existing user's browser storage at
+merge time (Phase 8): at that point it runs on the same origin as the
+live site, so it only inherits real data if these exact keys/shapes hold.
+
+| Storage | Name | Rule |
+|---|---|---|
+| localStorage | `befish-tracker-v2` | Primary key. Read and write this exact key. Never rename it. |
+| localStorage | `befish-tracker-v1` | Legacy key. Read once for migration if v2 is missing. Never delete or modify it. |
+| localStorage | `befish-tracker-sort-locked` | `'1'` / `'0'`. Global (not per-profile). Default is locked when missing. |
+| localStorage | `befish-tracker-v2-preimport-backup` | New (this port) — a snapshot of v2 written just before a full-backup import replaces everything. |
+| IndexedDB | DB `befish-tracker-fs`, version `1`, store `handles`, key `linkedFile` | Linked-file handle. Reused exactly, so existing linked files stay linked. |
+
+**Schema rule — additive only.** The same JSON shape the live page writes,
+always. New fields may be added (`schemaVersion`, `lastModified` on both
+the root and each profile), but existing fields must never be removed,
+renamed, or retyped. Unknown fields are preserved on round-trip (e.g. the
+legacy per-tracker `craftTarget`) — this is what keeps a rollback to the
+old static site safe, since its code simply ignores fields it doesn't
+recognize. Verified automatically by `scripts/verify-tracker-data.ts`
+(`npx tsx scripts/verify-tracker-data.ts`) against synthetic fixtures in
+`test-fixtures/tracker/` and, when present, a real export at
+`test-fixtures/private/` (gitignored — never commit real user data).
+
+**Hydration guard.** React's first render has no access to localStorage.
+`useTracker` never persists anything until its `hydrated` flag is true,
+and `trackerStorage.ts`'s own `load()` never writes a fresh default
+profile on load either — only a real user mutation may do that, and only
+once hydration has completed. Writing a blank default before the real
+load finishes would silently wipe existing data; this is the single most
+important failure mode the whole storage layer exists to prevent.
 
 ## Design token / implementation gaps (found during Next.js rebuild, not from the static site)
 

@@ -1,0 +1,23 @@
+.wrap {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+  background: var(--card-bg);
+  border: 1px solid var(--rarity-mythic-bg);
+  border-radius: var(--card-radius);
+}
+
+.message {
+  color: var(--text-mid);
+  font-size: var(--fs-base);
+  line-height: var(--lh-loose);
+  margin-bottom: var(--space-lg);
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.note {
+  color: var(--text-low);
+  font-size: var(--fs-sm);
+  margin-top: var(--space-md);
+}

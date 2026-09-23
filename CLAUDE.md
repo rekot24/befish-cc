@@ -102,15 +102,41 @@ src/
 │   ├── Footer/
 │   │   ├── Footer.tsx
 │   │   └── Footer.module.css
+│   ├── Drawer/              ← Shared slide-in panel shell (overlay, right-
+│   │                          slide desktop/bottom-sheet mobile, head/body/
+│   │                          foot); FilterDrawer and TrackerDrawer both use it
+│   ├── Modal/                ← Promise-based alert/confirm/prompt dialog
+│   ├── Toast/                ← Notification stack
+│   ├── ErrorBoundary/         ← Wraps Fish Tracker only; fallback exports raw data
+│   ├── TrackerCard/, TrackerAddPanel/, TrackerDrawer/, FishTracker/
+│   │                          ← Fish Tracker's component layer
 │   └── [ComponentName]/
 │       ├── [ComponentName].tsx
 │       └── [ComponentName].module.css
 ├── hooks/
-│   └── useFishDex.ts       ← All Fish Dex state/filter/sort/compare logic
-└── lib/
-    └── fishData.ts         ← Fish data (ported from fish-data.js)
+│   ├── useFishDex.ts        ← All Fish Dex state/filter/sort/compare logic
+│   ├── useTracker.ts        ← All Fish Tracker state/mutations (hydration guard lives here)
+│   ├── useLinkedFile.ts     ← Wraps trackerFileSync as React state
+│   ├── useModal.ts          ← Promise-based alert/confirm/prompt
+│   └── useToast.ts          ← Toast stack state
+├── lib/
+│   ├── fishData.ts          ← Fish data (ported from fish-data.js)
+│   ├── logger.ts            ← The one sanctioned console.* boundary
+│   ├── featureFlags.ts      ← Code-level flags until the Phase 7 settings store
+│   ├── trackerConfig.ts     ← Every Fish Tracker constant, named + sourced
+│   ├── trackerSchema.ts     ← Tracker types + pure normalize/migrate/export
+│   ├── trackerLogic.ts      ← Pure tracker math (cascade, sort, ETA, formatting)
+│   ├── trackerStorage.ts    ← localStorage adapter (the Phase 7 Supabase seam)
+│   └── trackerFileSync.ts   ← Linked local file (IndexedDB + File System Access)
+└── types/
+    └── file-system-access.d.ts ← Ambient types the DOM lib doesn't declare yet
 public/
 └── img/                    ← Fish images (copied from main branch)
+test-fixtures/
+├── tracker/                 ← Synthetic tracker fixtures (committed)
+└── private/                 ← Real user exports (gitignored — never commit)
+scripts/
+└── verify-tracker-data.ts   ← Tracker data-layer safety net (npx tsx scripts/verify-tracker-data.ts)
 docs/
 ├── project-reference.md    ← Architecture, decisions, data model
 ├── changelog.md            ← Condensed running log (newest first)
@@ -178,7 +204,7 @@ Before writing any value in a `.module.css` file:
 | 5 | Text | `--text-hi`, `--text-mid`, `--text-low`, `--text-disabled`, `--stat-text` |
 | 6 | Borders | `--border`, `--border-card`, `--border-card-hi`, `--border-section` |
 | 7 | Nav | `--nav-text`, `--nav-text-hi`, `--nav-text-active`, `--nav-height` |
-| 8 | Semantic aliases | `--accent`, `--section-header`, `--cta`, `--hero-word-*` |
+| 8 | Semantic aliases | `--accent`, `--section-header`, `--cta`, `--hero-word-*`, `--danger*` |
 | 9 | Buttons | `--btn-primary-*`, `--btn-secondary-*`, `--btn-font-*`, `--btn-radius` |
 | 10 | Cards | `--card-radius`, `--info-card-*`, `--fish-card-*`, `--feature-card-*` |
 | 11 | Section blocks | `--section-block-*`, `--section-header-*`, `--section-desc-color` |
@@ -194,6 +220,10 @@ never redefine their color, padding, or radius in a module file:
 - `.btn-primary` — filled, high-contrast CTA
 - `.btn-secondary` — outlined, same shape
 - Size modifiers: `.btn--sm`, `.btn--lg`
+- Danger modifier: `.btn--danger` — for destructive actions (delete/replace
+  confirmations), apply alongside `.btn-primary` or `.btn-secondary`. Uses
+  `--danger`/`--danger-hover`/`--danger-text`. Still two button classes —
+  this is a modifier, not a third class.
 
 ---
 
@@ -206,6 +236,17 @@ never redefine their color, padding, or radius in a module file:
 - **No import aliases** — use relative paths (`../../components/Nav/Nav`)
 - **Fish images** in `public/img/` — referenced as `/img/[id]-[tier].png`
 - **`fish-data.js` → `lib/fishData.ts`** — typed TypeScript module, not a script tag
+- **Tracker storage keys and schema are a frozen contract (additive
+  only)** — `befish-tracker-v2`/`-v1`/`-sort-locked` and the IndexedDB
+  linked-file handle must never be renamed; new schema fields may be
+  added but existing ones never removed/renamed/retyped. This is what
+  lets the Next.js tracker inherit real users' browser data at the
+  Phase 8 merge. See `docs/project-reference.md` "Fish Tracker storage
+  contract" and `scripts/verify-tracker-data.ts`.
+- **`logger`/`featureFlags` are code-level until Phase 7** — `lib/logger.ts`
+  and `lib/featureFlags.ts` stand in for the Supabase `app_logs` table and
+  the settings-store feature-flag rows that don't exist yet. No raw
+  `console.*` calls anywhere in tracker code — always through `logger`.
 
 ---
 
@@ -267,4 +308,7 @@ type Fish = {
 ## What's Not Built Yet
 
 See `docs/roadmap.md` for the full sequenced build plan and current status.
-Current phase: Phase 5 — Fish Tracker page (/fish-tracker).
+Current phase: Phase 5 — Fish Tracker page (/fish-tracker). Automated
+work is done and verified; deliberately kept here (not advanced to
+Phase 6) until Joshua completes the manual browser pass under
+`docs/roadmap.md`'s Phase 5 "Open issues."

@@ -1,0 +1,95 @@
+.loading,
+.noResults {
+  text-align: center;
+  color: var(--text-low);
+  font-size: var(--fs-base);
+  padding: var(--space-2xl);
+}
+
+.loadError {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+  background: var(--card-bg);
+  border: 1px solid var(--rarity-mythic-bg);
+  border-radius: var(--card-radius);
+}
+
+.loadError p {
+  margin-bottom: var(--space-lg);
+}
+
+.controlBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+/* Matches FishDex's .filterBtn pattern for a consistent control-bar look. */
+.drawerBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-lg);
+  color: var(--text-mid);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.drawerBtn:hover {
+  border-color: var(--border-card-hi);
+  color: var(--text-hi);
+}
+
+.drawerBadge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--danger);
+}
+
+.count {
+  font-size: var(--fs-sm);
+  color: var(--text-low);
+  margin-bottom: var(--space-md);
+}
+
+.invalidNotice {
+  font-size: var(--fs-sm);
+  color: var(--rarity-legendary-text);
+  background: var(--rarity-legendary-bg);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+}
+
+.unlocked > div { cursor: grab; }
+.unlocked > div:active { cursor: grabbing; }
+
+.ghost { opacity: 0.4; }

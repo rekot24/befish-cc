@@ -9,6 +9,232 @@ work — this file holds the fuller detail behind it.
 
 ---
 
+## 2026-09-23 — Fish Tracker (`08-phase5-fish-tracker.md`)
+
+By far the largest checklist so far — real user data at stake, so this
+entry is longer than usual. Needs a manual browser pass before Phase 6;
+see `docs/roadmap.md`'s Phase 5 "Open issues" and the "still needs a
+browser" list at the end of this entry.
+
+### Data safety, first thing
+Before any other work: moved the real export Joshua placed at the repo
+root (`befish-tracker-24rolla-2026-09-23.json`) into
+`test-fixtures/private/`, added `/test-fixtures/private/` and
+`/befish-tracker-*.json` to `.gitignore`, and confirmed via `git status`
+it never showed as untracked-to-add at any point in this session.
+
+### Architecture built (checklist Sections 2–9)
+- **Fixtures** (`test-fixtures/tracker/`, committed): `v1-flat.json`
+  (with a legacy `craftTarget` field), `v2-full-backup.json` (two
+  profiles, one with legacy `sortMode: 'default'` and no `manualOrder`),
+  `v2-single-profile.json`, `edge-cases.json` (missing `catches`, a
+  55-entry catch list, an unknown `fishId`, an invalid `tier`, a bad
+  `activeProfileId`), `invalid.json`.
+- **Scaffolding**: `logger.ts` (the one sanctioned `console.*` boundary,
+  loud outside production), `featureFlags.ts` (`trackerLinkedFile`,
+  `trackerDragReorder`, code-level until Phase 7), `trackerConfig.ts`
+  (every constant named + sourced), `ErrorBoundary/` (class component,
+  wraps only the tracker, fallback reads `befish-tracker-v2` directly
+  from localStorage and offers it as a download — independent of
+  whatever crashed in the tree it replaces).
+- **Data model** (`trackerSchema.ts`): types, `normalizeData` (fixes
+  legacy `sortMode`, fills `manualOrder`/`catches` defaults, repairs an
+  invalid `activeProfileId`, sets `schemaVersion`), `isTrackerRenderable`
+  (unknown-fishId/invalid-tier trackers stay in storage, excluded from
+  display only), `migrateV1`, `parseImport`, `buildSingleExport`/
+  `buildFullExport`, `stampModified`.
+- **Pure logic** (`trackerLogic.ts`): line-for-line port of
+  cascade/sort/ETA/formatting/ID-generation from the live inline script,
+  parameterized instead of using a global `activeProfile()`. Added
+  `etaNextCatchMs` (not in the original checklist code sample) after
+  React's purity lint rule flagged an inline `Date.now()` call inside
+  `TrackerCard`'s render — pulling the calc into a plain
+  `trackerLogic.ts` function (matching how `etaNextTierMs` already
+  worked) fixed it without changing behavior.
+- **Storage** (`trackerStorage.ts`): the `TrackerStore` interface +
+  `localTrackerStore` (v2 → v1-migrate → in-memory-only
+  first-visit default, corrupt JSON never overwritten) +
+  `writePreImportBackup`. `trackerFileSync.ts`: IndexedDB handle
+  storage + File System Access writes, a debounced single-in-flight
+  writer that always re-reads the *current* data/handle at write time
+  (via getter callbacks) so a queued re-run picks up whatever changed
+  while the previous write was in flight, matching live exactly.
+- **New ambient types** (`src/types/file-system-access.d.ts`, not in the
+  checklist): TypeScript's bundled DOM lib doesn't declare
+  `queryPermission`/`requestPermission`/`showSaveFilePicker` yet —
+  added the minimal types `trackerFileSync.ts` actually uses.
+- **Hooks**: `useTracker.ts` (all state/mutations; hydration guard is a
+  second, hook-level layer on top of `trackerStorage.ts`'s own —
+  every mutation goes through one `applyMutation` helper that refuses to
+  persist until `hydrated`), `useLinkedFile.ts` (wraps `trackerFileSync`;
+  unlink confirmation is the caller's job, not the hook's), `useModal.ts`
+  (promise-based alert/confirm/prompt), `useToast.ts` (staggered stack).
+- **Components**: `Drawer/` (shared shell, extracted from `FilterDrawer`
+  — see below), `Modal/`, `Toast/`, `TrackerCard/` (colors via CSS
+  custom properties on the root, only inline style left is the bar
+  width; image-load failure swaps to a 🐟 placeholder via
+  React state, not DOM mutation, per the checklist), `TrackerAddPanel/`
+  (stateful popover, count input clamped exactly like live — only
+  the upper bound enforced while typing, full clamp incl. lower bound at
+  submit), `TrackerDrawer/` (Profile/Sort/Data & Sync, inline rename
+  replicates live's `committed`-flag guard so Enter/Escape/blur never
+  double-fire), `FishTracker/` (the page component — every confirm
+  dialog for delete/reset/unlink/replace-all-data lives here, not in any
+  hook or dumb component), plus the Sortable.js drag-reorder wiring.
+- **Search index**: one entry for `/fish-tracker` (single-section page —
+  confirmed `Search.tsx`'s `groupByPage` already handles a one-entry page
+  correctly, no code change needed).
+
+### The `--danger` button system (agreed before implementing)
+Added `--danger`/`--danger-hover`/`--danger-text` to `globals.css` §8
+(dark `#ff6644`, light `#e8604a`, hover `#c94a34` fixed — all three
+values pulled from live `main:style.css`'s `--coral`, confirmed exact via
+`git show`) and a `.btn--danger` modifier next to `.btn--sm`/`.btn--lg`
+in §20, usable with either `.btn-primary` or `.btn-secondary`. Still
+two button classes, per the standing rule — documented in CLAUDE.md's
+Buttons section. `TrackerCard`'s Delete text-link also uses `var(--danger)`.
+
+### The `Drawer` extraction (the flagged "stop if risky" checkpoint)
+Extracted the shell (`.overlay`/`.drawer`/`.head`/`.title`/`.closeBtn`/
+`.body`/`.foot`, the mobile bottom-sheet media query, Escape/overlay-click
+close) out of `FilterDrawer.module.css` into `Drawer/Drawer.module.css`
+and `Drawer/Drawer.tsx`, values unchanged. Refactored `FilterDrawer.tsx`
+to render `<Drawer>` with its existing sections as children and a `foot`
+prop for Clear/Done — **not in the checklist's literal prop list**
+(`open, onClose, title, ariaLabel, children`), added because both
+`FilterDrawer` and `TrackerDrawer` need a pinned non-scrolling footer,
+which `children` alone can't provide cleanly. Verified clean: `tsc`/
+`eslint` pass, a fresh dev server compiles with no errors, `/fishdex`
+still returns 200 with all 300 cards, the search input, and the drawer
+correctly absent from the initial HTML (closed by default) — no stop
+needed, this was clean per Joshua's "stop only if not clean" condition.
+
+### Two live-site bugs caught and NOT ported (flagged, not silent)
+1. **Modal box text illegible in dark mode.** The live `.modal-box` is
+   hardcoded `background: #fff` with *no* dark-mode override anywhere in
+   `main:style.css`, but its text uses the theme-switching
+   `var(--text-dark)`/`var(--text-mid)` — which go near-white in dark
+   mode, on a box that's always white. Ported the fixed-white *box*
+   (matches this project's own "fixed light surface" precedent, e.g.
+   FishCard's stats body) but used fixed dark text values instead
+   (`#0d1f3c`/`#4a6080`, which happen to equal this project's own
+   light-mode `--text-hi`/`--text-mid` exactly, so light mode looks
+   identical either way).
+2. **Same bug, same fix, `TrackerAddPanel`.** The live `.tracker-add-panel`
+   has the identical gap (hardcoded white, no dark override, theme-
+   switching text colors). Rather than repeat the fixed-white-plus-fixed-
+   text fix a second time, reused `FilterDrawer`'s already-correct,
+   already-theme-aware popover pattern (`var(--card-bg)` etc.) instead,
+   since a popover attached to the page fits that pattern better than a
+   fixed-white blocking-modal surface. Documented in the CSS file itself.
+
+### Other deviations
+- **Toast background**: live's `--ocean-dark` token happens to resolve
+  dark in both its themes, keeping white toast text legible either way.
+  This project's closest-named tokens (`--nav-bg`, `--footer-bg`,
+  `--page-bg`) all go *white* in light mode, which would break that.
+  Used a new, genuinely local, "intentionally fixed" `#0d1f3c` instead of
+  reaching for a global token, per the Variable Lookup Rule's own
+  single-use exception.
+- **Dupe warning color** (`TrackerAddPanel`): reused `--rarity-legendary-bg`/
+  `-text` instead of the live site's hardcoded `#f8e8d4`/`#884a0d` —
+  this is the exact reuse `style-audit.md` originally recommended for
+  this value back before the rebuild started.
+- **Bar track background** (`TrackerCard`): reused the existing
+  `--stat-bar-bg` token (white-alpha in dark mode, black-alpha in light)
+  rather than porting live's separate light/dark hardcoded pair — it
+  already means exactly "empty progress track on the current surface,"
+  which fits `TrackerCard`'s theme-switching card background.
+- **Inline-style consistency, caught via a post-build grep sweep** (not
+  the checklist's own text, but the pattern this whole rebuild has
+  enforced repeatedly): `TrackerAddPanel`'s rarity-name text initially
+  set `color` directly inline instead of through a CSS custom property
+  like its sibling `.dot` did one line above — consolidated both onto
+  one `--rarity-color` set on their shared parent `<button>`. After the
+  fix, grepped every new component for `style={{` and confirmed only the
+  bar-fill width and the documented custom-property roots remain
+  (satisfies checklist §9a's explicit "no inline `style=` except bar
+  width and the custom-property roots" check).
+
+### `scripts/verify-tracker-data.ts` — built, then tightened per feedback
+First pass: 42 checks, all passing, including the real fixture's tracker/
+catch/count totals matching exactly before and after
+(parseImport→normalizeData→export). Joshua then asked for three
+specific tightenings before continuing into components:
+1. **The round-trip check's allowlist was too broad.** It used a generic
+   "is `after` a deep superset of `original`" comparison, which correctly
+   caught real problems but didn't explicitly enumerate *which* changes
+   are allowed — it just happened to tolerate the two legitimate
+   normalizations (`sortMode: 'default'→'default-desc'`,
+   `activeProfileId` repair) as a side effect of being lenient about
+   extra keys generally. Rewrote `checkFullRoundTrip` to an explicit
+   allowlist: exactly `sortMode`, `manualOrder`, `catches`,
+   `activeProfileId` (repair-only), `schemaVersion` may change; every
+   other key at every level (root/profile/tracker) must be byte-identical,
+   and a genuinely new unexpected key is now flagged too, not silently
+   tolerated.
+2. **Sort parity claimed 8 modes, `SortMode` has 9.** `'manual'` was
+   tested separately (empty-order fallback, order-respected-with-append)
+   but not in the main parity-vs-frozen-live-reference loop. Folded it
+   in with a representative `manualOrder` so all 9 modes get the same
+   "matches the live reference" check, and added a dedicated stale-
+   trackId-in-`manualOrder` case (a deleted tracker still referenced)
+   confirming it's silently filtered out, not left as a gap or thrown.
+3. **Added storage-layer checks** using a small in-memory `Storage`
+   mock (`window.localStorage` isn't available under `tsx`/Node) with a
+   `writeCount` spy: (a) `load()` on empty storage performs zero writes,
+   (b) corrupt v2 JSON is never overwritten by `load()`, checked across
+   two consecutive calls, (c) v1→v2 migration leaves the v1 key
+   byte-identical and performs exactly one write (the v2 migration write).
+   The useTracker-level "hydrating with existing data triggers no save
+   before hydrated=true" check Joshua also asked for is noted as a
+   **follow-up, not yet added** — `useTracker` didn't exist yet when
+   this script was last touched; the guard itself is implemented and
+   described in the hook's docstring, but no automated test for it
+   exists yet (it would need a React Testing Library-style render, which
+   this Node script doesn't set up).
+
+Final tally after all three fixes: **57 passed, 0 failed.**
+
+### Verification
+`tsc --noEmit` and `eslint src scripts` clean throughout (fixed several
+React 19 purity/hooks-rule violations along the way: two "ref written
+during render" cases in `useTracker`/`useLinkedFile` — fixed by moving
+the ref write into the effect that already sets the corresponding state,
+one legitimate SSR-hydration `set-state-in-effect` — suppressed with
+the same justified `eslint-disable-next-line` precedent as `Nav.tsx`, one
+"reset local state on prop change" anti-pattern in `Modal` — fixed
+with a `key`-based remount per React's own recommended pattern instead of
+an effect, and one real bug the linter caught: `useTracker`'s 60s ETA
+refresh used `const [, forceTick] = useState(0)`, discarding the tick
+value entirely — meaning `visibleTrackers`'s memo could never actually
+depend on it and the 60s refresh silently did nothing; fixed by keeping
+the value and adding it to the memo's deps).
+
+`npx tsx scripts/verify-tracker-data.ts`: 57/57, including the real
+fixture (63 trackers, 513 catches, 964 total count, identical before and
+after). Booted a fresh dev server: `/fish-tracker` and all five other
+pages (`/`, `/fishdex`, `/how-to-play`, `/mechanics`, `/tips`) return 200
+with clean compiles; the SSR HTML correctly shows the hydration-loading
+placeholder (never the empty state) with zero inline styles, matching
+`tracker.hydrated` being false during SSR by design.
+
+### Still needs a browser (not verified here — see roadmap "Open issues")
+Every interactive behavior: craft cascade + toast, undo, delete (tracker
+and profile), profile create/rename/switch/delete, every sort mode via
+the UI, custom lock/drag-reorder/reset, linked file link/write/reload/
+reconnect/unlink on Chrome or Edge, Firefox (link button correctly
+hidden), the mobile bottom-sheet drawer, both themes, two tabs open at
+once (multi-tab re-hydration), and a real live→new→live
+export/import round trip with Joshua's actual data. `docs/roadmap.md`'s
+Phase 5 "Open issues" has the full list. "Current phase" is deliberately
+left at Phase 5 in both `CLAUDE.md` and `docs/roadmap.md` until this pass
+is done.
+
+No other bugs found.
+
+---
+
 ## 2026-09-22 — Fish Dex Page (`07-phase4-fishdex.md`)
 
 - Built the full 4-layer architecture: `src/lib/fishData.ts` (data — all

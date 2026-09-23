@@ -1,0 +1,18 @@
+{
+  "profileName": "Exported Solo",
+  "trackedFish": [
+    {
+      "trackId": "t_1700000006000_mno345",
+      "fishId": "49",
+      "fishName": "Anglerfish",
+      "tier": "Rainbow",
+      "startCount": 30,
+      "count": 42,
+      "catches": [
+        { "count": 35, "timestamp": "2026-03-01T00:00:00.000Z" },
+        { "count": 40, "timestamp": "2026-03-05T00:00:00.000Z" },
+        { "count": 42, "timestamp": "2026-03-07T00:00:00.000Z" }
+      ]
+    }
+  ]
+}
