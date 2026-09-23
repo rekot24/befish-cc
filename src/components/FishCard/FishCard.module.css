@@ -1,0 +1,172 @@
+/* FishCard.module.css */
+.card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--tier-color);
+  font-family: var(--font-body);
+}
+
+.allUnknown {
+  opacity: 0.6;
+}
+
+.tierBadge {
+  position: absolute;
+  top: -1px;
+  left: 8px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  background: var(--tier-color);
+  color: var(--tier-badge-color);
+  padding: 2px 8px;
+  border-radius: 0 0 6px 6px;
+  z-index: 2;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.top {
+  background: var(--rarity-color);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 8px 8px 8px;
+  min-height: 80px;
+}
+
+.topInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.fishName {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  color: var(--tier-badge-color);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);   /* legibility shadow on saturated bg — intentionally fixed */
+  line-height: var(--lh-tight);
+}
+
+.rarityBadge {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: rgba(255,255,255,0.85);   /* white overlay on saturated bg — intentionally fixed */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.odds {
+  font-size: var(--fs-xs);
+  color: rgba(255,255,255,0.7);   /* white overlay on saturated bg — intentionally fixed */
+}
+
+.odds.highlight {
+  color: var(--tier-badge-color);
+  font-weight: var(--fw-bold);
+}
+
+.imgWrap {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Body — always light regardless of theme (rarity-colored), matches
+   --fish-card-body-bg precedent set in globals.css */
+.body {
+  background: var(--rarity-body-bg);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.statRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statLabel {
+  font-size: var(--fs-xs);
+  color: var(--stat-label-color);
+  width: var(--stat-label-width);
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.statLabel.highlight {
+  font-weight: var(--fw-bold);
+}
+
+.barTrack {
+  flex: 1;
+  height: var(--stat-bar-height);
+  background: var(--stat-bar-bg);
+  border-radius: var(--stat-bar-radius);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: var(--stat-bar-radius);
+  opacity: 0.72;
+}
+
+.barFill.highlight {
+  opacity: 1;
+}
+
+.barUnknown {
+  flex: 1;
+  height: var(--stat-bar-height);
+  background: var(--stat-bar-bg);
+  border-radius: var(--stat-bar-radius);
+}
+
+.statVal {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  width: 28px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.statVal.highlight {
+  font-weight: var(--fw-black);
+}
+
+.xpRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(0,0,0,0.06);   /* divider on light stats body — intentionally fixed */
+  font-size: var(--fs-xs);
+}
+
+.xpHighlight {
+  font-weight: var(--fw-bold);
+}
+
+.xpVal {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+}
+
+.unknown {
+  color: var(--text-disabled);
+  font-style: italic;
+}
+
+.highlight {
+  font-weight: var(--fw-black);
+}

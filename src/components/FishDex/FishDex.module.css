@@ -1,0 +1,73 @@
+/* FishDex.module.css */
+.controlBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.searchInput {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 20px;
+  padding: var(--space-sm) var(--space-lg);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+}
+
+.searchInput::placeholder { color: var(--text-low); }
+.searchInput:focus { outline: none; border-color: var(--border-card-hi); }
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-lg);
+  color: var(--text-mid);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.filterBtn:hover { border-color: var(--border-card-hi); color: var(--text-hi); }
+
+.filterBtnActive {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filterBadge {
+  background: var(--accent);
+  color: var(--page-bg);
+  font-size: 10px;
+  font-weight: var(--fw-black);
+  border-radius: 10px;
+  padding: 1px 7px;
+}
+
+.count {
+  font-size: var(--fs-sm);
+  color: var(--text-low);
+  margin-bottom: var(--space-lg);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-md);
+}
+
+.noResults {
+  text-align: center;
+  color: var(--text-low);
+  font-size: var(--fs-base);
+  padding: var(--space-2xl);
+}

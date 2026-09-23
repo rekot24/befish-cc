@@ -9,6 +9,90 @@ work — this file holds the fuller detail behind it.
 
 ---
 
+## 2026-09-22 — Fish Dex Page (`07-phase4-fishdex.md`)
+
+- Built the full 4-layer architecture: `src/lib/fishData.ts` (data — all
+  60 species × 5 tiers, ported verbatim from `fish-data.js`, no logic
+  changes), `src/hooks/useFishDex.ts` (all filter/sort/compare state,
+  zero UI), `src/components/FishCard/` (pure render, no state),
+  `src/components/FishDex/` + `src/components/FilterDrawer/` (UI only,
+  reads the hook). `/fishdex` route wired last.
+- Copied all fish images from `main` — verified the real filenames first
+  (`git ls-tree`) rather than trusting the roadmap's stale
+  `/img/01-normal.png` example; actual convention is numeric
+  (`/img/01-1.png` = Normal, `-2` = Golden, etc.), exactly matching the
+  checklist. 237 of 300 combos have images — confirmed the other 63 are
+  precisely the fish/tier combos with `null` stats (not yet craftable
+  in-game), so nothing is actually missing.
+- **Bug fixed (would not compile):** `FishCardProps.sortStat` was typed
+  `'growth' | 'speed' | 'xp' | null` but the component body checks
+  `sortStat === 'rarity'` and `FishDex.tsx` passes `'rarity'` as a real
+  value — widened the type to include `'rarity'`, and dropped the now-
+  unnecessary cast in `FishDex.tsx` since the ternary's inferred type
+  matches the (corrected) prop type exactly.
+- **Bug fixed (own tooling, not the checklist's code):** the checklist's
+  image-copy script (`git show ... > file 2>/dev/null || true`) creates
+  an empty 0-byte file at the destination even when `git show` fails,
+  because the redirect happens before the command runs. Used `rm -f` on
+  failure instead of `|| true`, and verified afterward that zero 0-byte
+  files exist and all 237 expected files are present.
+- **CSS/inline-style cleanup, agreed before implementing:** consolidated
+  `FishCard`'s per-instance colors (`tc`, `fish.bg`, `rc.bg`) into three
+  CSS custom properties (`--tier-color`, `--rarity-color`,
+  `--rarity-body-bg`) set once on the outer card, referenced from
+  `FishCard.module.css` — matching the `--chip-color` pattern the
+  checklist already used correctly elsewhere in the same file. Did the
+  same for `FilterDrawer`'s compare-panel dot and selected tier chip
+  (`--dot-color`, reused `--chip-color`), which had been using direct
+  `style={{ background: ... }}` inconsistently with the filter chips
+  right above them in the same component. Replaced five hardcoded
+  `#ffffff` values (`FishCard`'s `.tierBadge`/`.fishName`/`.odds.highlight`,
+  `FilterDrawer`'s `.toggleDot`/`.tierChipSel`) with the existing
+  `--tier-badge-color`/`--white-bg` tokens. Moved `fontWeight: 700`
+  inline-style literals (odds/xp-row/stat-label sort highlighting) into
+  conditional CSS classes using `--fw-bold`, keeping only genuinely
+  per-render-dynamic values (`color`, bar-fill `width`) inline. Left a
+  handful of white-alpha/black-alpha values with no matching token
+  (`.rarityBadge`, `.odds`, the stats-body divider, the drawer overlay
+  backdrop) as "intentionally fixed," consistent with precedent — these
+  sit on surfaces that don't theme-switch (light rarity-colored card
+  body) or are generic modal chrome.
+- Reused the already-exported `TIERS` constant for the image-path tier
+  index instead of the checklist's inline `['Normal','Golden',...]`
+  array literal, avoiding a duplicate of data that already exists.
+- **Steps 6 and 8 merged:** the checklist writes `FishDex.tsx` with
+  `onClearTiers`/`onClearRarities` as no-op placeholders in Step 6, then
+  Step 8 immediately fixes them. Wrote the final, already-correct version
+  directly in one pass instead of deliberately shipping broken code and
+  re-patching it a step later.
+- **Real lint issues found and fixed** in the checklist's own hook code
+  (ported faithfully, then caught by `eslint`): three `cond ? a() : b();`
+  ternaries used as statements (`no-unused-expressions`) in the toggle
+  helpers, converted to `if/else`; `let result` that's never reassigned
+  (`prefer-const`) in the main filter/sort `useMemo`, changed to `const`.
+- Updated `docs/roadmap.md`'s Phase 4 section to correct the stale image-
+  naming example and to note `FishCard` uses the `RC`/`TC` data maps
+  (not global `--rarity-[name]`/`--tier-[name]` token groups) — the
+  original roadmap sketch predates the checklist's actual (and more
+  practical, given 60×6×5 combinations) approach. Also added `hooks/` to
+  CLAUDE.md's Project Structure diagram.
+- Verified: `tsc --noEmit` and `eslint src` both clean after the above
+  fixes. Booted a fresh dev server, confirmed via `curl` that `/fishdex`
+  returns 200 with exactly 300 rendered cards (verified via the
+  unambiguous `tierBadge` count, not the `.card` class — that regex
+  under-matched because of how the conditional `allUnknown` class gets
+  appended, a mistake in my own verification query, not the page), the
+  63 null-stat cards carry `allUnknown`, the result count reads "Showing
+  300 cards across 60 species," the drawer is absent from the initial
+  HTML (correctly closed by default), and no hardcoded hex values remain
+  in any of the new `.module.css` files. Interactive behaviors (drawer
+  open/close paths, chip toggles, sort reordering, compare filtering,
+  clear-all, mobile sheet layout) were verified by code review only — no
+  browser available to click through them.
+- No bugs found beyond the ones listed above.
+
+---
+
 ## 2026-09-22 — Game Mechanics Page (`06-phase3d-mechanics.md`)
 
 - Ported Game Mechanics content from the static site: `/mechanics` route,

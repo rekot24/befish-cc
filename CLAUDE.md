@@ -105,6 +105,8 @@ src/
 │   └── [ComponentName]/
 │       ├── [ComponentName].tsx
 │       └── [ComponentName].module.css
+├── hooks/
+│   └── useFishDex.ts       ← All Fish Dex state/filter/sort/compare logic
 └── lib/
     └── fishData.ts         ← Fish data (ported from fish-data.js)
 public/
@@ -265,4 +267,4 @@ type Fish = {
 ## What's Not Built Yet
 
 See `docs/roadmap.md` for the full sequenced build plan and current status.
-Current phase: Phase 4 — Fish Dex page and FishCard component.
+Current phase: Phase 5 — Fish Tracker page (/fish-tracker).

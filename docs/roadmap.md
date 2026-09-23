@@ -102,30 +102,42 @@ Game Mechanics has a sticky section nav due to content volume.*
 ## Phase 4 — Fish Dex (`/fishdex`)
 *The most complex page. Fish data, card components, and interactive filtering.*
 
-- [ ] Port `fish-data.js` → `lib/fishData.ts` (typed TypeScript module)
+- [x] Port `fish-data.js` → `lib/fishData.ts` (typed TypeScript module)
   - Full `Fish` and `TierData` types as defined in `CLAUDE.md`
   - All 60 fish × 5 tiers
-- [ ] Copy fish images from `main` branch → `public/img/`
-  - Naming convention: `/img/[id]-[tier].png` (e.g. `/img/01-normal.png`)
-- [ ] Build `FishCard` component (`src/components/FishCard/`)
+- [x] Copy fish images from `main` branch → `public/img/`
+  - Naming convention: `/img/[id]-[N].png` where N is 1–5 for
+    Normal/Golden/Rainbow/Glowing/Shadow (e.g. `/img/01-1.png`) — the
+    earlier "e.g. `/img/01-normal.png`" note here was wrong; verified
+    against the actual files on `main` before copying (237 of 300
+    combos exist — the other 63 are exactly the fish/tier combos with
+    null stats, i.e. not yet craftable in-game, so no image exists for
+    them either)
+- [x] Build `FishCard` component (`src/components/FishCard/`)
   - Locked card structure (from design-decisions.md):
     - Rarity color fills full top area
     - Fish name centered full-width
     - Rarity + odds stacked left, fish image right
     - White stats body with rarity-colored bars
     - Tier badge pill hovering above top-left corner
-  - Uses rarity token groups (`--rarity-[name]`, `--rarity-[name]-bg`, `--rarity-[name]-text`)
-  - Uses tier color tokens (`--tier-[name]`)
-  - Uses stat tokens (`--stat-bar-*`, `--stat-label-*`, `--stat-number-color`)
-- [ ] Build Fish Dex page with filter + sort controls
+  - Colors come from the `RC`/`TC` per-fish/per-tier data maps in
+    `fishData.ts` (not the `--rarity-[name]`/`--tier-[name]` global token
+    groups sketched here originally) — 60 fish × 6 rarities × 5 tiers of
+    distinct colors isn't practical as static global classes, so each
+    card sets `--tier-color`/`--rarity-color`/`--rarity-body-bg` custom
+    properties from that data and the CSS references those
+  - Uses `--stat-bar-*`/`--stat-label-*` tokens; `--stat-number-color`
+    wasn't needed — stat values use `--fw-bold`/`--fw-black` directly
+- [x] Build Fish Dex page with filter + sort controls
   - Filter by rarity
   - Filter by tier
   - Sort by growth, speed, XP, odds
   - Text search by fish name (local to Fish Dex — separate from site-wide search)
-- [ ] Build fish comparison feature (side-by-side stat comparison)
-- [ ] Build individual fish pages (`/fishdex/[slug]`) for SEO
-  - Static generation (`generateStaticParams`) — one URL per fish
-  - 300 pages total (60 fish × 5 tiers)
+- [~] Build fish comparison feature — deferred; compare mode in the
+  filter drawer (select fish + tier combos to isolate them in the grid)
+  covers the use case
+- [~] Build individual fish pages (`/fishdex/[slug]`) for SEO — deferred
+  to Phase 8 polish
 
 ---
 
@@ -205,4 +217,4 @@ Game Mechanics has a sticky section nav due to content volume.*
 ---
 
 ## Current focus
-Phase 4 — Fish Dex page and FishCard component.
+Phase 5 — Fish Tracker page (/fish-tracker).
