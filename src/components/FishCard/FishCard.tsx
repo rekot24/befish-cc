@@ -14,26 +14,23 @@ interface FishCardProps {
 }
 
 export default function FishCard({ fish, tier, sortStat }: FishCardProps) {
-  const td  = fish.tiers[tier];
-  const rc  = RC[fish.rarity];
-  const tc  = TC[tier];
-  const imgSrc = `/img/${fish.id}-${TIERS.indexOf(tier) + 1}.png`;
+  const td      = fish.tiers[tier];
+  const rc      = RC[fish.rarity];
+  const tc      = TC[tier];
+  const imgSrc  = `/img/${fish.id}-${TIERS.indexOf(tier) + 1}.png`;
   const allNull = td.growth === null && td.speed === null && td.xp === null;
 
   return (
     <div
       className={`${styles.card}${allNull ? ` ${styles.allUnknown}` : ''}`}
       style={{
-        '--tier-color': tc,
-        '--rarity-color': fish.bg,
-        '--rarity-body-bg': rc.bg,
+        '--tier-color':    tc,
+        '--rarity-color':  fish.bg,
       } as React.CSSProperties}
     >
-      <div className={styles.tierBadge}>
-        {tier}
-      </div>
+      <div className={styles.tierBadge}>{tier}</div>
 
-      {/* Top — rarity color background */}
+      {/* Top — rarity ingame color background */}
       <div className={styles.top}>
         <div className={styles.topInfo}>
           <div className={styles.fishName}>{fish.name}</div>
@@ -46,30 +43,40 @@ export default function FishCard({ fish, tier, sortStat }: FishCardProps) {
           <Image
             src={imgSrc}
             alt={fish.name}
-            width={80}
-            height={80}
+            width={63}
+            height={63}
             loading="lazy"
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
         </div>
       </div>
 
-      {/* Body — white / rarity-colored stats */}
+      {/* Body — white stats, rarity-colored bars */}
       <div className={styles.body}>
-        <StatRow label="Growth" value={td.growth} color={rc.bar} highlight={sortStat === 'growth'} />
-        <StatRow label="Speed"  value={td.speed}  color={rc.bar} highlight={sortStat === 'speed'}  />
+        <StatRow
+          label="Growth"
+          value={td.growth}
+          color={rc.bar}
+          highlight={sortStat === 'growth'}
+        />
+        <StatRow
+          label="Speed"
+          value={td.speed}
+          color={rc.bar}
+          highlight={sortStat === 'speed'}
+        />
         <div className={styles.xpRow}>
-          <span
-            className={sortStat === 'xp' ? styles.xpHighlight : undefined}
-            style={{ color: sortStat === 'xp' ? rc.bar : rc.txt }}
-          >
+          <span style={sortStat === 'xp' ? { color: rc.bar, fontWeight: 700 } : undefined}>
             XP multiplier
           </span>
           {td.xp !== null
-            ? <span className={styles.xpVal} style={{ color: sortStat === 'xp' ? rc.bar : rc.txt }}>
+            ? <span
+                className={`${styles.xpVal}${sortStat === 'xp' ? ` ${styles.highlight}` : ''}`}
+                style={sortStat === 'xp' ? { color: rc.bar } : undefined}
+              >
                 {td.xp}x
               </span>
-            : <span className={styles.unknown}>???</span>
+            : <span className={styles.xpUnknown}>???</span>
           }
         </div>
       </div>

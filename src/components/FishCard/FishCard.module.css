@@ -1,172 +1,235 @@
-/* FishCard.module.css */
+/* FishCard.module.css — matches live befish.cc card styling exactly */
+
 .card {
   position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid var(--tier-color);
+  border-radius: 14px;
+  overflow: visible;          /* badge overhangs top */
+  border: 3px solid;          /* color set via --tier-color inline */
+  border-color: var(--tier-color);
   font-family: var(--font-body);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+  transform: translateY(-2px);
 }
 
 .allUnknown {
-  opacity: 0.6;
+  opacity: 0.58;
 }
 
+/* Tier badge — floats above card top-left, overhanging */
 .tierBadge {
   position: absolute;
-  top: -1px;
+  top: -9px;
   left: 8px;
   font-size: var(--fs-xs);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-black);
   background: var(--tier-color);
-  color: var(--tier-badge-color);
-  padding: 2px 8px;
-  border-radius: 0 0 6px 6px;
+  color: #ffffff;
+  padding: 2px 10px;
+  border-radius: 20px;
   z-index: 2;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
+/* Top — rarity ingame color background */
 .top {
-  background: var(--rarity-color);
+  width: 100%;
+  height: 80px;
+  border-radius: 11px 11px 0 0;
+  overflow: hidden;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  padding: 20px 8px 8px 8px;
-  min-height: 80px;
+  padding: 14px 10px 8px 10px;
+  /* background set via --rarity-color inline style */
+  background: var(--rarity-color);
 }
 
 .topInfo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   flex: 1;
+  min-width: 0;
 }
 
 .fishName {
-  font-family: var(--font-display);
-  font-size: var(--fs-md);
-  color: var(--tier-badge-color);
-  text-shadow: 0 1px 3px rgba(0,0,0,0.4);   /* legibility shadow on saturated bg — intentionally fixed */
-  line-height: var(--lh-tight);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #ffffff;
+  /* 4-direction black outline for legibility on any rarity color */
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+  line-height: 1.2;
+  margin-bottom: 0;
 }
 
 .rarityBadge {
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-bold);
-  color: rgba(255,255,255,0.85);   /* white overlay on saturated bg — intentionally fixed */
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
 }
 
 .odds {
-  font-size: var(--fs-xs);
-  color: rgba(255,255,255,0.7);   /* white overlay on saturated bg — intentionally fixed */
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
 }
 
 .odds.highlight {
-  color: var(--tier-badge-color);
-  font-weight: var(--fw-bold);
+  color: #ffffff;
+  font-weight: 800;
 }
 
+/* Fish image */
 .imgWrap {
   flex-shrink: 0;
-  width: 80px;
-  height: 80px;
+  width: 63px;
+  height: 63px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Body — always light regardless of theme (rarity-colored), matches
-   --fish-card-body-bg precedent set in globals.css */
+.imgWrap img {
+  max-width: 63px;
+  max-height: 63px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+/* Stats body — always white regardless of theme, matches live site */
 .body {
-  background: var(--rarity-body-bg);
-  padding: 8px;
+  background: rgba(255, 255, 255, 0.95);   /* intentionally fixed — white stats body on colored top */
+  border-radius: 0 0 11px 11px;
+  padding: 8px 10px 0;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
+/* Stat rows */
 .statRow {
   display: flex;
   align-items: center;
   gap: 6px;
+  margin-bottom: 0;
 }
 
 .statLabel {
-  font-size: var(--fs-xs);
-  color: var(--stat-label-color);
-  width: var(--stat-label-width);
+  font-size: 0.68rem;
+  color: #333333;             /* intentionally fixed — dark text on white body */
+  width: 44px;
   flex-shrink: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  font-weight: 600;
+  transition: color 0.12s;
 }
 
 .statLabel.highlight {
-  font-weight: var(--fw-bold);
+  font-weight: 700;
 }
 
 .barTrack {
   flex: 1;
-  height: var(--stat-bar-height);
-  background: var(--stat-bar-bg);
-  border-radius: var(--stat-bar-radius);
+  height: 6px;
+  background: #e0ecf0;        /* intentionally fixed — light track on white body */
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .barFill {
   height: 100%;
-  border-radius: var(--stat-bar-radius);
-  opacity: 0.72;
+  border-radius: 3px;
+  opacity: 0.85;
 }
 
 .barFill.highlight {
   opacity: 1;
 }
 
+/* Unknown stat bar — striped pattern matching live site */
 .barUnknown {
   flex: 1;
-  height: var(--stat-bar-height);
-  background: var(--stat-bar-bg);
-  border-radius: var(--stat-bar-radius);
+  height: 6px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    #dde8ec 0px, #dde8ec 4px,
+    #eef4f6 4px, #eef4f6 8px
+  );
 }
 
 .statVal {
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-bold);
-  width: 28px;
+  font-size: 0.68rem;
+  color: #333333;             /* intentionally fixed — dark text on white body */
+  width: 26px;
   text-align: right;
   flex-shrink: 0;
+  font-weight: 700;
 }
 
 .statVal.highlight {
-  font-weight: var(--fw-black);
+  font-weight: 800;
 }
 
+.statVal.unknown {
+  color: #bbbfc4;
+}
+
+/* XP row — bleeds edge to edge, sits at bottom of card */
 .xpRow {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-top: 3px;
-  padding-top: 4px;
-  border-top: 1px solid rgba(0,0,0,0.06);   /* divider on light stats body — intentionally fixed */
-  font-size: var(--fs-xs);
-}
-
-.xpHighlight {
-  font-weight: var(--fw-bold);
+  align-items: center;
+  font-size: 0.74rem;
+  color: #333333;             /* intentionally fixed — dark text on white body */
+  font-weight: 600;
+  border-top: 1px solid rgba(10, 110, 138, 0.1);   /* intentionally fixed — subtle divider on white */
+  padding: 6px 10px 8px;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: 0;
+  border-radius: 0 0 11px 11px;
 }
 
 .xpVal {
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-bold);
+  font-weight: 700;
+  color: #333333;             /* intentionally fixed */
+}
+
+.xpVal.highlight {
+  font-weight: 800;
+}
+
+.xpUnknown {
+  color: #bbbfc4;
+  font-weight: 700;
 }
 
 .unknown {
-  color: var(--text-disabled);
-  font-style: italic;
+  color: #bbbfc4;
 }
 
 .highlight {
-  font-weight: var(--fw-black);
+  font-weight: 800;
 }
